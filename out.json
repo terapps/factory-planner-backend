@@ -1,0 +1,711 @@
+[
+  {
+    "targetDescriptor": {
+      "id": "Desc_Plastic_C",
+      "displayName": "Plastic",
+      "description": "A versatile and easy to manufacture material that can be used for a lot of things.",
+      "form": "RF_SOLID",
+      "buildable": false,
+      "raw": false
+    },
+    "targetRecipe": {
+      "id": "Recipe_ResidualPlastic_C",
+      "displayName": "Residual Plastic",
+      "manufacturingDuration": 6.0,
+      "ingredients": [
+        {
+          "descriptor": {
+            "id": "Desc_Water_C",
+            "displayName": "Water",
+            "description": "It's water.",
+            "form": "RF_LIQUID",
+            "buildable": false,
+            "raw": true
+          },
+          "outputPerCycle": 2.0,
+          "id": 238
+        },
+        {
+          "descriptor": {
+            "id": "Desc_PolymerResin_C",
+            "displayName": "Polymer Resin",
+            "description": "Used for crafting.\r\nA by-product of oil refinement into fuel. Commonly used to manufacture plastics.",
+            "form": "RF_SOLID",
+            "buildable": false,
+            "raw": false
+          },
+          "outputPerCycle": 6.0,
+          "id": 237
+        }
+      ],
+      "produces": [
+        {
+          "descriptor": {
+            "id": "Desc_Plastic_C",
+            "displayName": "Plastic",
+            "description": "A versatile and easy to manufacture material that can be used for a lot of things.",
+            "form": "RF_SOLID",
+            "buildable": false,
+            "raw": false
+          },
+          "outputPerCycle": 2.0,
+          "id": 236
+        }
+      ],
+      "producedIn": null,
+      "extractedIn": []
+    },
+    "craftingMachine": null,
+    "extractor": null,
+    "destinations": [],
+    "targetAmountPerMinute": 20.0,
+    "producedItem": {
+      "descriptor": {
+        "id": "Desc_Plastic_C",
+        "displayName": "Plastic",
+        "description": "A versatile and easy to manufacture material that can be used for a lot of things.",
+        "form": "RF_SOLID",
+        "buildable": false,
+        "raw": false
+      },
+      "outputPerCycle": 2.0,
+      "id": 236
+    },
+    "byProducts": [],
+    "targetItemOutputPerMinute": 20.0,
+    "maxExtractorOutputOnPureNodePerMinute": null,
+    "nbMaxOverclockedExtractorOnPureNodes": null,
+    "numberOfMachines": 1.0
+  },
+  {
+    "targetDescriptor": {
+      "id": "Desc_Water_C",
+      "displayName": "Water",
+      "description": "It's water.",
+      "form": "RF_LIQUID",
+      "buildable": false,
+      "raw": true
+    },
+    "targetRecipe": {
+      "id": "Recipe_Water_C",
+      "displayName": "Extract water",
+      "manufacturingDuration": 1.0,
+      "ingredients": [],
+      "produces": [
+        {
+          "descriptor": {
+            "id": "Desc_Water_C",
+            "displayName": "Water",
+            "description": "It's water.",
+            "form": "RF_LIQUID",
+            "buildable": false,
+            "raw": true
+          },
+          "outputPerCycle": 1.0,
+          "id": 1929
+        }
+      ],
+      "producedIn": null,
+      "extractedIn": [
+        {
+          "id": "Build_WaterPump_C",
+          "displayName": "Water Extractor",
+          "description": "Default extraction rate: 120m³ water per minute.\r\nHead Lift: 10 meters.\r\n(Allows fluids to be transported 10 meters upwards.)\r\n\r\nExtracts water from the body of water it is built on.\r\nNote that the water needs to be deep enough and that rivers do not commonly suffice.",
+          "extractCycleTime": 1.0,
+          "itemsPerCycle": 2000.0,
+          "powerConsumption": 20.0,
+          "powerConsumptionExponent": 1.321929,
+          "minPotential": 0.01,
+          "maxPotential": 1.0,
+          "maxPotentialIncreasePerCrystal": 0.5,
+          "extractorType": "None",
+          "allowedResources": [
+            {
+              "id": "Desc_Water_C",
+              "displayName": "Water",
+              "description": "It's water.",
+              "form": "RF_LIQUID",
+              "buildable": false,
+              "raw": true
+            }
+          ]
+        }
+      ]
+    },
+    "craftingMachine": null,
+    "extractor": {
+      "id": "Build_WaterPump_C",
+      "displayName": "Water Extractor",
+      "description": "Default extraction rate: 120m³ water per minute.\r\nHead Lift: 10 meters.\r\n(Allows fluids to be transported 10 meters upwards.)\r\n\r\nExtracts water from the body of water it is built on.\r\nNote that the water needs to be deep enough and that rivers do not commonly suffice.",
+      "extractCycleTime": 1.0,
+      "itemsPerCycle": 2000.0,
+      "powerConsumption": 20.0,
+      "powerConsumptionExponent": 1.321929,
+      "minPotential": 0.01,
+      "maxPotential": 1.0,
+      "maxPotentialIncreasePerCrystal": 0.5,
+      "extractorType": "None",
+      "allowedResources": [
+        {
+          "id": "Desc_Water_C",
+          "displayName": "Water",
+          "description": "It's water.",
+          "form": "RF_LIQUID",
+          "buildable": false,
+          "raw": true
+        }
+      ]
+    },
+    "destinations": [
+      {
+        "targetDescriptor": {
+          "id": "Desc_Plastic_C",
+          "displayName": "Plastic",
+          "description": "A versatile and easy to manufacture material that can be used for a lot of things.",
+          "form": "RF_SOLID",
+          "buildable": false,
+          "raw": false
+        },
+        "targetRecipe": {
+          "id": "Recipe_ResidualPlastic_C",
+          "displayName": "Residual Plastic",
+          "manufacturingDuration": 6.0,
+          "ingredients": [
+            {
+              "descriptor": {
+                "id": "Desc_Water_C",
+                "displayName": "Water",
+                "description": "It's water.",
+                "form": "RF_LIQUID",
+                "buildable": false,
+                "raw": true
+              },
+              "outputPerCycle": 2.0,
+              "id": 238
+            },
+            {
+              "descriptor": {
+                "id": "Desc_PolymerResin_C",
+                "displayName": "Polymer Resin",
+                "description": "Used for crafting.\r\nA by-product of oil refinement into fuel. Commonly used to manufacture plastics.",
+                "form": "RF_SOLID",
+                "buildable": false,
+                "raw": false
+              },
+              "outputPerCycle": 6.0,
+              "id": 237
+            }
+          ],
+          "produces": [
+            {
+              "descriptor": {
+                "id": "Desc_Plastic_C",
+                "displayName": "Plastic",
+                "description": "A versatile and easy to manufacture material that can be used for a lot of things.",
+                "form": "RF_SOLID",
+                "buildable": false,
+                "raw": false
+              },
+              "outputPerCycle": 2.0,
+              "id": 236
+            }
+          ],
+          "producedIn": null,
+          "extractedIn": []
+        },
+        "craftingMachine": null,
+        "extractor": null,
+        "destinations": [],
+        "targetAmountPerMinute": 20.0,
+        "producedItem": {
+          "descriptor": {
+            "id": "Desc_Plastic_C",
+            "displayName": "Plastic",
+            "description": "A versatile and easy to manufacture material that can be used for a lot of things.",
+            "form": "RF_SOLID",
+            "buildable": false,
+            "raw": false
+          },
+          "outputPerCycle": 2.0,
+          "id": 236
+        },
+        "byProducts": [],
+        "targetItemOutputPerMinute": 20.0,
+        "maxExtractorOutputOnPureNodePerMinute": null,
+        "nbMaxOverclockedExtractorOnPureNodes": null,
+        "numberOfMachines": 1.0
+      }
+    ],
+    "targetAmountPerMinute": 20.0,
+    "producedItem": {
+      "descriptor": {
+        "id": "Desc_Water_C",
+        "displayName": "Water",
+        "description": "It's water.",
+        "form": "RF_LIQUID",
+        "buildable": false,
+        "raw": true
+      },
+      "outputPerCycle": 1.0,
+      "id": 1929
+    },
+    "byProducts": [],
+    "targetItemOutputPerMinute": 60.0,
+    "maxExtractorOutputOnPureNodePerMinute": 300.0,
+    "nbMaxOverclockedExtractorOnPureNodes": 1.0,
+    "numberOfMachines": null
+  },
+  {
+    "targetDescriptor": {
+      "id": "Desc_PolymerResin_C",
+      "displayName": "Polymer Resin",
+      "description": "Used for crafting.\r\nA by-product of oil refinement into fuel. Commonly used to manufacture plastics.",
+      "form": "RF_SOLID",
+      "buildable": false,
+      "raw": false
+    },
+    "targetRecipe": {
+      "id": "Recipe_LiquidFuel_C",
+      "displayName": "Fuel",
+      "manufacturingDuration": 6.0,
+      "ingredients": [
+        {
+          "descriptor": {
+            "id": "Desc_LiquidOil_C",
+            "displayName": "Crude Oil",
+            "description": "Crude Oil is refined into all kinds of Oil-based resources, like Fuel and Plastic.",
+            "form": "RF_LIQUID",
+            "buildable": false,
+            "raw": true
+          },
+          "outputPerCycle": 6.0,
+          "id": 225
+        }
+      ],
+      "produces": [
+        {
+          "descriptor": {
+            "id": "Desc_LiquidFuel_C",
+            "displayName": "Fuel",
+            "description": "Fuel can be used to generate power or packaged to be used as fuel for Vehicles or the Jetpack.",
+            "form": "RF_LIQUID",
+            "buildable": false,
+            "raw": false
+          },
+          "outputPerCycle": 4.0,
+          "id": 223
+        },
+        {
+          "descriptor": {
+            "id": "Desc_PolymerResin_C",
+            "displayName": "Polymer Resin",
+            "description": "Used for crafting.\r\nA by-product of oil refinement into fuel. Commonly used to manufacture plastics.",
+            "form": "RF_SOLID",
+            "buildable": false,
+            "raw": false
+          },
+          "outputPerCycle": 3.0,
+          "id": 224
+        }
+      ],
+      "producedIn": null,
+      "extractedIn": []
+    },
+    "craftingMachine": null,
+    "extractor": null,
+    "destinations": [
+      {
+        "targetDescriptor": {
+          "id": "Desc_Plastic_C",
+          "displayName": "Plastic",
+          "description": "A versatile and easy to manufacture material that can be used for a lot of things.",
+          "form": "RF_SOLID",
+          "buildable": false,
+          "raw": false
+        },
+        "targetRecipe": {
+          "id": "Recipe_ResidualPlastic_C",
+          "displayName": "Residual Plastic",
+          "manufacturingDuration": 6.0,
+          "ingredients": [
+            {
+              "descriptor": {
+                "id": "Desc_Water_C",
+                "displayName": "Water",
+                "description": "It's water.",
+                "form": "RF_LIQUID",
+                "buildable": false,
+                "raw": true
+              },
+              "outputPerCycle": 2.0,
+              "id": 238
+            },
+            {
+              "descriptor": {
+                "id": "Desc_PolymerResin_C",
+                "displayName": "Polymer Resin",
+                "description": "Used for crafting.\r\nA by-product of oil refinement into fuel. Commonly used to manufacture plastics.",
+                "form": "RF_SOLID",
+                "buildable": false,
+                "raw": false
+              },
+              "outputPerCycle": 6.0,
+              "id": 237
+            }
+          ],
+          "produces": [
+            {
+              "descriptor": {
+                "id": "Desc_Plastic_C",
+                "displayName": "Plastic",
+                "description": "A versatile and easy to manufacture material that can be used for a lot of things.",
+                "form": "RF_SOLID",
+                "buildable": false,
+                "raw": false
+              },
+              "outputPerCycle": 2.0,
+              "id": 236
+            }
+          ],
+          "producedIn": null,
+          "extractedIn": []
+        },
+        "craftingMachine": null,
+        "extractor": null,
+        "destinations": [],
+        "targetAmountPerMinute": 20.0,
+        "producedItem": {
+          "descriptor": {
+            "id": "Desc_Plastic_C",
+            "displayName": "Plastic",
+            "description": "A versatile and easy to manufacture material that can be used for a lot of things.",
+            "form": "RF_SOLID",
+            "buildable": false,
+            "raw": false
+          },
+          "outputPerCycle": 2.0,
+          "id": 236
+        },
+        "byProducts": [],
+        "targetItemOutputPerMinute": 20.0,
+        "maxExtractorOutputOnPureNodePerMinute": null,
+        "nbMaxOverclockedExtractorOnPureNodes": null,
+        "numberOfMachines": 1.0
+      }
+    ],
+    "targetAmountPerMinute": 60.0,
+    "producedItem": {
+      "descriptor": {
+        "id": "Desc_PolymerResin_C",
+        "displayName": "Polymer Resin",
+        "description": "Used for crafting.\r\nA by-product of oil refinement into fuel. Commonly used to manufacture plastics.",
+        "form": "RF_SOLID",
+        "buildable": false,
+        "raw": false
+      },
+      "outputPerCycle": 3.0,
+      "id": 224
+    },
+    "byProducts": [
+      {
+        "descriptor": {
+          "id": "Desc_LiquidFuel_C",
+          "displayName": "Fuel",
+          "description": "Fuel can be used to generate power or packaged to be used as fuel for Vehicles or the Jetpack.",
+          "form": "RF_LIQUID",
+          "buildable": false,
+          "raw": false
+        },
+        "outputPerCycle": 4.0,
+        "id": 223
+      }
+    ],
+    "targetItemOutputPerMinute": 30.0,
+    "maxExtractorOutputOnPureNodePerMinute": null,
+    "nbMaxOverclockedExtractorOnPureNodes": null,
+    "numberOfMachines": 2.0
+  },
+  {
+    "targetDescriptor": {
+      "id": "Desc_LiquidOil_C",
+      "displayName": "Crude Oil",
+      "description": "Crude Oil is refined into all kinds of Oil-based resources, like Fuel and Plastic.",
+      "form": "RF_LIQUID",
+      "buildable": false,
+      "raw": true
+    },
+    "targetRecipe": {
+      "id": "Recipe_CrudeOil_C",
+      "displayName": "Crude Oil",
+      "manufacturingDuration": 2.0,
+      "ingredients": [
+        {
+          "descriptor": {
+            "id": "Desc_LiquidOil_C",
+            "displayName": "Crude Oil",
+            "description": "Crude Oil is refined into all kinds of Oil-based resources, like Fuel and Plastic.",
+            "form": "RF_LIQUID",
+            "buildable": false,
+            "raw": true
+          },
+          "outputPerCycle": 0.001,
+          "id": 70
+        }
+      ],
+      "produces": [
+        {
+          "descriptor": {
+            "id": "Desc_LiquidOil_C",
+            "displayName": "Crude Oil",
+            "description": "Crude Oil is refined into all kinds of Oil-based resources, like Fuel and Plastic.",
+            "form": "RF_LIQUID",
+            "buildable": false,
+            "raw": true
+          },
+          "outputPerCycle": 0.001,
+          "id": 68
+        }
+      ],
+      "producedIn": null,
+      "extractedIn": [
+        {
+          "id": "Build_OilPump_C",
+          "displayName": "Oil Extractor",
+          "description": "Normal extraction rate: 120m³ oil per minute.\r\nHead Lift: 10 meters.\r\n(Allows fluids to be transported 10 meters upwards.)\r\n\r\nCan be built on an Oil Node to extract Crude Oil. Extraction rates depend on node purity.",
+          "extractCycleTime": 1.0,
+          "itemsPerCycle": 2000.0,
+          "powerConsumption": 40.0,
+          "powerConsumptionExponent": 1.321929,
+          "minPotential": 0.01,
+          "maxPotential": 1.0,
+          "maxPotentialIncreasePerCrystal": 0.5,
+          "extractorType": "None",
+          "allowedResources": [
+            {
+              "id": "Desc_LiquidOil_C",
+              "displayName": "Crude Oil",
+              "description": "Crude Oil is refined into all kinds of Oil-based resources, like Fuel and Plastic.",
+              "form": "RF_LIQUID",
+              "buildable": false,
+              "raw": true
+            }
+          ]
+        }
+      ]
+    },
+    "craftingMachine": null,
+    "extractor": {
+      "id": "Build_OilPump_C",
+      "displayName": "Oil Extractor",
+      "description": "Normal extraction rate: 120m³ oil per minute.\r\nHead Lift: 10 meters.\r\n(Allows fluids to be transported 10 meters upwards.)\r\n\r\nCan be built on an Oil Node to extract Crude Oil. Extraction rates depend on node purity.",
+      "extractCycleTime": 1.0,
+      "itemsPerCycle": 2000.0,
+      "powerConsumption": 40.0,
+      "powerConsumptionExponent": 1.321929,
+      "minPotential": 0.01,
+      "maxPotential": 1.0,
+      "maxPotentialIncreasePerCrystal": 0.5,
+      "extractorType": "None",
+      "allowedResources": [
+        {
+          "id": "Desc_LiquidOil_C",
+          "displayName": "Crude Oil",
+          "description": "Crude Oil is refined into all kinds of Oil-based resources, like Fuel and Plastic.",
+          "form": "RF_LIQUID",
+          "buildable": false,
+          "raw": true
+        }
+      ]
+    },
+    "destinations": [
+      {
+        "targetDescriptor": {
+          "id": "Desc_PolymerResin_C",
+          "displayName": "Polymer Resin",
+          "description": "Used for crafting.\r\nA by-product of oil refinement into fuel. Commonly used to manufacture plastics.",
+          "form": "RF_SOLID",
+          "buildable": false,
+          "raw": false
+        },
+        "targetRecipe": {
+          "id": "Recipe_LiquidFuel_C",
+          "displayName": "Fuel",
+          "manufacturingDuration": 6.0,
+          "ingredients": [
+            {
+              "descriptor": {
+                "id": "Desc_LiquidOil_C",
+                "displayName": "Crude Oil",
+                "description": "Crude Oil is refined into all kinds of Oil-based resources, like Fuel and Plastic.",
+                "form": "RF_LIQUID",
+                "buildable": false,
+                "raw": true
+              },
+              "outputPerCycle": 6.0,
+              "id": 225
+            }
+          ],
+          "produces": [
+            {
+              "descriptor": {
+                "id": "Desc_LiquidFuel_C",
+                "displayName": "Fuel",
+                "description": "Fuel can be used to generate power or packaged to be used as fuel for Vehicles or the Jetpack.",
+                "form": "RF_LIQUID",
+                "buildable": false,
+                "raw": false
+              },
+              "outputPerCycle": 4.0,
+              "id": 223
+            },
+            {
+              "descriptor": {
+                "id": "Desc_PolymerResin_C",
+                "displayName": "Polymer Resin",
+                "description": "Used for crafting.\r\nA by-product of oil refinement into fuel. Commonly used to manufacture plastics.",
+                "form": "RF_SOLID",
+                "buildable": false,
+                "raw": false
+              },
+              "outputPerCycle": 3.0,
+              "id": 224
+            }
+          ],
+          "producedIn": null,
+          "extractedIn": []
+        },
+        "craftingMachine": null,
+        "extractor": null,
+        "destinations": [
+          {
+            "targetDescriptor": {
+              "id": "Desc_Plastic_C",
+              "displayName": "Plastic",
+              "description": "A versatile and easy to manufacture material that can be used for a lot of things.",
+              "form": "RF_SOLID",
+              "buildable": false,
+              "raw": false
+            },
+            "targetRecipe": {
+              "id": "Recipe_ResidualPlastic_C",
+              "displayName": "Residual Plastic",
+              "manufacturingDuration": 6.0,
+              "ingredients": [
+                {
+                  "descriptor": {
+                    "id": "Desc_Water_C",
+                    "displayName": "Water",
+                    "description": "It's water.",
+                    "form": "RF_LIQUID",
+                    "buildable": false,
+                    "raw": true
+                  },
+                  "outputPerCycle": 2.0,
+                  "id": 238
+                },
+                {
+                  "descriptor": {
+                    "id": "Desc_PolymerResin_C",
+                    "displayName": "Polymer Resin",
+                    "description": "Used for crafting.\r\nA by-product of oil refinement into fuel. Commonly used to manufacture plastics.",
+                    "form": "RF_SOLID",
+                    "buildable": false,
+                    "raw": false
+                  },
+                  "outputPerCycle": 6.0,
+                  "id": 237
+                }
+              ],
+              "produces": [
+                {
+                  "descriptor": {
+                    "id": "Desc_Plastic_C",
+                    "displayName": "Plastic",
+                    "description": "A versatile and easy to manufacture material that can be used for a lot of things.",
+                    "form": "RF_SOLID",
+                    "buildable": false,
+                    "raw": false
+                  },
+                  "outputPerCycle": 2.0,
+                  "id": 236
+                }
+              ],
+              "producedIn": null,
+              "extractedIn": []
+            },
+            "craftingMachine": null,
+            "extractor": null,
+            "destinations": [],
+            "targetAmountPerMinute": 20.0,
+            "producedItem": {
+              "descriptor": {
+                "id": "Desc_Plastic_C",
+                "displayName": "Plastic",
+                "description": "A versatile and easy to manufacture material that can be used for a lot of things.",
+                "form": "RF_SOLID",
+                "buildable": false,
+                "raw": false
+              },
+              "outputPerCycle": 2.0,
+              "id": 236
+            },
+            "byProducts": [],
+            "targetItemOutputPerMinute": 20.0,
+            "maxExtractorOutputOnPureNodePerMinute": null,
+            "nbMaxOverclockedExtractorOnPureNodes": null,
+            "numberOfMachines": 1.0
+          }
+        ],
+        "targetAmountPerMinute": 60.0,
+        "producedItem": {
+          "descriptor": {
+            "id": "Desc_PolymerResin_C",
+            "displayName": "Polymer Resin",
+            "description": "Used for crafting.\r\nA by-product of oil refinement into fuel. Commonly used to manufacture plastics.",
+            "form": "RF_SOLID",
+            "buildable": false,
+            "raw": false
+          },
+          "outputPerCycle": 3.0,
+          "id": 224
+        },
+        "byProducts": [
+          {
+            "descriptor": {
+              "id": "Desc_LiquidFuel_C",
+              "displayName": "Fuel",
+              "description": "Fuel can be used to generate power or packaged to be used as fuel for Vehicles or the Jetpack.",
+              "form": "RF_LIQUID",
+              "buildable": false,
+              "raw": false
+            },
+            "outputPerCycle": 4.0,
+            "id": 223
+          }
+        ],
+        "targetItemOutputPerMinute": 30.0,
+        "maxExtractorOutputOnPureNodePerMinute": null,
+        "nbMaxOverclockedExtractorOnPureNodes": null,
+        "numberOfMachines": 2.0
+      }
+    ],
+    "targetAmountPerMinute": 120.0,
+    "producedItem": {
+      "descriptor": {
+        "id": "Desc_LiquidOil_C",
+        "displayName": "Crude Oil",
+        "description": "Crude Oil is refined into all kinds of Oil-based resources, like Fuel and Plastic.",
+        "form": "RF_LIQUID",
+        "buildable": false,
+        "raw": true
+      },
+      "outputPerCycle": 0.001,
+      "id": 68
+    },
+    "byProducts": [],
+    "targetItemOutputPerMinute": 0.030000001,
+    "maxExtractorOutputOnPureNodePerMinute": 300.0,
+    "nbMaxOverclockedExtractorOnPureNodes": 1.0,
+    "numberOfMachines": null
+  }
+]
