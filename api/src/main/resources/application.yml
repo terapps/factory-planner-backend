@@ -1,0 +1,11 @@
+satisfactory:
+  planner:
+    data:
+      force-reload: false
+spring:
+  neo4j:
+    driver: org.neo4j.ogm.drivers.embedded.driver.EmbeddedDriver
+    uri: bolt://localhost:7687
+    authentication:
+      username: neo4j
+      password: 5sS&v%^x5hxeglnq
