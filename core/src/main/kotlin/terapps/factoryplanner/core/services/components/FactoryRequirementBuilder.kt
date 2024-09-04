@@ -69,16 +69,14 @@ class FactoryRequirementBuilder(
     }
 
     private fun getRecipe(descriptor: ItemDescriptor, optimizationCriterion: OptimizationCriterion): Recipe {
-        val recipeClassNames = this.recipeRepository.findRecipeIdsByItemDescriptorId(descriptor.id).takeIf { it.isNotEmpty() }
-                ?: throw Error("No recipe classes for ${descriptor.id}")
-        val recipes = this.recipeRepository.findByIdIn(recipeClassNames).takeIf { it.isNotEmpty() }
-                ?: throw Error("No recipe for classes ${recipeClassNames}")
-
+        if (descriptor.recipes.isEmpty()) {
+            throw Error("No recipes")
+        }
         return when (optimizationCriterion) {
-            RAW_MATERIAL_WEIGHT -> recipes.minBy { it.weightedPoints }
+            RAW_MATERIAL_WEIGHT -> descriptor.recipes.map { it.recipe }.minBy { it.weightedPoints }
             POWER_CONSUMPTION -> throw NotImplementedError("Power consumption not impl")
-            BUILDING_NUMBER -> recipes.minBy { it.buildingCountPoints }
-            SINK_VALUE -> recipes.minBy { it.sinkingPoints }
+            BUILDING_NUMBER -> descriptor.recipes.map { it.recipe }.minBy { it.buildingCountPoints }
+            SINK_VALUE -> descriptor.recipes.map { it.recipe }.minBy { it.sinkingPoints }
         }
     }
 

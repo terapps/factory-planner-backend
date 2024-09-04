@@ -2,6 +2,7 @@ package terapps.factoryplanner.core.entities
 
 import org.neo4j.ogm.annotation.NodeEntity
 import org.springframework.data.neo4j.core.schema.Id
+import org.springframework.data.neo4j.core.schema.Relationship
 import org.springframework.data.neo4j.repository.Neo4jRepository
 import org.springframework.stereotype.Repository
 enum class ItemCategory {
@@ -26,7 +27,11 @@ data class ItemDescriptor(
         val sinkablePoints: Int? = null,
         val energyValue: Float? = null,
         val form: String? = null,
-)
+        @Relationship(type = "PRODUCES", direction = Relationship.Direction.INCOMING)
+        val recipes: Set<RecipeProduces> = emptySet()
+) {
+
+}
 
 @Repository
 interface ItemDescriptorRepository : Neo4jRepository<ItemDescriptor, String> {

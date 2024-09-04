@@ -17,6 +17,7 @@ class RecipeWeightService {
     lateinit var itemDescriptorRepository: ItemDescriptorRepository
 
     fun compute(recipe: Recipe) {
+        println("computing ${recipe.id}")
         val sites = FactoryRequirementBuilder.newBuilder(recipeRepository, itemDescriptorRepository).apply {
             recipe.produces.forEach {
                 try {

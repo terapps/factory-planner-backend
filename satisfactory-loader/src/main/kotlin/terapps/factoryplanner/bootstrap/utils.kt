@@ -1,4 +1,4 @@
-package terapps.factoryplanner.services.bootstrap
+package terapps.factoryplanner.bootstrap
 
 
 fun String.extractListEntry() = replace("(", "").replace(")", "").split(",")

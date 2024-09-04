@@ -27,8 +27,6 @@ import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import terapps.factoryplanner.bootstrap.dto.GameObjectCategory
 import terapps.factoryplanner.core.entities.*
-import terapps.factoryplanner.services.bootstrap.extractDictEntry
-import terapps.factoryplanner.services.bootstrap.extractListEntry
 import terapps.factoryplanner.bootstrap.transformers.toCraftingMachine
 import terapps.factoryplanner.bootstrap.transformers.toExtractor
 import terapps.factoryplanner.bootstrap.transformers.toItemDescriptor
@@ -57,8 +55,6 @@ class SatisfactoryEntitiesLoader {
     @Autowired
     lateinit var recipeRepository: RecipeRepository
 
-    @Autowired
-    lateinit var schematicRepository: SchematicRepository
 
     @Autowired
     lateinit var recipeWeightService: RecipeWeightService
@@ -152,7 +148,7 @@ class SatisfactoryEntitiesLoader {
     }
 
 
-    private fun Map<String, String>.toItemIO(): ItemIO {
+    private inline fun <T> Map<String, String>.toItemIO(transform: (ItemDescriptor,Float) -> T): T {
         val blueprintClassRegex = "BlueprintGeneratedClass'\".*\\.(.*)\"'".toRegex()
         val descriptor = blueprintClassRegex.matchEntire(this["ItemClass"]!!)!!.groupValues[1]
         val item = itemDescriptorRepository.findById(descriptor).getOrNull()
@@ -163,16 +159,16 @@ class SatisfactoryEntitiesLoader {
         } else this["Amount"]!!.toFloat()
 
 
-        return ItemIO(outputPerCycle = out, descriptor = item)
+        return transform(item,out)
     }
 
     fun loadRecipe(recipes: List<FGRecipe>) =
             recipes.forEachIndexed { index, fgRecipe ->
                 val produces = fgRecipe.mProduct.extractDictEntry().map {
-                    it.toItemIO()
+                    it.toItemIO { item, out -> RecipeProduces(item, out) }
                 }.toSet()
                 val ingredients = fgRecipe.mIngredients.extractDictEntry().map {
-                    it.toItemIO()
+                    it.toItemIO { item, out -> RecipeRequires(item, out) }
                 }.toSet()
                 val producedIn = fgRecipe.mProducedIn.extractListEntry().filter { it.isNotEmpty() }.map {
                     val blueprintClassRegex = ".*\\.(.*)".toRegex()
@@ -237,7 +233,6 @@ class SatisfactoryEntitiesLoader {
                 }*/
     }
 
-    @PostConstruct
     fun init() {
         if (forceReload == true) {
             itemDescriptorRepository.deleteAll()
@@ -281,13 +276,11 @@ class SatisfactoryEntitiesLoader {
                 ))
             } as List<FGRecipe>)
         }
-
         val loadedRecipes = recipeRepository.findAll()
 
         loadedRecipes.forEach {
             recipeWeightService.compute(it)
             recipeRepository.save(it)
         }
-
     }
 }

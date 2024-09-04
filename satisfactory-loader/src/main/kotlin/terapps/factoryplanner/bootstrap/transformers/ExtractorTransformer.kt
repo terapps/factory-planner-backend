@@ -6,7 +6,7 @@ import terapps.factoryplanner.core.entities.Extractor
 import terapps.factoryplanner.core.entities.ItemCategory
 import terapps.factoryplanner.core.entities.ItemDescriptorRepository
 
-import terapps.factoryplanner.services.bootstrap.extractListEntry
+import terapps.factoryplanner.bootstrap.extractListEntry
 import kotlin.jvm.optionals.getOrNull
 
 fun FGBuildableResourceExtractor.toExtractor(itemDescriptorRepository: ItemDescriptorRepository) = Extractor(

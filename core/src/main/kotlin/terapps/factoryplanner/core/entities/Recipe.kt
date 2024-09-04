@@ -13,9 +13,9 @@ data class Recipe(
         val displayName: String,
         val manufacturingDuration: Float,
         @Relationship(type = "REQUIRES", direction = Relationship.Direction.INCOMING)
-        val ingredients: Set<ItemIO>,
+        val ingredients: Set<RecipeRequires>,
         @Relationship(type = "PRODUCES", direction = Relationship.Direction.OUTGOING)
-        val produces: Set<ItemIO>,
+        val produces: Set<RecipeProduces>,
         @Relationship(type = "PRODUCED_IN", direction = Relationship.Direction.OUTGOING)
         val producedIn: CraftingMachine?,
         @Relationship(type = "EXTRACTED_IN", direction = Relationship.Direction.OUTGOING)

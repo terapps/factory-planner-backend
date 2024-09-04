@@ -18,10 +18,10 @@ data class FactorySite(
 
     val destinations: MutableList<FactorySite> = mutableListOf()
 
-    val producedItem: ItemIO
+    val producedItem: RecipeProduces
         get() = targetRecipe.produces.firstOrNull { it.isFactorySiteTargetDescriptor() }
                 ?: throw Error("Target descriptor is not in produces")
-    val byProducts: List<ItemIO>
+    val byProducts: List<RecipeProduces>
         get() = targetRecipe.produces.filterNot { it.isFactorySiteTargetDescriptor() }
     val targetItemOutputPerMinute: Float
         get() = producedItem.outputPerCycle * (60f / targetRecipe.manufacturingDuration)
@@ -57,7 +57,7 @@ data class FactorySite(
         }
 
 
-    private fun ItemIO.isFactorySiteTargetDescriptor() = descriptor.id == targetDescriptor.id
+    private fun RecipeProduces.isFactorySiteTargetDescriptor() = descriptor.id == targetDescriptor.id
 
     val weight: Float?
         get() {
