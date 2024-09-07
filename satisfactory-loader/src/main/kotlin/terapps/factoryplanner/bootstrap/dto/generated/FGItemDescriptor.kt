@@ -1,4 +1,7 @@
 
+    package terapps.factoryplanner.bootstrap.dto.generated
+    import terapps.factoryplanner.bootstrap.dto.GameEntity
+
         data class FGItemDescriptor(
 val ClassName: String,
 val mAbbreviatedDisplayName: String,

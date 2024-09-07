@@ -1,6 +1,5 @@
-package terapps.factoryplanner.bootstrap
+package terapps.factoryplanner.bootstrap.dto
 
-import GameEntity
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.*
@@ -8,7 +7,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
-import terapps.factoryplanner.bootstrap.dto.GameObjectCategory
 import kotlin.reflect.full.findAnnotation
 
 class GameCategoryDeserializer(val om: ObjectMapper) : JsonDeserializer<GameObjectCategory>() {

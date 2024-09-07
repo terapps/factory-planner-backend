@@ -1,11 +1,15 @@
-package terapps.factoryplanner.services
+package terapps.factoryplanner.core.services
 
+import org.neo4j.cypherdsl.core.renderer.Configuration
+import org.neo4j.cypherdsl.core.renderer.Dialect
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Service
 import terapps.factoryplanner.core.entities.ItemDescriptorRepository
 import terapps.factoryplanner.core.entities.RecipeRepository
 import terapps.factoryplanner.core.services.components.FactoryRequirementBuilder
 import terapps.factoryplanner.core.services.components.FactorySite
+
 
 @Service
 class FactoryPlannerService {
@@ -15,6 +19,8 @@ class FactoryPlannerService {
     @Autowired
     lateinit var itemDescriptorRepository: ItemDescriptorRepository
 
+
+/*
     fun planFactorySite(vararg requirements:  Pair<String, Float>): List<FactorySite> {
         val builder = FactoryRequirementBuilder.newBuilder(recipeRepository, itemDescriptorRepository)
 
@@ -28,4 +34,5 @@ class FactoryPlannerService {
         }
         return req
     }
+*/
 }

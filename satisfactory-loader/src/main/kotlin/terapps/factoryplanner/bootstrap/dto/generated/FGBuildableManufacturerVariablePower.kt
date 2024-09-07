@@ -1,4 +1,7 @@
 
+    package terapps.factoryplanner.bootstrap.dto.generated
+    import terapps.factoryplanner.bootstrap.dto.GameEntity
+
         data class FGBuildableManufacturerVariablePower(
 val ClassName: String,
 val IsPowered: String,

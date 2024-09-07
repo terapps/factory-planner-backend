@@ -1,51 +1,68 @@
 package terapps.factoryplanner.bootstrap.transformers
 
-import FGBuildableResourceExtractor
-import FGBuildableWaterPump
-import terapps.factoryplanner.core.entities.Extractor
-import terapps.factoryplanner.core.entities.ItemCategory
-import terapps.factoryplanner.core.entities.ItemDescriptorRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
+import terapps.factoryplanner.bootstrap.Parameter
+import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableResourceExtractor
+import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableWaterPump
+import terapps.factoryplanner.core.entities.*
+import kotlin.jvm.optionals.getOrElse
+import kotlin.reflect.KParameter
+import kotlin.reflect.full.primaryConstructor
 
-import terapps.factoryplanner.bootstrap.extractListEntry
-import kotlin.jvm.optionals.getOrNull
+@Component
+class ExtractorTransformer : GenericAbstractTransformer<Any, Extractor>(
+        Extractor::class,
+        arrayListOf(
+                FGBuildableResourceExtractor::class,
+                FGBuildableWaterPump::class,
+        )
+) {
 
-fun FGBuildableResourceExtractor.toExtractor(itemDescriptorRepository: ItemDescriptorRepository) = Extractor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        extractCycleTime = mExtractCycleTime.toFloat(),
-        itemsPerCycle = mItemsPerCycle.toFloat(),
-        powerConsumption = mPowerConsumption.toFloat(),
-        powerConsumptionExponent = mPowerConsumptionExponent.toFloat(),
-        minPotential = mMinPotential.toFloat(),
-        maxPotential = mMaxPotential.toFloat(),
-        maxPotentialIncreasePerCrystal = mMaxPotentialIncreasePerCrystal.toFloat(),
-        extractorType = mExtractorTypeName,
-        allowedResources = (mAllowedResources.extractListEntry().filterNot { it.isEmpty() }.map {
+
+    @Autowired
+    private lateinit var extractorRepository: ExtractorRepository
+
+    @Autowired
+    private lateinit var itemDescriptorRepository: ItemDescriptorRepository
+
+    override fun save(output: Extractor): Extractor {
+        val save = extractorRepository.save(output)
+
+        return save
+    }
+
+    override fun Map<*, *>.makeConstructorParams(orig: Any): Map<KParameter, Any?> = mapOf(
+            Parameter<Extractor>("id") to this["ClassName"],
+            Parameter<Extractor>("displayName") to this["mDisplayName"],
+            Parameter<Extractor>("description") to this["mDescription"],
+            Parameter<Extractor>("extractCycleTime") to this["mExtractCycleTime"],
+            Parameter<Extractor>("itemsPerCycle") to this["mItemsPerCycle"],
+            Parameter<Extractor>("powerConsumption") to this["mPowerConsumption"],
+            Parameter<Extractor>("powerConsumptionExponent") to this["mPowerConsumptionExponent"],
+            Parameter<Extractor>("minPotential") to this["mMinPotential"],
+            Parameter<Extractor>("maxPotential") to this["mMaxPotential"],
+            Parameter<Extractor>("maxPotentialIncreasePerCrystal") to this["mMaxPotentialIncreasePerCrystal"],
+            Parameter<Extractor>("extractorType") to this["mExtractorTypeName"],
+            Parameter<Extractor>("allowedResources") to transformAllowedResources(
+                    this["mAllowedResources"] as String,
+                    (this["mAllowedResourceForms"] as String).extractListEntry(),
+            ).toSet()
+    )
+
+    private fun transformAllowedResources(allowedResources: String, allowedResourcesFrom: List<ItemRef>): List<String> {
+        // TODO simplify with query ID = truc OR forms IN
+        return allowedResources.extractListEntry().filterNot { it.isEmpty() }.map {
             val blueprintClassRegex = ".*\\.(.*)\"'".toRegex()
-            val descriptor = blueprintClassRegex.matchEntire(it)?.groupValues?.get(1) ?: throw Error("Could not parse $it")
+            val descriptor = blueprintClassRegex.matchEntire(it)?.groupValues?.get(1)
+                    ?: throw Error("Could not parse $it")
 
-            itemDescriptorRepository.findById(descriptor).getOrNull() ?: throw Error("Wouf")
-        }.takeIf { it.isNotEmpty() } ?: itemDescriptorRepository.findAllByFormInAndCategory(mAllowedResourceForms.extractListEntry(), ItemCategory.Raw)).toSet()
+            val item = itemDescriptorRepository.findById(descriptor).getOrElse { throw Error("No item descriptor ${descriptor}") }
 
-)
+            item.id
+        }.takeIf { it.isNotEmpty() }
+                ?: itemDescriptorRepository.findAllByFormInAndCategory(allowedResourcesFrom, ItemCategory.Raw).map { it.id }
+    }
 
-fun FGBuildableWaterPump.toExtractor(itemDescriptorRepository: ItemDescriptorRepository) = Extractor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        extractCycleTime = mExtractCycleTime.toFloat(),
-        itemsPerCycle = mItemsPerCycle.toFloat(),
-        powerConsumption = mPowerConsumption.toFloat(),
-        powerConsumptionExponent = mPowerConsumptionExponent.toFloat(),
-        minPotential = mMinPotential.toFloat(),
-        maxPotential = mMaxPotential.toFloat(),
-        maxPotentialIncreasePerCrystal = mMaxPotentialIncreasePerCrystal.toFloat(),
-        extractorType = mExtractorTypeName,
-        allowedResources = (mAllowedResources.extractListEntry().filterNot { it.isEmpty() }.map {
-            val blueprintClassRegex = ".*\\.(.*)\"'".toRegex()
-            val descriptor = blueprintClassRegex.matchEntire(it)?.groupValues?.get(1) ?: throw Error("Could not parse $it")
 
-            itemDescriptorRepository.findById(descriptor).getOrNull() ?: throw Error("Wouf")
-        }.takeIf { it.isNotEmpty() } ?: itemDescriptorRepository.findAllByFormInAndCategory(mAllowedResourceForms.extractListEntry(), ItemCategory.Raw)).toSet()
-)
+}

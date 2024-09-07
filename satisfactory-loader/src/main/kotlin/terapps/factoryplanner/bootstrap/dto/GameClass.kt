@@ -1,6 +1,7 @@
-import com.fasterxml.jackson.annotation.JsonProperty
+package terapps.factoryplanner.bootstrap.dto
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type
+import terapps.factoryplanner.bootstrap.dto.generated.*
 
 @JsonSubTypes(
         value = [

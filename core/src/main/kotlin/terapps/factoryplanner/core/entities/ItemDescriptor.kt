@@ -1,23 +1,24 @@
 package terapps.factoryplanner.core.entities
 
-import org.neo4j.ogm.annotation.NodeEntity
 import org.springframework.data.neo4j.core.schema.Id
+import org.springframework.data.neo4j.core.schema.Node
 import org.springframework.data.neo4j.core.schema.Relationship
 import org.springframework.data.neo4j.repository.Neo4jRepository
 import org.springframework.stereotype.Repository
+
 enum class ItemCategory {
     Raw,
     Biomass,
     Building,
     Equipment,
     Craftable,
-    Vehcle,
+    Vehicle,
     Consumable
 
 
 }
 
-@NodeEntity
+@Node
 data class ItemDescriptor(
         @Id
         val id: String,
@@ -27,13 +28,16 @@ data class ItemDescriptor(
         val sinkablePoints: Int? = null,
         val energyValue: Float? = null,
         val form: String? = null,
-        @Relationship(type = "PRODUCES", direction = Relationship.Direction.INCOMING)
-        val recipes: Set<RecipeProduces> = emptySet()
+        @Relationship(type = "PRODUCED_BY", direction = Relationship.Direction.INCOMING)
+        var producedBy: Set<ItemDescriptorProducedBy> = emptySet()
 ) {
 
 }
 
 @Repository
 interface ItemDescriptorRepository : Neo4jRepository<ItemDescriptor, String> {
+    fun findByIdIn(ids: List<String>): Collection<ItemDescriptor>
+
     fun findAllByFormInAndCategory(form: List<String>, category: ItemCategory): List<ItemDescriptor>
 }
+

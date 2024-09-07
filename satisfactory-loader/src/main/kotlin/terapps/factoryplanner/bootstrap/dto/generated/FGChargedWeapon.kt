@@ -1,4 +1,7 @@
 
+    package terapps.factoryplanner.bootstrap.dto.generated
+    import terapps.factoryplanner.bootstrap.dto.GameEntity
+
         data class FGChargedWeapon(
 val ClassName: String,
 val mAllowedAmmoClasses: String,

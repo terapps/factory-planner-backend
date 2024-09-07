@@ -6,16 +6,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories
 import terapps.factoryplanner.bootstrap.SatisfactoryEntitiesLoader
+import terapps.factoryplanner.core.entities.ItemDescriptorRepository
 
 @SpringBootApplication
 
-@EnableNeo4jRepositories(basePackages = ["terapps.factoryplanner.core.entities"])
+@EnableNeo4jRepositories(basePackages = ["terapps.factoryplanner.core",])
 class FactoryLoaderApplication: CommandLineRunner {
 	@Autowired
-	lateinit var satisfactoryEntitiesLoader: SatisfactoryEntitiesLoader
+	private lateinit var itemDescriptorRepository: ItemDescriptorRepository
 
 	override fun run(vararg args: String?) {
-		satisfactoryEntitiesLoader.init()
+		println("Finished running :)")
+
+		val truc = itemDescriptorRepository.findById("Desc_Plastic_C").orElseThrow()
+
+		println(truc)
 	}
 
 }

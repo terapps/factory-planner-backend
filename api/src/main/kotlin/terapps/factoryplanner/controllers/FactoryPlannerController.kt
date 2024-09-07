@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import terapps.factoryplanner.controllers.dto.FactoryPlanningRequest
 import terapps.factoryplanner.core.services.components.FactorySite
-import terapps.factoryplanner.services.FactoryPlannerService
+import terapps.factoryplanner.core.services.FactoryPlannerService
 
 
 @RestController
@@ -20,7 +20,10 @@ class FactoryPlannerController {
             @RequestBody factoryPlanningRequest: FactoryPlanningRequest
     ): List<FactorySite> {
         // TODO select mode for recipe
+        TODO()
 
+/*
         return this.factoryPlannerService.planFactorySite(*factoryPlanningRequest.sites.map { it.targetItemClassName to it.targetAmount }.toTypedArray())
+*/
     }
 }

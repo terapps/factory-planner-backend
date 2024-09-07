@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.9.25"
+    id("org.springframework.boot") version "3.3.0"
     id("io.spring.dependency-management") version "1.1.6"
 }
 
@@ -18,9 +19,8 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework.boot:spring-boot-starter-data-neo4j:3.3.0")
+    implementation("org.springframework.boot:spring-boot-starter-data-neo4j")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.neo4j:neo4j-ogm-core:4.0.10")
     implementation("org.neo4j:neo4j:5.21.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")

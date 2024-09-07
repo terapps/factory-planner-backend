@@ -1,121 +1,68 @@
 package terapps.factoryplanner.bootstrap.transformers
 
-import FGAmmoTypeInstantHit
-import FGAmmoTypeProjectile
-import FGAmmoTypeSpreadshot
-import FGItemDescriptor
-import FGItemDescriptorBiomass
-import FGItemDescriptorNuclearFuel
-import FGBuildingDescriptor
-import FGConsumableDescriptor
-import FGEquipmentDescriptor
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
+import terapps.factoryplanner.bootstrap.Parameter
+import terapps.factoryplanner.bootstrap.dto.generated.*
+import terapps.factoryplanner.core.entities.*
+import kotlin.reflect.KParameter
 
-import FGPoleDescriptor
-import FGResourceDescriptor
-import FGVehicleDescriptor
-import terapps.factoryplanner.core.entities.ItemCategory
-import terapps.factoryplanner.core.entities.ItemDescriptor
-
-fun FGItemDescriptor.toItemDescriptor() = ItemDescriptor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        energyValue = mEnergyValue,
-        form = mForm,
-        sinkablePoints = mResourceSinkPoints,
-        category = ItemCategory.Craftable
-)
-
-fun FGItemDescriptorBiomass.toItemDescriptor() = ItemDescriptor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        energyValue = mEnergyValue,
-        form = mForm,
-        sinkablePoints = mResourceSinkPoints,
-        category = ItemCategory.Biomass
-
-)
-
-fun FGItemDescriptorNuclearFuel.toItemDescriptor() = ItemDescriptor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        energyValue = mEnergyValue,
-        form = mForm,
-        sinkablePoints = mResourceSinkPoints,
-        category = ItemCategory.Craftable
-)
+@Component
+class ItemDescriptorTransformer : GenericAbstractTransformer<Any, ItemDescriptor>(
+        ItemDescriptor::class,
+        arrayListOf(
+                FGItemDescriptor::class,
+                FGItemDescriptorBiomass::class,
+                FGItemDescriptorNuclearFuel::class,
+                FGResourceDescriptor::class,
+                FGBuildingDescriptor::class,
+                FGPoleDescriptor::class,
+                FGEquipmentDescriptor::class,
+                FGAmmoTypeProjectile::class,
+                FGAmmoTypeInstantHit::class,
+                FGAmmoTypeSpreadshot::class,
+                FGVehicleDescriptor::class,
+                FGConsumableDescriptor::class
+        )
+) {
 
 
-fun FGResourceDescriptor.toItemDescriptor() = ItemDescriptor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        form = mForm,
-        sinkablePoints = mResourceSinkPoints,
-        category = ItemCategory.Raw,
-)
+    @Autowired
+    private lateinit var itemDescriptorRepository: ItemDescriptorRepository
 
-fun FGBuildingDescriptor.toItemDescriptor() = ItemDescriptor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        form = mForm,
-        category = ItemCategory.Building,
-)
-fun FGPoleDescriptor.toItemDescriptor() = ItemDescriptor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        form = mForm,
-        category = ItemCategory.Building,
-)
+    @Autowired
+    private lateinit var itemDescriptorProducedByTransformer: ItemDescriptorProducedByTransformer
 
-fun FGEquipmentDescriptor.toItemDescriptor() = ItemDescriptor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        form = mForm,
-        category = ItemCategory.Equipment,
-)
+    override fun save(output: ItemDescriptor): ItemDescriptor = itemDescriptorRepository.save(output)
 
-fun FGAmmoTypeProjectile.toItemDescriptor() = ItemDescriptor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        form = mForm,
-        category = ItemCategory.Equipment,
-)
+    fun attachRecipe(fgRecipe: FGRecipe, recipe: Recipe): Collection<ItemDescriptor> {
+        return itemDescriptorRepository.saveAll(
+                fgRecipe.mProduct.extractDictEntry().map {
+                    itemDescriptorProducedByTransformer.transform(
+                            recipe to it
+                    )
+                }
+        )
+    }
 
-fun FGAmmoTypeInstantHit.toItemDescriptor() = ItemDescriptor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        form = mForm,
-        category = ItemCategory.Equipment,
-)
+    override fun Map<*, *>.makeConstructorParams(orig: Any): Map<KParameter, Any?> = mapOf(
+            Parameter<ItemDescriptor>("id") to this["ClassName"],
+            Parameter<ItemDescriptor>("displayName") to this["mDisplayName"],
+            Parameter<ItemDescriptor>("description") to this["mDescription"],
+            Parameter<ItemDescriptor>("energyValue") to this["mEnergyValue"],
+            Parameter<ItemDescriptor>("form") to this["mForm"],
+            Parameter<ItemDescriptor>("sinkablePoints") to this["mResourceSinkPoints"],
+            Parameter<ItemDescriptor>("category") to getItemCategory(orig),
+    )
 
-fun FGAmmoTypeSpreadshot.toItemDescriptor() = ItemDescriptor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        form = mForm,
-        category = ItemCategory.Equipment,
-)
-
-fun FGVehicleDescriptor.toItemDescriptor() = ItemDescriptor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        form = mForm,
-        category = ItemCategory.Vehcle,
-)
-
-fun FGConsumableDescriptor.toItemDescriptor() = ItemDescriptor(
-        id = ClassName,
-        displayName = mDisplayName,
-        description = mDescription,
-        form = mForm,
-        category = ItemCategory.Consumable,
-)
+    private fun getItemCategory(input: Any): ItemCategory = when (input) {
+        is FGItemDescriptorNuclearFuel, is FGItemDescriptor -> ItemCategory.Craftable
+        is FGItemDescriptorBiomass -> ItemCategory.Biomass
+        is FGResourceDescriptor -> ItemCategory.Raw
+        is FGBuildingDescriptor, is FGPoleDescriptor -> ItemCategory.Building
+        is FGEquipmentDescriptor, is FGAmmoTypeProjectile, is FGAmmoTypeInstantHit, is FGAmmoTypeSpreadshot -> ItemCategory.Equipment
+        is FGVehicleDescriptor -> ItemCategory.Vehicle
+        is FGConsumableDescriptor -> ItemCategory.Consumable
+        else -> throw Error("Not supported: ${input}")
+    }
+}

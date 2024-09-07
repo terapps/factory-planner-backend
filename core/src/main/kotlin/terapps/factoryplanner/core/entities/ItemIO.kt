@@ -1,35 +1,34 @@
 package terapps.factoryplanner.core.entities
 
-import org.neo4j.ogm.annotation.EndNode
-import org.neo4j.ogm.annotation.RelationshipEntity
-import org.neo4j.ogm.annotation.StartNode
-import org.springframework.data.neo4j.core.schema.GeneratedValue
-import org.springframework.data.neo4j.core.schema.Id
+import org.springframework.data.neo4j.core.schema.RelationshipId
+import org.springframework.data.neo4j.core.schema.RelationshipProperties
+import org.springframework.data.neo4j.core.schema.TargetNode
 
-@RelationshipEntity(type = "PRODUCES")
-class RecipeProduces(
-        @StartNode
+@RelationshipProperties
+class RecipeRequires(
+        @TargetNode
         val descriptor: ItemDescriptor,
         val outputPerCycle: Float,
 ) {
-    @EndNode
-    lateinit var recipe: Recipe
-
-    @Id
-    @GeneratedValue
+    @RelationshipId
     var id: Long? = null
 }
 
-@RelationshipEntity(type = "REQUIRES")
-class RecipeRequires(
-        @StartNode
-        val descriptor: ItemDescriptor,
+@RelationshipProperties
+class ItemDescriptorProducedBy(
+        @TargetNode
+        val recipe: Recipe,
         val outputPerCycle: Float,
 ) {
-    @EndNode
-    lateinit var recipe: Recipe
-
-    @Id
-    @GeneratedValue
+    @RelationshipId
+    var id: Long? = null
+}
+@RelationshipProperties
+class RecipeProducing(
+        @TargetNode
+        val item: ItemDescriptor,
+        val outputPerCycle: Float,
+) {
+    @RelationshipId
     var id: Long? = null
 }

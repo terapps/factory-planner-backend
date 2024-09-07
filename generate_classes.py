@@ -2,7 +2,7 @@ import json
 import itertools
 import re
 
-fileName = '/home/terabyte/dev/perso/factory-planner/factory-planner/src/main/resources/data.json'
+fileName = '/home/terabyte/dev/perso/factory-planner/factory-planner/satisfactory-loader/src/main/resources/data.json'
 fileDesc = open(fileName, 'r', encoding='utf-16')
 jsonString = fileDesc.read()
 data = json.loads(jsonString)
@@ -53,7 +53,7 @@ def is_nullable_field(x):
     return '?' in x
 
 
-path = 'src/main/kotlin/terapps/factoryplanner/configuration/dto/generated'
+path = 'satisfactory-loader/src/main/kotlin/terapps/factoryplanner/bootstrap/dto/generated'
 
 for x in data:
     className = x['NativeClass'].replace("Class'/Script/FactoryGame.", '').replace("'", "")
@@ -73,6 +73,9 @@ for x in data:
 
     all_fields = required_fields + nullable_fields
     kotlinClass = """
+    package terapps.factoryplanner.bootstrap.dto.generated
+    import terapps.factoryplanner.bootstrap.dto.GameEntity
+
         data class {className}(
 {fields}
 ): GameEntity()

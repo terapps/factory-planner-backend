@@ -1,3 +1,4 @@
+/*
 package terapps.factoryplanner.bootstrap
 
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,20 +21,22 @@ class RecipeWeightService {
         println("computing ${recipe.id}")
         val sites = FactoryRequirementBuilder.newBuilder(recipeRepository, itemDescriptorRepository).apply {
             recipe.produces.forEach {
-                try {
-                    addRequirement(it.descriptor, recipe, it.outputPerCycle)
-                } catch (e: Error) {
-                    println(e)
-                }
+                addRequirement(it.descriptor, recipe, it.outputPerCycle)
+
             }
         }.build()
+        if (recipe.id == "Recipe_IngotSteel_C") {
+            println("wouf")
+        }
         recipe.weightedPoints = sites.sumOf { (it.weight ?: 0f).toDouble() }.toFloat()
-        /* TODO
-                    recipe.energyPoints = sites.sumOf {  }.toFloat()
         */
+/* TODO
+                    recipe.energyPoints = sites.sumOf {  }.toFloat()
+        *//*
+
         recipe.buildingCountPoints = sites.sumOf {
             (it.numberOfMachines ?: it.nbMaxedExtractors)!!.toDouble()
         }.toFloat()
         recipe.sinkingPoints = sites.filter { it.targetDescriptor.sinkablePoints != null }.sumOf { (it.targetDescriptor.sinkablePoints!!.toFloat() * it.targetAmountPerMinute).toDouble() }.toFloat()
     }
-}
+}*/

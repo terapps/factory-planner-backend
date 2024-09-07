@@ -3,6 +3,7 @@ package terapps.factoryplanner.core.services.components
 import terapps.factoryplanner.core.entities.*
 import kotlin.math.ceil
 
+// TODO change datastructure to be a graph
 data class FactorySite(
         val targetDescriptor: ItemDescriptor,
         val targetRecipe: Recipe,
@@ -10,7 +11,7 @@ data class FactorySite(
         val craftingMachine: CraftingMachine? = null,
         val extractor: Extractor? = null,
 ) {
-    // TODO leftovers
+/*    // TODO leftovers
     operator fun plus(inc: Float): FactorySite {
         targetAmountPerMinute += inc
         return this
@@ -18,10 +19,10 @@ data class FactorySite(
 
     val destinations: MutableList<FactorySite> = mutableListOf()
 
-    val producedItem: RecipeProduces
+    val producedItem: RecipeRequires
         get() = targetRecipe.produces.firstOrNull { it.isFactorySiteTargetDescriptor() }
                 ?: throw Error("Target descriptor is not in produces")
-    val byProducts: List<RecipeProduces>
+    val byProducts: List<RecipeRequires>
         get() = targetRecipe.produces.filterNot { it.isFactorySiteTargetDescriptor() }
     val targetItemOutputPerMinute: Float
         get() = producedItem.outputPerCycle * (60f / targetRecipe.manufacturingDuration)
@@ -57,7 +58,7 @@ data class FactorySite(
         }
 
 
-    private fun RecipeProduces.isFactorySiteTargetDescriptor() = descriptor.id == targetDescriptor.id
+    private fun RecipeRequires.isFactorySiteTargetDescriptor() = descriptor.id == targetDescriptor.id
 
     val weight: Float?
         get() {
@@ -67,5 +68,5 @@ data class FactorySite(
                 return null
             }
             return (targetAmountPerMinute / maxExtractionRate) * 10000
-        }
+        }*/
 }

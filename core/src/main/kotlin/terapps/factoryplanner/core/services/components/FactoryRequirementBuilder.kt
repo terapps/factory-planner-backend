@@ -20,7 +20,7 @@ class FactoryRequirementBuilder(
                 itemDescriptorRepository: ItemDescriptorRepository
         ) = FactoryRequirementBuilder(recipeRepository, itemDescriptorRepository, mutableListOf())
     }
-
+/*
     private fun addRequirement(factorySite: FactorySite): FactoryRequirementBuilder {
         if (factorySite.extractor != null) {
             // Dont go in ingredients to avoid infinite loop caused by raw resources recipes producing the same item than ingredient
@@ -69,16 +69,17 @@ class FactoryRequirementBuilder(
     }
 
     private fun getRecipe(descriptor: ItemDescriptor, optimizationCriterion: OptimizationCriterion): Recipe {
-        if (descriptor.recipes.isEmpty()) {
-            throw Error("No recipes")
-        }
+
+        throw Error("There is a recipe ${descriptor}")
+*//*
         return when (optimizationCriterion) {
-            RAW_MATERIAL_WEIGHT -> descriptor.recipes.map { it.recipe }.minBy { it.weightedPoints }
+            RAW_MATERIAL_WEIGHT -> descriptor.producedBy.minBy { it.weightedPoints }
             POWER_CONSUMPTION -> throw NotImplementedError("Power consumption not impl")
-            BUILDING_NUMBER -> descriptor.recipes.map { it.recipe }.minBy { it.buildingCountPoints }
-            SINK_VALUE -> descriptor.recipes.map { it.recipe }.minBy { it.sinkingPoints }
+            BUILDING_NUMBER -> descriptor.producedBy.minBy { it.buildingCountPoints }
+            SINK_VALUE -> descriptor.producedBy.minBy { it.sinkingPoints }
         }
+*//*
     }
 
-    fun build() = this.requirements
+    fun build() = this.requirements*/
 }

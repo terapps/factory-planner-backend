@@ -1,4 +1,7 @@
 
+    package terapps.factoryplanner.bootstrap.dto.generated
+    import terapps.factoryplanner.bootstrap.dto.GameEntity
+
         data class FGAmmoTypeSpreadshot(
 val AmmoFiredDelegate: String,
 val ClassName: String,
