@@ -30,23 +30,10 @@ class ItemDescriptorTransformer : GenericAbstractTransformer<Any, ItemDescriptor
     @Autowired
     private lateinit var itemDescriptorRepository: ItemDescriptorRepository
 
-    @Autowired
-    private lateinit var itemDescriptorProducedByTransformer: ItemDescriptorProducedByTransformer
-
     override fun save(output: ItemDescriptor): ItemDescriptor = itemDescriptorRepository.save(output)
 
-    fun attachRecipe(fgRecipe: FGRecipe, recipe: Recipe): Collection<ItemDescriptor> {
-        return itemDescriptorRepository.saveAll(
-                fgRecipe.mProduct.extractDictEntry().map {
-                    itemDescriptorProducedByTransformer.transform(
-                            recipe to it
-                    )
-                }
-        )
-    }
-
     override fun Map<*, *>.makeConstructorParams(orig: Any): Map<KParameter, Any?> = mapOf(
-            Parameter<ItemDescriptor>("id") to this["ClassName"],
+            Parameter<ItemDescriptor>("className") to this["ClassName"],
             Parameter<ItemDescriptor>("displayName") to this["mDisplayName"],
             Parameter<ItemDescriptor>("description") to this["mDescription"],
             Parameter<ItemDescriptor>("energyValue") to this["mEnergyValue"],

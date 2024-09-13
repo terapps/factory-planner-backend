@@ -2,7 +2,7 @@ package terapps.factoryplanner.bootstrap.transformers
 
 typealias ItemIO = Map<String, String>
 typealias ItemRef = String
-fun String.extractListEntry(): List<ItemRef> = replace("(", "").replace(")", "").split(",")
+fun String.extractListEntry(): List<ItemRef> = replace("(", "").replace(")", "").split(",").filterNot { it.isEmpty() }
 fun String.extractDictEntry(): MutableList<ItemIO> {
     val result = mutableListOf<Map<String, String>>()
 

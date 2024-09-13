@@ -1,0 +1,2 @@
+MATCH (p:ItemDescriptor {className: 'Desc_Plastic_C'})-[:PRODUCED_BY]-(r: Recipe)-[:REQUIRED_IN]-(item: ItemDescriptor)-[:PRODUCED_BY]-(recipe:Recipe)
+RETURN p, r, item, recipe

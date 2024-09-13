@@ -19,7 +19,7 @@ interface SatisfactoryTransformer<in Input: Any, Output: Any> {
 
     fun save(output: Output): Output
 
-    fun supportsClass(clazz: KClass<*>): Boolean = true
+    fun supportsClass(clazz: KClass<*>): Boolean
 }
 
 abstract class AbstractTransformer<Input: Any, Output: Any>(

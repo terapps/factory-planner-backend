@@ -4,8 +4,8 @@ package terapps.factoryplanner.bootstrap.dto
 import kotlin.reflect.KClass
 
 
-data class GameObjectCategory(
+data class GameObjectCategory<T: Any>(
         val NativeClass: String,
-        val classType: KClass<*>,
-        val Classes: List<GameEntity>
+        val classType: KClass<T>,
+        var Classes: MutableList<T>
 )

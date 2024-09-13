@@ -20,7 +20,8 @@ repositories {
 
 dependencies {
     implementation(project(mapOf("path" to ":core")))
-    implementation("org.springframework.boot:spring-boot-starter-data-neo4j:3.3.0")
+    implementation("org.springframework.boot:spring-boot-starter-data-neo4j")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

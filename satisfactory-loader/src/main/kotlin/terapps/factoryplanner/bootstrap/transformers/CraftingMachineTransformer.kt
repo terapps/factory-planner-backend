@@ -25,7 +25,7 @@ class CraftingMachineTransformer : GenericAbstractTransformer<Any, CraftingMachi
     override fun save(output: CraftingMachine): CraftingMachine = craftingMachineRepository.save(output)
 
     override fun Map<*, *>.makeConstructorParams(orig: Any): Map<KParameter, Any?> = mapOf(
-            Parameter<CraftingMachine>("id") to this["ClassName"],
+            Parameter<CraftingMachine>("className") to this["ClassName"],
             Parameter<CraftingMachine>("displayName") to this["mDisplayName"],
             Parameter<CraftingMachine>("description") to this["mDescription"],
             Parameter<CraftingMachine>("manufacturingSpeed") to this["mManufacturingSpeed"],

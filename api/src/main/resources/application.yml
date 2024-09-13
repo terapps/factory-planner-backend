@@ -1,7 +1,3 @@
-satisfactory:
-  planner:
-    data:
-      force-reload: false
 spring:
   neo4j:
     driver: org.neo4j.ogm.drivers.embedded.driver.EmbeddedDriver

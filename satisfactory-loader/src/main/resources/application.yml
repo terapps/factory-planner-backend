@@ -1,7 +1,10 @@
 satisfactory:
   planner:
-    data:
-      force-reload: true
+    reload-profile:
+      wipe: true
+      steps: []
+        # Ignored when wipe is true
+        #- RecipeTransformer
 spring:
   neo4j:
     driver: org.neo4j.ogm.drivers.embedded.driver.EmbeddedDriver
@@ -9,3 +12,10 @@ spring:
     authentication:
       username: neo4j
       password: 5sS&v%^x5hxeglnq
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          neo4j:
+            cypher: ERROR

@@ -7,7 +7,7 @@ import org.springframework.data.neo4j.core.schema.TargetNode
 @RelationshipProperties
 class RecipeRequires(
         @TargetNode
-        val descriptor: ItemDescriptor,
+        val item: ItemDescriptor,
         val outputPerCycle: Float,
 ) {
     @RelationshipId

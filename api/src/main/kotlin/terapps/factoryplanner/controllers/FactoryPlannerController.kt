@@ -1,9 +1,7 @@
 package terapps.factoryplanner.controllers
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import terapps.factoryplanner.controllers.dto.FactoryPlanningRequest
 import terapps.factoryplanner.core.services.components.FactorySite
 import terapps.factoryplanner.core.services.FactoryPlannerService
@@ -14,16 +12,14 @@ class FactoryPlannerController {
     @Autowired
     lateinit var factoryPlannerService: FactoryPlannerService
 
-    @PostMapping("/factory/planning")
-
+    @PostMapping("/factory/plan/{itemClass}/for/{amount}")
     fun factoryPlanning(
-            @RequestBody factoryPlanningRequest: FactoryPlanningRequest
-    ): List<FactorySite> {
+            @PathVariable("itemClass") itemClass: String,
+            @PathVariable("amount") amount: Float
+            ): FactorySite {
         // TODO select mode for recipe
-        TODO()
 
-/*
-        return this.factoryPlannerService.planFactorySite(*factoryPlanningRequest.sites.map { it.targetItemClassName to it.targetAmount }.toTypedArray())
-*/
+        val site = factoryPlannerService.planFactorySite(itemClass, amount)
+        return site
     }
 }
