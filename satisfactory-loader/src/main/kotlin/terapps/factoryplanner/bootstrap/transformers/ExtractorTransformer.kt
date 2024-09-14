@@ -28,27 +28,32 @@ class ExtractorTransformer : GenericAbstractTransformer<Any, Extractor>(
         return extractorRepository.save(output)
     }
 
-    override fun Map<*, *>.makeConstructorParams(orig: Any): Map<KParameter, Any?> = mapOf(
-            Parameter<Extractor>("className") to this["ClassName"],
-            Parameter<Extractor>("displayName") to this["mDisplayName"],
-            Parameter<Extractor>("description") to this["mDescription"],
-            Parameter<Extractor>("extractCycleTime") to this["mExtractCycleTime"],
-            Parameter<Extractor>("itemsPerCycle") to this["mItemsPerCycle"],
-            Parameter<Extractor>("powerConsumption") to this["mPowerConsumption"],
-            Parameter<Extractor>("powerConsumptionExponent") to this["mPowerConsumptionExponent"],
-            Parameter<Extractor>("minPotential") to this["mMinPotential"],
-            Parameter<Extractor>("maxPotential") to this["mMaxPotential"],
-            Parameter<Extractor>("maxPotentialIncreasePerCrystal") to this["mMaxPotentialIncreasePerCrystal"],
-            Parameter<Extractor>("extractorType") to this["mExtractorTypeName"],
-            Parameter<Extractor>("allowedResourceForm") to (this["mAllowedResourceForms"] as String).extractListEntry().toSet(),
-            Parameter<Extractor>("allowedResources") to transformAllowedResources(
-                    this["mAllowedResources"] as String,
-            ).toSet()
-    )
+    override fun Map<*, *>.makeConstructorParams(orig: Any): Map<KParameter, Any?> {
+        val truc = mapOf(
+                Parameter<Extractor>("className") to this["ClassName"],
+                Parameter<Extractor>("displayName") to this["mDisplayName"],
+                Parameter<Extractor>("description") to this["mDescription"],
+                Parameter<Extractor>("extractCycleTime") to this["mExtractCycleTime"],
+                Parameter<Extractor>("itemsPerCycle") to this["mItemsPerCycle"],
+                Parameter<Extractor>("powerConsumption") to this["mPowerConsumption"],
+                Parameter<Extractor>("powerConsumptionExponent") to this["mPowerConsumptionExponent"],
+                Parameter<Extractor>("minPotential") to this["mMinPotential"],
+                Parameter<Extractor>("maxPotential") to this["mMaxPotential"],
+                Parameter<Extractor>("productionBoost") to this["mBaseProductionBoost"],
+                Parameter<Extractor>("extractorType") to this["mExtractorTypeName"],
+                Parameter<Extractor>("allowedResourceForm") to (this["mAllowedResourceForms"] as String).extractListEntry().toSet(),
+                Parameter<Extractor>("allowedResources") to transformAllowedResources(
+                        this["mAllowedResources"] as String,
+                ).toSet()
+        )
+
+        return truc
+    }
 
     private fun transformAllowedResources(allowedResources: String): List<String> {
-        return allowedResources.extractListEntry().filterNot { it.isEmpty() }.map {
-            val blueprintClassRegex = ".*\\.(.*)\"'".toRegex()
+        return allowedResources.extractListEntry().map {
+            val blueprintClassRegex = ".*\\.(.*)'".toRegex()
+
             val descriptor = blueprintClassRegex.matchEntire(it)?.groupValues?.get(1)
                     ?: throw Error("Could not parse $it")
 

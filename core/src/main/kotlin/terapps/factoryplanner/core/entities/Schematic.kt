@@ -1,33 +1,37 @@
 package terapps.factoryplanner.core.entities
 
-import org.springframework.data.neo4j.core.schema.GeneratedValue
-import org.springframework.data.neo4j.core.schema.Id
-import org.springframework.data.neo4j.core.schema.Node
-import org.springframework.data.neo4j.core.schema.Relationship
-import org.springframework.data.neo4j.core.schema.RelationshipProperties
+import org.springframework.data.neo4j.core.schema.*
+import org.springframework.data.neo4j.repository.Neo4jRepository
+import org.springframework.stereotype.Repository
 import java.util.*
 
-@RelationshipProperties
- class Unlocks(
-)
 data class Schematic(
+        // TODO is unlocked
+        // MVP : consider is unlocked if tier <= game tier info (fetch http api)
+        // Long term : parse save file and maintain an "unlocked status"
+        // Will imply a "GameProfile" entity for runtime save info.
         val className: String?,
         val displayName: String?,
         val description: String?,
         val type: String?, // TODO enum
         val tier: Int?,
         val timeToComplete: Float?,
-        // TODO schem->unlocks->Recipe|Research...
+        @Relationship(type = "SCHEMATIC_UNLOCKS_RECIPE", direction = Relationship.Direction.OUTGOING)
+        var unlocksRecipe: Set<SchematicUnlocksRecipe> = emptySet(),
+        @Relationship(type = "SCHEMATIC_UNLOCKS_SCHEMATIC", direction = Relationship.Direction.OUTGOING)
+        var unlocksSchematic: Set<SchematicUnlocksSchematic> = emptySet(), // TODO should be inverse of schematic dependencies, do i need to map it here
+        @Relationship(type = "SCHEMATIC_UNLOCKS_RESOURCE", direction = Relationship.Direction.OUTGOING)
+        var unlocksResources: Set<SchematicUnlocksResource> = emptySet(), // TODO should be inverse of schematic dependencies, do i need to map it here
+        @Relationship(type = "SCHEMATIC_DEPENDENCY", direction = Relationship.Direction.OUTGOING)
+        var depdendsOn: Set<SchematicDependency> = emptySet(), // TODO should be inverse of schematic dependencies, do i need to map it here
 
-        @Relationship(type = "REQUIRED_IN", direction = Relationship.Direction.INCOMING)
-        var unlocks: Set<RecipeRequires> = emptySet(),
 ) {
     @Id
     @GeneratedValue
     lateinit var id: UUID
-
-    var weightedPoints: Float = Float.MAX_VALUE
-    var energyPoints: Float = Float.MAX_VALUE
-    var buildingCountPoints: Float = Float.MAX_VALUE
-    var sinkingPoints: Float = Float.MAX_VALUE
 }
+
+@Repository
+interface SchematicRepository : Neo4jRepository<Schematic, UUID> {
+}
+

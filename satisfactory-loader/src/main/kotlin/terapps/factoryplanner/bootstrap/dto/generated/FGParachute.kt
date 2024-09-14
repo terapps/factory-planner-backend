@@ -3,17 +3,27 @@
     import terapps.factoryplanner.bootstrap.dto.GameEntity
 
         data class FGParachute(
-val ClassName: String,
-val mArmAnimation: String,
-val mAttachSocket: String,
-val mBackAnimation: String,
-val mCostToUse: String,
-val mEquipmentSlot: String,
-val mHasPersistentOwner: String,
-val mIsDeployed: String,
-val mOnlyVisibleToOwner: String,
-val mReceivedDamageModifiers: String,
-val mTerminalVelocityZ: Float,
-val mUseDefaultPrimaryFire: String
+val `ClassName`: String,
+val `DeployedVFXComponents`: String,
+val `mArmAnimation`: String,
+val `mAttachSocket`: String,
+val `mBackAnimation`: String,
+val `mComponentNameToFirstPersonMaterials`: String,
+val `mCostToUse`: String,
+val `mDefaultEquipmentActions`: Int,
+val `mEquipMontage`: String,
+val `mEquipmentLookAtDescOverride`: String,
+val `mEquipmentSlot`: String,
+val `mHasStingerMontage`: String,
+val `mIsDeployed`: String,
+val `mMontageBlendOutTime`: Float,
+val `mNeedsDefaultEquipmentMappingContext`: String,
+val `mParachuteDeployMontageList`: String,
+val `mParachuteDetachMontageList`: String,
+val `mReceivedDamageModifiers`: String,
+val `mStingerMontage`: String,
+val `mSwappedOutThirdPersonMaterials`: String,
+val `mUnEquipMontage`: String,
+val `mUseDistanceOverride`: Float
 ): GameEntity()
     

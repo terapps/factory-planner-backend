@@ -24,12 +24,7 @@ class RecipeProducedInTransformer : SatisfactoryTransformer<FGRecipe, List<ItemR
         }
     }
 
-
-    override fun save(output: List<ItemRef>): List<ItemRef> {
-        TODO("Not implemented: Should not be called standalone")
-    }
-
     override fun supportsClass(clazz: KClass<*>): Boolean {
-        return FGRecipe::class.isSubclassOf(clazz)
+        return false
     }
 }

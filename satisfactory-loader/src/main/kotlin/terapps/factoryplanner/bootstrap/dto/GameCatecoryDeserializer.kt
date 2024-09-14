@@ -17,9 +17,9 @@ class GameCategoryDeserializer(val om: ObjectMapper) : JsonDeserializer<GameObje
         val classesNode = node.get("Classes")
         val jsonSubTypes = GameEntity::class.findAnnotation<JsonSubTypes>()
                 ?: throw IllegalArgumentException("No JsonSubTypes annotation found on GameEntity")
-        val actualType = jsonSubTypes.value.first {
+        val actualType = jsonSubTypes.value.firstOrNull {
             it.name == nativeClass
-        }.value
+        }?.value ?: throw Error("Cannot map type ${nativeClass}")
 
         val gameEntities: List<GameEntity> = classesNode.map {
             val res = om.convertValue(it, actualType.java) as GameEntity

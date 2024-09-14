@@ -2,7 +2,6 @@ satisfactory:
   planner:
     reload-profile:
       wipe: true
-      steps: []
         # Ignored when wipe is true
         #- RecipeTransformer
 spring:

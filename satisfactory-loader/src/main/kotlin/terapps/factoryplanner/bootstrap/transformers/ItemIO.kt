@@ -2,7 +2,7 @@ package terapps.factoryplanner.bootstrap.transformers
 
 typealias ItemIO = Map<String, String>
 typealias ItemRef = String
-fun String.extractListEntry(): List<ItemRef> = replace("(", "").replace(")", "").split(",").filterNot { it.isEmpty() }
+fun String.extractListEntry(): List<ItemRef> = replace("\"", "").replace("(", "").replace(")", "").split(",").filterNot { it.isEmpty() }
 fun String.extractDictEntry(): MutableList<ItemIO> {
     val result = mutableListOf<Map<String, String>>()
 
@@ -26,8 +26,10 @@ fun String.extractDictEntry(): MutableList<ItemIO> {
     return result
 }
 fun <T> ItemIO.toItemIO(transform: (String, Float) -> T): T {
-    val blueprintClassRegex = "BlueprintGeneratedClass'\".*\\.(.*)\"'".toRegex()
-    val descriptor = blueprintClassRegex.matchEntire(this["ItemClass"]!!)!!.groupValues[1]
+    val blueprintClassRegex = ".*BlueprintGeneratedClass'.*\\.(?<captured>.*)'".toRegex()
+    val itemClass = this["ItemClass"] ?: throw Error("ItemIO: itemclass not found $this")
+
+    val descriptor = blueprintClassRegex.find(itemClass)?.groups?.get("captured")?.value ?: throw Error("ItemIO: doesnt match regex $itemClass")
     val out = this["Amount"]!!.toFloat()
 
     return transform(descriptor, out)

@@ -17,7 +17,7 @@ data class CraftingMachine(
         val powerConsumptionExponent: Float = 0f,
         override val minPotential: Float = 0f,
         override val maxPotential: Float = 0f,
-        override val maxPotentialIncreasePerCrystal: Float = 0f,
+        override val productionBoost: Float = 0f,
         val manual: Boolean = false,
 ): Automaton {
         @Id

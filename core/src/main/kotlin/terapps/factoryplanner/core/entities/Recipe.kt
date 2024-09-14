@@ -27,11 +27,6 @@ data class Recipe(
     @Id
     @GeneratedValue
     lateinit var id: UUID
-
-    var weightedPoints: Float = Float.MAX_VALUE
-    var energyPoints: Float = Float.MAX_VALUE
-    var buildingCountPoints: Float = Float.MAX_VALUE
-    var sinkingPoints: Float = Float.MAX_VALUE
 }
 
 @Repository
@@ -39,8 +34,6 @@ interface RecipeRepository : Neo4jRepository<Recipe, UUID> {
     fun findByClassName(className: String): RecipeRequiresSummary?
 
     fun findByProducingItemClassName(itemClass: String): Collection<RecipeProducingSummary>
-
-    fun findByProducingItemCategoryIn(categories: Collection<ItemCategory>): Collection<RecipeProducingSummary>
 
     @Query("MATCH (r: Recipe {className: \$className}) " +
             "SET r.weightedPoints = \$weightedPoints " +

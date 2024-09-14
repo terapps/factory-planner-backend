@@ -1,38 +1,26 @@
 package terapps.factoryplanner.bootstrap.steps
 
-import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Service
 import terapps.factoryplanner.bootstrap.dto.GameObjectCategory
-import terapps.factoryplanner.bootstrap.steps.components.*
-import terapps.factoryplanner.bootstrap.transformers.ExtractorTransformer
-import terapps.factoryplanner.bootstrap.transformers.RecipeTransformer
 import terapps.factoryplanner.bootstrap.transformers.SatisfactoryTransformer
 import kotlin.reflect.KClass
+import kotlin.reflect.full.isSubclassOf
 
 @Service
 class StepManager {
-
     @Autowired
-    private lateinit var recipeStep: RecipeStep
+    private lateinit var applicationContext: ApplicationContext
 
-    @Autowired
-    private lateinit var cleanDataStep: CleanDataStep
-
-
-    private lateinit var steps: Map<KClass<*>, Step>
-
-    private lateinit var rootSteps: List<RootStep>
-
-    @PostConstruct
-    fun createSteps() {
-        steps = mapOf(
-                RecipeTransformer::class to recipeStep,
-        )
-        rootSteps = listOf(
-                cleanDataStep
-        )
-    }
+    private val steps: Collection<Step<Any>>
+        get() {
+            return applicationContext.getBeansOfType(Step::class.java).values as Collection<Step<Any>>
+        }
+    private val rootSteps: Collection<RootStep>
+        get() {
+            return applicationContext.getBeansOfType(RootStep::class.java).values
+        }
 
     fun prepare() {
         rootSteps.forEach {
@@ -46,22 +34,19 @@ class StepManager {
         }
     }
 
-    fun prepareStep(category: GameObjectCategory<Any>, transformer: SatisfactoryTransformer<Any, Any>) {
-        steps[category.classType]?.run {
-            prepare(category)
-        }
-        steps[transformer.javaClass.kotlin]?.run {
-            prepare(category)
+    fun prepareStep(category: GameObjectCategory<*>, transformer: SatisfactoryTransformer<Any, Any>) {
+        resolveStep(category.javaClass.kotlin)?.run {
+            prepare(category as GameObjectCategory<Any>)
         }
     }
 
-    fun disposeStep(category: GameObjectCategory<Any>, transformer: SatisfactoryTransformer<Any, Any>) {
-        steps[category.classType]?.run {
-            dispose(category)
+    fun disposeStep(category: GameObjectCategory<*>, transformer: SatisfactoryTransformer<Any, Any>) {
+        resolveStep(transformer.javaClass.kotlin)?.run {
+            dispose(category as GameObjectCategory<Any>)
         }
-        steps[transformer.javaClass.kotlin]?.run {
-            dispose(category)
-        }
+    }
 
+    private fun resolveStep(clazz: KClass<*>): Step<Any>? {
+        return steps.find { it.javaClass.kotlin.isSubclassOf(clazz) }
     }
 }

@@ -1,12 +1,16 @@
 package terapps.factoryplanner.bootstrap.transformers
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import terapps.factoryplanner.bootstrap.dto.generated.FGSchematic
 import terapps.factoryplanner.core.entities.Schematic
-import kotlin.reflect.KClass
+import terapps.factoryplanner.core.entities.SchematicRepository
 
 @Component
-class SchematicTransformer : AbstractTransformer<FGSchematic, Schematic>(FGSchematic::class)  {
+class SchematicTransformer : AbstractTransformer<FGSchematic, Schematic>(FGSchematic::class) {
+    @Autowired
+    private lateinit var schematicRepository: SchematicRepository
+
     override fun transform(transformIn: FGSchematic): Schematic {
         return Schematic(
                 className = transformIn.ClassName,
@@ -18,7 +22,5 @@ class SchematicTransformer : AbstractTransformer<FGSchematic, Schematic>(FGSchem
         )
     }
 
-    override fun save(output: Schematic): Schematic {
-        TODO("Not yet implemented")
-    }
+    override fun save(output: Schematic): Schematic = schematicRepository.save(output)
 }

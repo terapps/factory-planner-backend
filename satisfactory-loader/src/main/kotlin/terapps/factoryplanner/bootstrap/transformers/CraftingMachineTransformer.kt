@@ -33,6 +33,6 @@ class CraftingMachineTransformer : GenericAbstractTransformer<Any, CraftingMachi
             Parameter<CraftingMachine>("powerConsumptionExponent") to this["mPowerConsumptionExponent"],
             Parameter<CraftingMachine>("minPotential") to this["mMinPotential"],
             Parameter<CraftingMachine>("maxPotential") to this["mMaxPotential"],
-            Parameter<CraftingMachine>("maxPotentialIncreasePerCrystal") to this["mMaxPotentialIncreasePerCrystal"],
+            Parameter<CraftingMachine>("productionBoost") to this["mBaseProductionBoost"],
     )
 }

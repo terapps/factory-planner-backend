@@ -4,5 +4,5 @@ interface Automaton {
     val className: String
     val minPotential: Float
     val maxPotential: Float
-    val maxPotentialIncreasePerCrystal: Float
+    val productionBoost: Float
 }

@@ -8,7 +8,7 @@ data class ExtractingSite(
         override var targetAmountPerCycle: Float,
         override val automaton: Extractor
 ) : FactorySite() {
-    private val maxPotential = automaton.maxPotential + (automaton.maxPotentialIncreasePerCrystal * 3f)
+    private val maxPotential = automaton.maxPotential + (automaton.productionBoost * 3f)
 
     val maximumExtractionRate: Float
         get() {

@@ -15,7 +15,8 @@ enum class ItemCategory {
     Equipment,
     Craftable,
     Vehicle,
-    Consumable
+    Consumable,
+    PowerShard
 }
 
 @Node
@@ -27,6 +28,9 @@ data class ItemDescriptor(
         val sinkablePoints: Int? = null,
         val energyValue: Float? = null,
         val form: String? = null, // TODO enum
+        val powershardType: String? = null,
+        val extraPotential: Float? =null,
+        val extraProductionBoost: Float? =null,
         @Relationship(type = "EXTRACTED_IN", direction = Relationship.Direction.OUTGOING)
         val extractedIn: Set<Extractor> = emptySet(),
         @Relationship(type = "PRODUCED_BY", direction = Relationship.Direction.INCOMING)

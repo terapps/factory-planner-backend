@@ -46,17 +46,22 @@ def map_fields(field, whole_data):
     variable_type = map_to_type(is_array_of_object, field, whole_data, variable_type, f'Set<Map<String, Any>>')
     variable_type = map_to_type(is_nullable, field, whole_data, variable_type, f'{variable_type}? = null')
 
-    return f'val {variable_name}: {variable_type}'
+    return f'val `{variable_name}`: {variable_type}'
 
 
 def is_nullable_field(x):
     return '?' in x
 
 
-path = 'satisfactory-loader/src/main/kotlin/terapps/factoryplanner/bootstrap/dto/generated'
-
+path = 'satisfactory-loader/src/main/kotlin/terapps/factoryplanner/bootstrap/dto'
+classes= []
 for x in data:
-    className = x['NativeClass'].replace("Class'/Script/FactoryGame.", '').replace("'", "")
+    nativeClass = x['NativeClass']
+
+    className = nativeClass.replace("/Script/CoreUObject.Class'/Script/FactoryGame.", "").replace('\'', '')
+
+    print(className)
+    classes.append([nativeClass, className])
     fields = {}
     for obj in x['Classes']:
         for [k, v] in obj.items():
@@ -81,5 +86,27 @@ for x in data:
 ): GameEntity()
     """.format(className=className, fields=',\n'.join(all_fields))
 
-    f = open(f'{path}/{className}.kt', 'w')
+    f = open(f'{path}/generated/{className}.kt', 'w')
     f.write(kotlinClass)
+
+mapped_classes = list(map(lambda x: "Type(value={className}::class, name=\"{fullPath}\")".format(
+    className=x[1],
+    fullPath=x[0]
+), classes))
+
+wrapper_class = """
+package terapps.factoryplanner.bootstrap.dto
+
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type
+import terapps.factoryplanner.bootstrap.dto.generated.*
+
+@JsonSubTypes(
+        value = [
+            {types}
+        ]
+)
+open class GameEntity""".format(types=',\n'.join(mapped_classes))
+
+f = open(f'{path}/GameEntity.kt', 'w')
+f.write(wrapper_class)

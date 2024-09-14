@@ -12,6 +12,8 @@ class ItemDescriptorTransformer : GenericAbstractTransformer<Any, ItemDescriptor
         ItemDescriptor::class,
         arrayListOf(
                 FGItemDescriptor::class,
+                FGItemDescriptorPowerBoosterFuel::class,
+                FGPowerShardDescriptor::class,
                 FGItemDescriptorBiomass::class,
                 FGItemDescriptorNuclearFuel::class,
                 FGResourceDescriptor::class,
@@ -39,6 +41,8 @@ class ItemDescriptorTransformer : GenericAbstractTransformer<Any, ItemDescriptor
             Parameter<ItemDescriptor>("energyValue") to this["mEnergyValue"],
             Parameter<ItemDescriptor>("form") to this["mForm"],
             Parameter<ItemDescriptor>("sinkablePoints") to this["mResourceSinkPoints"],
+            Parameter<ItemDescriptor>("extraPotential") to this["mExtraPotential"],
+            Parameter<ItemDescriptor>("extraProductionBoost") to this["mExtraProductionBoost"],
             Parameter<ItemDescriptor>("category") to getItemCategory(orig),
     )
 
@@ -50,6 +54,8 @@ class ItemDescriptorTransformer : GenericAbstractTransformer<Any, ItemDescriptor
         is FGEquipmentDescriptor, is FGAmmoTypeProjectile, is FGAmmoTypeInstantHit, is FGAmmoTypeSpreadshot -> ItemCategory.Equipment
         is FGVehicleDescriptor -> ItemCategory.Vehicle
         is FGConsumableDescriptor -> ItemCategory.Consumable
-        else -> throw Error("Not supported: ${input}")
+        is FGPowerShardDescriptor -> ItemCategory.PowerShard
+        is FGItemDescriptorPowerBoosterFuel -> ItemCategory.Consumable
+        else -> throw Error("Not supported category: ${input.javaClass.simpleName}")
     }
 }

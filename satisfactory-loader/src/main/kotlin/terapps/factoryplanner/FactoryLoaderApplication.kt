@@ -22,7 +22,8 @@ class FactoryLoaderApplication : CommandLineRunner {
     private lateinit var recipeWeightService: RecipeWeightService
 
     override fun run(vararg args: String?) {
-        println("Fetching recipe for weight computing...")
+/*  TODO that will be through http and inputs a factory site instead of a recipe.
+      println("Fetching recipe for weight computing...")
         val recipes = recipeRepository.findByProducingItemCategoryIn(listOf(ItemCategory.Craftable, ItemCategory.Raw))
         val buggy = listOf("Recipe_UnpackageNitricAcid_C","Recipe_PackagedCrudeOil_C","Recipe_UnpackageAlumina_C","Recipe_UnpackageBioFuel_C", "Recipe_UnpackageTurboFuel_C", "Recipe_PackagedWater_C", "Recipe_Alternate_DilutedPackagedFuel_C", "Recipe_PackagedTurboFuel_C", "Recipe_Alternate_HeatFusedFrame_C")
 
@@ -35,7 +36,7 @@ class FactoryLoaderApplication : CommandLineRunner {
                     println("Skipped ${it.getClassName()}: ${error.message}")
                 }
             }
-        }
+        }*/
     }
 
 }

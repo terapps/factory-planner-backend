@@ -3,20 +3,28 @@
     import terapps.factoryplanner.bootstrap.dto.GameEntity
 
         data class FGGolfCartDispenser(
-val ClassName: String,
-val canDisplayDisqualifier: String,
-val mArmAnimation: String,
-val mAttachSocket: String,
-val mBackAnimation: String,
-val mBuildDisqualifierText: String,
-val mCostToUse: String,
-val mEquipmentSlot: String,
-val mHasPersistentOwner: String,
-val mMaxSpawnDistance: Float,
-val mOnlyVisibleToOwner: String,
-val mPlaceDistanceMax: Float,
-val mReceivedDamageModifiers: String,
-val mSpawningClearance: Float,
-val mUseDefaultPrimaryFire: String
+val `ClassName`: String,
+val `canDisplayDisqualifier`: String,
+val `mArmAnimation`: String,
+val `mAttachSocket`: String,
+val `mBackAnimation`: String,
+val `mBuildDisqualifierText`: String,
+val `mCartPlacementClearance`: String,
+val `mCartPlacementDistance`: Float,
+val `mChristmasMaterial1P`: String,
+val `mChristmasMaterial`: String,
+val `mComponentNameToFirstPersonMaterials`: String,
+val `mCostToUse`: String,
+val `mDefaultEquipmentActions`: Int,
+val `mEquipMontage`: String,
+val `mEquipmentLookAtDescOverride`: String,
+val `mEquipmentSlot`: String,
+val `mHasStingerMontage`: String,
+val `mMontageBlendOutTime`: Float,
+val `mNeedsDefaultEquipmentMappingContext`: String,
+val `mReceivedDamageModifiers`: String,
+val `mStingerMontage`: String,
+val `mSwappedOutThirdPersonMaterials`: String,
+val `mUnEquipMontage`: String
 ): GameEntity()
     

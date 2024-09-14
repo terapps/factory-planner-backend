@@ -3,17 +3,24 @@
     import terapps.factoryplanner.bootstrap.dto.GameEntity
 
         data class FGJumpingStilts(
-val ClassName: String,
-val mArmAnimation: String,
-val mAttachSocket: String,
-val mBackAnimation: String,
-val mCostToUse: String,
-val mEquipmentSlot: String,
-val mHasPersistentOwner: String,
-val mJumpSpeedFactor: Float,
-val mOnlyVisibleToOwner: String,
-val mReceivedDamageModifiers: String,
-val mSprintSpeedFactor: Float,
-val mUseDefaultPrimaryFire: String
+val `ClassName`: String,
+val `mArmAnimation`: String,
+val `mAttachSocket`: String,
+val `mBackAnimation`: String,
+val `mComponentNameToFirstPersonMaterials`: String,
+val `mCostToUse`: String,
+val `mDefaultEquipmentActions`: Int,
+val `mEquipMontage`: String,
+val `mEquipmentLookAtDescOverride`: String,
+val `mEquipmentSlot`: String,
+val `mHasStingerMontage`: String,
+val `mJumpSpeedFactor`: Float,
+val `mMontageBlendOutTime`: Float,
+val `mNeedsDefaultEquipmentMappingContext`: String,
+val `mReceivedDamageModifiers`: String,
+val `mSprintSpeedFactor`: Float,
+val `mStingerMontage`: String,
+val `mSwappedOutThirdPersonMaterials`: String,
+val `mUnEquipMontage`: String
 ): GameEntity()
     

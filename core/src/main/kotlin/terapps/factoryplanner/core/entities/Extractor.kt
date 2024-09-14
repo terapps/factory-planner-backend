@@ -18,7 +18,7 @@ data class Extractor(
         val powerConsumptionExponent: Float,
         override val minPotential: Float,
         override val maxPotential: Float,
-        override val maxPotentialIncreasePerCrystal: Float,
+        override val productionBoost: Float,
         val extractorType: String, // TODO types enum?
         val allowedResourceForm: Set<String>,
         val allowedResources: Set<String> // i dont want this since its going to end up a relationship
