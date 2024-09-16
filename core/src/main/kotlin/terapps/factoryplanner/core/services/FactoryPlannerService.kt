@@ -36,7 +36,7 @@ class FactoryPlannerService {
         if (factorySiteInput.recipe == null) {
             throw Error("No recipe given with site ${factorySiteInput.type}")
         }
-        val recipeProducing = recipeService.findRecipeProducingBy(factorySiteInput.recipe.getClassName())
+        val recipeProducing = recipeService.findRecipeProducingByClassName(factorySiteInput.recipe.getClassName())
 
         return CraftingMachineFactorySite(factorySiteInput.item, factorySiteInput.amountPerCycle, recipeProducing).also {
             loadIngredients(factorySiteInput, it, rootSite ?: it)

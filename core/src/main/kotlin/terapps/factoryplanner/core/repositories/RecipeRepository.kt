@@ -6,17 +6,14 @@ import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import terapps.factoryplanner.core.entities.Recipe
 import terapps.factoryplanner.core.projections.RecipeProducingSummary
+import terapps.factoryplanner.core.projections.RecipeSummary
 import java.util.*
 
 @Repository
 interface RecipeRepository : Neo4jRepository<Recipe, UUID> {
-    fun findByClassName(className: String): RecipeProducingSummary?
+    fun <T> findByClassName(className: String, clazz: Class<T>): T?
 
-    fun findByIdAndClassName()
-
-    fun findAllByUnlockedByTierLessThanEqualAndProducingItemClassName(tier: Int, producedItemClassName: String)
-
-    fun findByProducingItemClassName(itemClass: String): Collection<RecipeProducingSummary>
+    fun findByProducingItemClassNameAndUnlockedByTierLessThanEqual(producingItemClassname: String, unlockedbyTier: Int): Collection<RecipeSummary>
 
     @Query("MATCH (r: Recipe {className: \$className}) " +
             "SET r.weightedPoints = \$weightedPoints " +
