@@ -1,4 +1,4 @@
-package terapps.factoryplanner.bootstrap.configuration
+package terapps.factoryplanner.bootstrap.configurations
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.type.TypeReference

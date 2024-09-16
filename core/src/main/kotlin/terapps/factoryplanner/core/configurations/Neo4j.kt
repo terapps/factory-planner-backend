@@ -1,4 +1,4 @@
-package terapps.factoryplanner.core.configuration
+package terapps.factoryplanner.core.configurations
 
 import org.neo4j.cypherdsl.core.renderer.Dialect
 import org.springframework.context.annotation.Bean
