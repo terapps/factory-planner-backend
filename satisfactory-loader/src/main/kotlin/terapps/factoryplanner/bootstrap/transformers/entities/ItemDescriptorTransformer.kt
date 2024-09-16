@@ -6,6 +6,7 @@ import terapps.factoryplanner.bootstrap.Parameter
 import terapps.factoryplanner.bootstrap.dto.generated.*
 import terapps.factoryplanner.bootstrap.transformers.GenericAbstractTransformer
 import terapps.factoryplanner.core.entities.*
+import terapps.factoryplanner.core.repositories.ItemDescriptorRepository
 import kotlin.reflect.KParameter
 
 @Component

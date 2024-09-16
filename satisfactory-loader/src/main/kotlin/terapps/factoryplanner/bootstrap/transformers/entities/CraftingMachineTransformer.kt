@@ -7,7 +7,7 @@ import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableManufacturer
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableManufacturerVariablePower
 import terapps.factoryplanner.bootstrap.transformers.GenericAbstractTransformer
 import terapps.factoryplanner.core.entities.CraftingMachine
-import terapps.factoryplanner.core.entities.CraftingMachineRepository
+import terapps.factoryplanner.core.repositories.CraftingMachineRepository
 import kotlin.reflect.KParameter
 
 @Component

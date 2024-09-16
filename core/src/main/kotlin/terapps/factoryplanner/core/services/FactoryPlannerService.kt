@@ -2,19 +2,15 @@ package terapps.factoryplanner.core.services
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import terapps.factoryplanner.core.entities.ItemCategory
-import terapps.factoryplanner.core.entities.RecipeRepository
-import terapps.factoryplanner.core.projections.ItemDescriptorSummary
-import terapps.factoryplanner.core.projections.RecipeProducingSummary
-import terapps.factoryplanner.core.projections.getActualOutputPerCycle
 import terapps.factoryplanner.core.services.components.*
 import terapps.factoryplanner.core.services.components.FactorySite.Companion.findInTree
 
 
 @Service
 class FactoryPlannerService {
+
     @Autowired
-    private lateinit var recipeRepository: RecipeRepository
+    private lateinit var recipeService: RecipeService
 
     fun planFactorySite(factorySiteInput: FactorySiteInput): FactorySite {
         return makeFactorySite(factorySiteInput)
@@ -40,7 +36,7 @@ class FactoryPlannerService {
         if (factorySiteInput.recipe == null) {
             throw Error("No recipe given with site ${factorySiteInput.type}")
         }
-        val recipeProducing = recipeRepository.findByClassName(factorySiteInput.recipe.getClassName()) ?: throw Error("Cannot find recipe ${factorySiteInput.recipe.getClassName()}")
+        val recipeProducing = recipeService.findRecipeProducingBy(factorySiteInput.recipe.getClassName())
 
         return CraftingMachineFactorySite(factorySiteInput.item, factorySiteInput.amountPerCycle, recipeProducing).also {
             loadIngredients(factorySiteInput, it, rootSite ?: it)

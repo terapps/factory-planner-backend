@@ -4,8 +4,6 @@ import org.springframework.data.neo4j.core.schema.GeneratedValue
 import org.springframework.data.neo4j.core.schema.Id
 import org.springframework.data.neo4j.core.schema.Node
 import org.springframework.data.neo4j.core.schema.Relationship
-import org.springframework.data.neo4j.repository.Neo4jRepository
-import org.springframework.stereotype.Repository
 import java.util.*
 
 enum class ItemCategory {
@@ -39,14 +37,5 @@ data class ItemDescriptor(
     @Id
     @GeneratedValue
     lateinit var id: UUID
-}
-
-@Repository
-interface ItemDescriptorRepository : Neo4jRepository<ItemDescriptor, UUID> {
-    fun findAllByCategory(category: ItemCategory): Collection<ItemDescriptor>
-
-    fun findAllByForm(form: String): Collection<ItemDescriptor>
-
-    fun findAllByFormInAndCategory(form: List<String>, category: ItemCategory): List<ItemDescriptor>
 }
 

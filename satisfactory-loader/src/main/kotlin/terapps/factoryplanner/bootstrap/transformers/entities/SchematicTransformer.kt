@@ -8,7 +8,7 @@ import terapps.factoryplanner.bootstrap.toBoolean
 import terapps.factoryplanner.bootstrap.transformers.AbstractTransformer
 import terapps.factoryplanner.core.entities.Schematic
 import terapps.factoryplanner.core.entities.SchematicDependency
-import terapps.factoryplanner.core.entities.SchematicRepository
+import terapps.factoryplanner.core.repositories.SchematicRepository
 
 @Component
 class SchematicTransformer : AbstractTransformer<FGSchematic, Schematic>(FGSchematic::class) {

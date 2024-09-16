@@ -10,6 +10,7 @@ import terapps.factoryplanner.bootstrap.extractListEntry
 import terapps.factoryplanner.bootstrap.toBoolean
 import terapps.factoryplanner.bootstrap.transformers.GenericAbstractTransformer
 import terapps.factoryplanner.core.entities.*
+import terapps.factoryplanner.core.repositories.ExtractorRepository
 import kotlin.reflect.KParameter
 
 @Component

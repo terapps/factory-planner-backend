@@ -10,8 +10,8 @@ import terapps.factoryplanner.bootstrap.transformers.TransformerOrchestrator
 import terapps.factoryplanner.bootstrap.transformers.relationships.ItemExtractedIn
 import terapps.factoryplanner.bootstrap.transformers.relationships.RecipeManufacturedIn
 import terapps.factoryplanner.bootstrap.transformers.relationships.Relationship
-import terapps.factoryplanner.core.entities.ExtractorRepository
-import terapps.factoryplanner.core.entities.ItemDescriptorRepository
+import terapps.factoryplanner.core.repositories.ExtractorRepository
+import terapps.factoryplanner.core.repositories.ItemDescriptorRepository
 
 @Component
 class RelationshipStep : RootStep,  TransformerOrchestrator<SatisfactoryRelationshipTransformer<Any, Any>>(SatisfactoryRelationshipTransformer::class) {

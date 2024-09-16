@@ -7,9 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories
 import terapps.factoryplanner.bootstrap.steps.StepManager
-import terapps.factoryplanner.core.entities.ItemCategory
-import terapps.factoryplanner.core.entities.RecipeRepository
-import terapps.factoryplanner.core.services.RecipeWeightService
 
 @SpringBootApplication
 @ConfigurationPropertiesScan

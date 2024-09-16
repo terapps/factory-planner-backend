@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 import terapps.factoryplanner.bootstrap.dto.generated.FGRecipe
 import terapps.factoryplanner.bootstrap.transformers.AbstractTransformer
 import terapps.factoryplanner.core.entities.Recipe
-import terapps.factoryplanner.core.entities.RecipeRepository
+import terapps.factoryplanner.core.repositories.RecipeRepository
 
 @Component
 class RecipeTransformer : AbstractTransformer<FGRecipe, Recipe>(FGRecipe::class) {

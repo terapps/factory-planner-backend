@@ -2,9 +2,6 @@ package terapps.factoryplanner.core.entities
 
 import org.springframework.data.neo4j.core.schema.Id
 import org.springframework.data.neo4j.core.schema.Relationship
-import org.springframework.data.neo4j.repository.Neo4jRepository
-import org.springframework.data.neo4j.repository.query.Query
-import org.springframework.stereotype.Repository
 
 data class Schematic(
         // TODO is unlocked
@@ -26,11 +23,5 @@ data class Schematic(
         var depdendsOn: Set<SchematicDependency> = emptySet(), // TODO should be inverse of schematic dependencies, do i need to map it here
 
 ) {
-}
-
-@Repository
-interface SchematicRepository : Neo4jRepository<Schematic, String> {
-        @Query("MATCH (p:Schematic) RETURN MAX(p.tier) AS tier")
-        fun findMaxTier(): Int
 }
 

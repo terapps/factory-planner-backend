@@ -3,8 +3,6 @@ package terapps.factoryplanner.core.entities
 import org.springframework.data.neo4j.core.schema.GeneratedValue
 import org.springframework.data.neo4j.core.schema.Id
 import org.springframework.data.neo4j.core.schema.Node
-import org.springframework.data.neo4j.repository.Neo4jRepository
-import org.springframework.stereotype.Repository
 import java.util.*
 
 @Node
@@ -32,8 +30,3 @@ data class Extractor(
 // TODO input/output info is empty in file, see in later version
 
 
-@Repository
-interface ExtractorRepository : Neo4jRepository<Extractor, UUID> {
-        fun findByClassName(id: String): Extractor?
-        fun findAllByClassNameIn(classNames: List<String>): Collection<Extractor>
-}

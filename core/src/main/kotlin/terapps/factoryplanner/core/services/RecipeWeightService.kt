@@ -1,3 +1,4 @@
+/*
 package terapps.factoryplanner.core.services
 
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,11 +26,13 @@ class RecipeWeightService {
 
         factoryPlannerService.visitFactoryTree(factorySite) {
             totalBuilding += it.requiredMachines
-            /*
+            */
+/*
             totalSinkValue += it.targetDescriptor.getSinkablePoints()
                         totalPowerConsumption += it.requiredMachines * it.automaton
-            */
+            *//*
+
         }
         recipeRepository.updateWeight(recipe.getClassName(), weightPoint.toFloat(), totalPowerConsumption, totalBuilding, totalSinkValue)
     }
-}
+}*/
