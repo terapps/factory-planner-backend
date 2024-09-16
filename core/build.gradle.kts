@@ -8,7 +8,6 @@ plugins {
 dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.neo4j:neo4j:5.21.0")
     implementation("org.springframework.boot:spring-boot-starter:3.3.0")
     implementation("org.springframework.boot:spring-boot-starter-data-neo4j:3.3.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
