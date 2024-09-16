@@ -6,7 +6,7 @@ import java.util.*
 interface RecipeSummary {
     fun getId(): UUID
     fun getClassName(): String
-    fun getManufacturingDuration(): Float
+    fun getManufacturingDuration(): Double
     fun getDisplayName(): String
 
     fun getManufacturedIn(): List<CraftingMachine>

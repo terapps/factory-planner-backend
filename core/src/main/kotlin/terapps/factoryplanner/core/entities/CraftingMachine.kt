@@ -10,12 +10,12 @@ data class CraftingMachine(
         override val className: String,
         val displayName: String,
         val description: String,
-        val manufacturingSpeed: Float = 0f,
-        val powerConsumption: Float = 0f,
-        val powerConsumptionExponent: Float = 0f,
-        override val minPotential: Float = 0f,
-        override val maxPotential: Float = 0f,
-        override val productionBoost: Float = 0f,
+        val manufacturingSpeed: Double = 0.0,
+        val powerConsumption: Double = 0.0,
+        val powerConsumptionExponent: Double = 0.0,
+        override val minPotential: Double = 0.0,
+        override val maxPotential: Double = 0.0,
+        override val productionBoost: Double = 0.0,
         val manual: Boolean = false,
 ): Automaton {
         @Id

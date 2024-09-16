@@ -38,14 +38,14 @@ class SatisfactoryStaticDataLoader {
                 "Water extraction recipe",
                 "Water extraction recipe",
                 "",
-                0f,
-                0f,
-                0f,
+                0.0,
+                0.0,
+                0.0,
                 "(SelfMade.Build_WaterPump_C)",
                 "((ItemClass=BlueprintGeneratedClass'/Game/FactoryGame/Resource/Raw.Desc_Water_C',Amount=1))",
                 "",
-                0f,
-                0f
+                0.0,
+                0.0
         )
 
         return gameCategories.sortedBy {

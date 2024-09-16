@@ -15,6 +15,6 @@ data class FactorySiteInput(
         val item: ItemDescriptorSummary,
         val recipe: RecipeSummary?,
         val extractor: Extractor?, // TODO summary
-        val amountPerCycle: Float,
+        val amountPerCycle: Double,
         val ingredients: Set<FactorySiteInput> = emptySet()
 )

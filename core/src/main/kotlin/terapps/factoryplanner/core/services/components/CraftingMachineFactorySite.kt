@@ -8,7 +8,7 @@ import terapps.factoryplanner.core.projections.getActualOutputPerCycle
 
 data class CraftingMachineFactorySite(
         override val targetDescriptor: ItemDescriptorSummary,
-        override var targetAmountPerCycle: Float,
+        override var targetAmountPerCycle: Double,
         val targetRecipe: RecipeProducingSummary,
 ) : FactorySite() {
     // TODO leftovers when ceiling up on required machine
@@ -23,7 +23,7 @@ data class CraftingMachineFactorySite(
     val targetOutputPerCycle: FactorySiteIO
         get() = produces.first { it.item.getClassName() == targetDescriptor.getClassName() }
 
-    override val requiredMachines: Float
+    override val requiredMachines: Double
         get() = targetAmountPerCycle / targetOutputPerCycle.outputPerCycle
 
     override val automaton: CraftingMachine

@@ -2,7 +2,7 @@ import json
 import itertools
 import re
 
-fileName = '/home/terabyte/dev/perso/factory-planner/factory-planner/satisfactory-loader/src/main/resources/data.json'
+fileName = '/home/terabyte/dev/perso/factory-planner/backend/satisfactory-loader/src/main/resources/data.json'
 fileDesc = open(fileName, 'r', encoding='utf-16')
 jsonString = fileDesc.read()
 data = json.loads(jsonString)
@@ -41,7 +41,7 @@ def map_fields(field, whole_data):
 
     variable_type = map_to_type(is_object, field, whole_data, variable_type, f'Map<String, Any>')
     variable_type = map_to_type(is_number, field, whole_data, variable_type, f'Int')
-    variable_type = map_to_type(is_float, field, whole_data, variable_type, f'Float')
+    variable_type = map_to_type(is_float, field, whole_data, variable_type, f'Double')
     variable_type = map_to_type(is_array, field, whole_data, variable_type, f'Set<{variable_type}>')
     variable_type = map_to_type(is_array_of_object, field, whole_data, variable_type, f'Set<Map<String, Any>>')
     variable_type = map_to_type(is_nullable, field, whole_data, variable_type, f'{variable_type}? = null')

@@ -1,19 +1,19 @@
+package terapps.factoryplanner.bootstrap.dto.generated
 
-    package terapps.factoryplanner.bootstrap.dto.generated
-    import terapps.factoryplanner.bootstrap.dto.GameEntity
+import terapps.factoryplanner.bootstrap.dto.GameEntity
 
-        data class FGRecipe(
-val `ClassName`: String,
-val `FullName`: String,
-val `mDisplayName`: String,
-val `mIngredients`: String,
-val `mManualManufacturingMultiplier`: Float,
-val `mManufactoringDuration`: Float,
-val `mManufacturingMenuPriority`: Float,
-val `mProducedIn`: String,
-val `mProduct`: String,
-val `mRelevantEvents`: String,
-val `mVariablePowerConsumptionConstant`: Float,
-val `mVariablePowerConsumptionFactor`: Float
-): GameEntity()
+data class FGRecipe(
+        val `ClassName`: String,
+        val `FullName`: String,
+        val `mDisplayName`: String,
+        val `mIngredients`: String,
+        val `mManualManufacturingMultiplier`: Double,
+        val `mManufactoringDuration`: Double,
+        val `mManufacturingMenuPriority`: Double,
+        val `mProducedIn`: String,
+        val `mProduct`: String,
+        val `mRelevantEvents`: String,
+        val `mVariablePowerConsumptionConstant`: Double,
+        val `mVariablePowerConsumptionFactor`: Double
+) : GameEntity()
     

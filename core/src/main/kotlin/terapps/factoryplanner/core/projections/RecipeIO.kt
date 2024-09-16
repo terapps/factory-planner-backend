@@ -2,9 +2,9 @@ package terapps.factoryplanner.core.projections
 
 interface RecipeIO {
     fun getItem(): ItemDescriptorSummary
-    fun getOutputPerCycle(): Float
+    fun getOutputPerCycle(): Double
 }
 
-fun RecipeIO.getActualOutputPerCycle(): Float {
+fun RecipeIO.getActualOutputPerCycle(): Double {
     return if (getItem().getForm() == "RF_LIQUID") getOutputPerCycle() / 1000f else getOutputPerCycle()
 }

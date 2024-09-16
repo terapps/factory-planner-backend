@@ -14,7 +14,7 @@ data class Schematic(
         val description: String? = null,
         val type: String? = null, // TODO enum
         val tier: Int? = null,
-        val timeToComplete: Float? = null,
+        val timeToComplete: Double? = null,
         @Relationship(type = "SCHEMATIC_UNLOCKS_RECIPE", direction = Relationship.Direction.OUTGOING)
         var unlocksRecipe: Set<SchematicUnlocksRecipe> = emptySet(),
         @Relationship(type = "SCHEMATIC_UNLOCKS_RESOURCE", direction = Relationship.Direction.OUTGOING)

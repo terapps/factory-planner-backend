@@ -10,7 +10,7 @@ import java.util.*
 data class Recipe(
         val className: String?,
         val displayName: String?,
-        val manufacturingDuration: Float?,
+        val manufacturingDuration: Double?,
         @Relationship(type = "REQUIRED_IN", direction = Relationship.Direction.OUTGOING)
         var ingredients: Set<RecipeRequires> = emptySet(),
         @Relationship(type = "MANUFACTURED_IN", direction = Relationship.Direction.OUTGOING)

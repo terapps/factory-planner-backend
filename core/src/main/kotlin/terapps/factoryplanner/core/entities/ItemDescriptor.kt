@@ -24,11 +24,11 @@ data class ItemDescriptor(
         val description: String?,
         val category: ItemCategory?,
         val sinkablePoints: Int? = null,
-        val energyValue: Float? = null,
+        val energyValue: Double? = null,
         val form: String? = null, // TODO enum
         val powershardType: String? = null,
-        val extraPotential: Float? =null,
-        val extraProductionBoost: Float? =null,
+        val extraPotential: Double? =null,
+        val extraProductionBoost: Double? =null,
         @Relationship(type = "EXTRACTED_IN", direction = Relationship.Direction.OUTGOING)
         val extractedIn: Set<Extractor> = emptySet(),
         @Relationship(type = "PRODUCED_BY", direction = Relationship.Direction.OUTGOING)

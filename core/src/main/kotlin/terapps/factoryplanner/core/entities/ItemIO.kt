@@ -8,7 +8,7 @@ import org.springframework.data.neo4j.core.schema.TargetNode
 class RecipeRequires(
         @TargetNode
         val item: ItemDescriptor,
-        val outputPerCycle: Float,
+        val outputPerCycle: Double,
 ) {
     @RelationshipId
     var id: Long? = null
@@ -18,7 +18,7 @@ class RecipeRequires(
 class ItemDescriptorProducedBy(
         @TargetNode
         val recipe: Recipe,
-        val outputPerCycle: Float,
+        val outputPerCycle: Double,
 ) {
     @RelationshipId
     var id: Long? = null
@@ -27,7 +27,7 @@ class ItemDescriptorProducedBy(
 class RecipeProducing(
         @TargetNode
         val item: ItemDescriptor,
-        val outputPerCycle: Float,
+        val outputPerCycle: Double,
 ) {
     @RelationshipId
     var id: Long? = null

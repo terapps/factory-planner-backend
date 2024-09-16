@@ -2,7 +2,7 @@ package terapps.factoryplanner.core.entities
 
 interface Automaton {
     val className: String
-    val minPotential: Float
-    val maxPotential: Float
-    val productionBoost: Float
+    val minPotential: Double
+    val maxPotential: Double
+    val productionBoost: Double
 }
