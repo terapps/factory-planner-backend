@@ -1,4 +1,4 @@
-package terapps.factoryplanner.bootstrap.transformers
+package terapps.factoryplanner.bootstrap.transformers.entities
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -6,8 +6,10 @@ import terapps.factoryplanner.bootstrap.Parameter
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableFrackingExtractor
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableResourceExtractor
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableWaterPump
+import terapps.factoryplanner.bootstrap.extractListEntry
+import terapps.factoryplanner.bootstrap.toBoolean
+import terapps.factoryplanner.bootstrap.transformers.GenericAbstractTransformer
 import terapps.factoryplanner.core.entities.*
-import kotlin.jvm.optionals.getOrElse
 import kotlin.reflect.KParameter
 
 @Component
@@ -41,6 +43,7 @@ class ExtractorTransformer : GenericAbstractTransformer<Any, Extractor>(
                 Parameter<Extractor>("maxPotential") to this["mMaxPotential"],
                 Parameter<Extractor>("productionBoost") to this["mBaseProductionBoost"],
                 Parameter<Extractor>("extractorType") to this["mExtractorTypeName"],
+                Parameter<Extractor>("matchByAllowedResources") to this["mOnlyAllowCertainResources"]?.toString()?.toBoolean(),
                 Parameter<Extractor>("allowedResourceForm") to (this["mAllowedResourceForms"] as String).extractListEntry().toSet(),
                 Parameter<Extractor>("allowedResources") to transformAllowedResources(
                         this["mAllowedResources"] as String,

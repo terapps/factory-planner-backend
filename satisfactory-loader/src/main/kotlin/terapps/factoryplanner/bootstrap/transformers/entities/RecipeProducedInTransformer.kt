@@ -1,12 +1,14 @@
-package terapps.factoryplanner.bootstrap.transformers
+package terapps.factoryplanner.bootstrap.transformers.entities
 
 import org.springframework.stereotype.Component
+import terapps.factoryplanner.bootstrap.ItemRef
 import terapps.factoryplanner.bootstrap.dto.generated.FGRecipe
+import terapps.factoryplanner.bootstrap.extractListEntry
+import terapps.factoryplanner.bootstrap.transformers.Transformer
 import kotlin.reflect.KClass
-import kotlin.reflect.full.isSubclassOf
 
 @Component
-class RecipeProducedInTransformer : SatisfactoryTransformer<FGRecipe, List<ItemRef>> {
+class RecipeProducedInTransformer : Transformer<FGRecipe, List<ItemRef>> {
     override fun transform(transformIn: FGRecipe): List<ItemRef> {
 
         return transformIn.mProducedIn.extractListEntry().map {

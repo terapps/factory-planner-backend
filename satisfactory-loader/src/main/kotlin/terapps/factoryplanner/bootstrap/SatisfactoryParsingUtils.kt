@@ -1,4 +1,4 @@
-package terapps.factoryplanner.bootstrap.transformers
+package terapps.factoryplanner.bootstrap
 
 typealias ItemIO = Map<String, String>
 typealias ItemRef = String
@@ -34,3 +34,5 @@ fun <T> ItemIO.toItemIO(transform: (String, Float) -> T): T {
 
     return transform(descriptor, out)
 }
+
+fun String?.toBoolean(): Boolean = this == "True"

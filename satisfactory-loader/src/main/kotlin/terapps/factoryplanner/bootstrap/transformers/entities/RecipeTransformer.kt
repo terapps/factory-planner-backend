@@ -1,8 +1,9 @@
-package terapps.factoryplanner.bootstrap.transformers
+package terapps.factoryplanner.bootstrap.transformers.entities
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import terapps.factoryplanner.bootstrap.dto.generated.FGRecipe
+import terapps.factoryplanner.bootstrap.transformers.AbstractTransformer
 import terapps.factoryplanner.core.entities.Recipe
 import terapps.factoryplanner.core.entities.RecipeRepository
 

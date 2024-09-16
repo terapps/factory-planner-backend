@@ -3,11 +3,14 @@ package terapps.factoryplanner.bootstrap.steps.components
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import terapps.factoryplanner.bootstrap.configuration.ReloadProfile
+import terapps.factoryplanner.bootstrap.dto.GameObjectCategory
+import terapps.factoryplanner.bootstrap.dto.generated.FGRecipe
 import terapps.factoryplanner.bootstrap.steps.RootStep
 import terapps.factoryplanner.core.entities.*
 
 @Component
 class CleanDataStep : RootStep {
+
     @Autowired
     private lateinit var extractorRepository: ExtractorRepository
 
@@ -19,6 +22,8 @@ class CleanDataStep : RootStep {
 
     @Autowired
     private lateinit var recipeRepository: RecipeRepository
+    @Autowired
+    private lateinit var schematicRepository: SchematicRepository
 
     @Autowired
     private lateinit var reloadProfile: ReloadProfile
@@ -30,7 +35,11 @@ class CleanDataStep : RootStep {
             craftingMachineRepository.deleteAll()
             extractorRepository.deleteAll()
             recipeRepository.deleteAll()
-
+            schematicRepository.deleteAll()
         }
+    }
+
+    override fun dispose() {
+
     }
 }

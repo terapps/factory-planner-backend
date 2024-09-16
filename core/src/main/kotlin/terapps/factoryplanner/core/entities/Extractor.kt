@@ -20,6 +20,7 @@ data class Extractor(
         override val maxPotential: Float,
         override val productionBoost: Float,
         val extractorType: String, // TODO types enum?
+        val matchByAllowedResources: Boolean,
         val allowedResourceForm: Set<String>,
         val allowedResources: Set<String> // i dont want this since its going to end up a relationship
 ): Automaton {

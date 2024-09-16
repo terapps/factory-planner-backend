@@ -9,7 +9,7 @@ import org.springframework.data.neo4j.repository.query.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import terapps.factoryplanner.core.projections.RecipeProducingSummary
-import terapps.factoryplanner.core.projections.RecipeRequiresSummary
+import terapps.factoryplanner.core.projections.RecipeRequiringSummary
 import java.util.*
 
 @Node
@@ -22,8 +22,10 @@ data class Recipe(
         @Relationship(type = "MANUFACTURED_IN", direction = Relationship.Direction.INCOMING)
         val manufacturedIn: Set<CraftingMachine> = emptySet(),
         @Relationship(type = "PRODUCED_BY", direction = Relationship.Direction.OUTGOING)
-        var producing: Set<RecipeProducing> = emptySet()
-) {
+        var producing: Set<RecipeProducing> = emptySet(),
+        @Relationship(type = "SCHEMATIC_UNLOCKS_RECIPE", direction = Relationship.Direction.INCOMING)
+        var unlockedBy: Set<Schematic> = emptySet(),
+        ) {
     @Id
     @GeneratedValue
     lateinit var id: UUID
@@ -31,7 +33,9 @@ data class Recipe(
 
 @Repository
 interface RecipeRepository : Neo4jRepository<Recipe, UUID> {
-    fun findByClassName(className: String): RecipeRequiresSummary?
+    fun findByClassName(className: String): RecipeProducingSummary?
+    
+    fun findAllByUnlockedByTierLessThanEqualAndProducingItemClassName(tier: Int, producedItemClassName: String)
 
     fun findByProducingItemClassName(itemClass: String): Collection<RecipeProducingSummary>
 

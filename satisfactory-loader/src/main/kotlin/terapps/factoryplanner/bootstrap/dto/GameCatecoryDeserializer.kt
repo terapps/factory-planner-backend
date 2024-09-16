@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 import kotlin.reflect.KClass
@@ -27,18 +28,5 @@ class GameCategoryDeserializer(val om: ObjectMapper) : JsonDeserializer<GameObje
         }
         return GameObjectCategory(NativeClass = nativeClass, classType = actualType as KClass<Any>,Classes = gameEntities.toMutableList())
 
-    }
-}
-
-@Component
-class JsonParsing {
-    @Bean
-    fun objectMapper(): ObjectMapper = ObjectMapper().apply {
-        val satiCategoryModule = SimpleModule().addDeserializer(GameObjectCategory::class.java, GameCategoryDeserializer(this))
-
-        registerModules(KotlinModule(), satiCategoryModule)
-
-        enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-        enable(JsonParser.Feature.INCLUDE_SOURCE_IN_LOCATION)
     }
 }

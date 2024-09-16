@@ -1,10 +1,11 @@
-package terapps.factoryplanner.bootstrap.transformers
+package terapps.factoryplanner.bootstrap.transformers.entities
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import terapps.factoryplanner.bootstrap.Parameter
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableManufacturer
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableManufacturerVariablePower
+import terapps.factoryplanner.bootstrap.transformers.GenericAbstractTransformer
 import terapps.factoryplanner.core.entities.CraftingMachine
 import terapps.factoryplanner.core.entities.CraftingMachineRepository
 import kotlin.reflect.KParameter
