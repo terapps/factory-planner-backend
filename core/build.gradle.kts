@@ -1,38 +1,17 @@
 plugins {
-    kotlin("jvm") version "1.9.25"
-    id("org.springframework.boot") version "3.3.0"
-    id("io.spring.dependency-management") version "1.1.6"
-}
-
-group = "terapps.factoryplanner"
-version = "0.0.1-SNAPSHOT"
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
-
-repositories {
-    mavenCentral()
+    kotlin("jvm")
+    kotlin("plugin.spring")
+    `java-library`
+    id("io.spring.dependency-management")
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework.boot:spring-boot-starter-data-neo4j")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.neo4j:neo4j:5.21.0")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.springframework.boot:spring-boot-starter:3.3.0")
+    implementation("org.springframework.boot:spring-boot-starter-data-neo4j:3.3.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
-
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
-    }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }
