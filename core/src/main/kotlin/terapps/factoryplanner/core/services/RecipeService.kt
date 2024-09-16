@@ -17,7 +17,7 @@ class RecipeService {
     fun findRecipeRequiringByClassName(className: String): RecipeRequiringSummary = recipeRepository.findByClassName(className, RecipeRequiringSummary::class.java) ?: throw Error("Cannot find RecipeRequiring from classname: $className")
 
     fun findAllRecipesByProducingItemClassName(itemClassName: String, gameTier: Int): Collection<RecipeSummary> {
-        val recipes = recipeRepository.findByProducingItemClassNameAndUnlockedByTierLessThanEqual(itemClassName, gameTier)
+        val recipes = recipeRepository.findByProducingItemClassName(itemClassName)
 
         if (recipes.isEmpty()) {
             throw Error("No recipe found from item classname $itemClassName ")

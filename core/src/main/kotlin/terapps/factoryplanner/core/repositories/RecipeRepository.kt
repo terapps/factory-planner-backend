@@ -12,8 +12,9 @@ import java.util.*
 @Repository
 interface RecipeRepository : Neo4jRepository<Recipe, UUID> {
     fun <T> findByClassName(className: String, clazz: Class<T>): T?
-
-    fun findByProducingItemClassNameAndUnlockedByTierLessThanEqual(producingItemClassname: String, unlockedbyTier: Int): Collection<RecipeSummary>
+//AndUnlockedByTierLessThanEqual
+    //, unlockedbyTier: Int
+    fun findByProducingItemClassName(producingItemClassname: String): Collection<RecipeSummary>
 
     @Query("MATCH (r: Recipe {className: \$className}) " +
             "SET r.weightedPoints = \$weightedPoints " +

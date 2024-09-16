@@ -31,7 +31,7 @@ data class ItemDescriptor(
         val extraProductionBoost: Float? =null,
         @Relationship(type = "EXTRACTED_IN", direction = Relationship.Direction.OUTGOING)
         val extractedIn: Set<Extractor> = emptySet(),
-        @Relationship(type = "PRODUCED_BY", direction = Relationship.Direction.INCOMING)
+        @Relationship(type = "PRODUCED_BY", direction = Relationship.Direction.OUTGOING)
         var producedBy: Set<ItemDescriptorProducedBy> = emptySet()
 ) {
     @Id

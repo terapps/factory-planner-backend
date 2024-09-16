@@ -5,9 +5,7 @@ import org.springframework.web.bind.annotation.*
 import terapps.factoryplanner.core.projections.RecipeProducingSummary
 import terapps.factoryplanner.core.projections.RecipeRequiringSummary
 import terapps.factoryplanner.core.projections.RecipeSummary
-import terapps.factoryplanner.core.services.FactoryPlannerService
 import terapps.factoryplanner.core.services.RecipeService
-import terapps.factoryplanner.core.services.components.FactorySite
 
 @RestController
 @RequestMapping("/recipes")
