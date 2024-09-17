@@ -7,7 +7,7 @@ plugins {
 
 dependencies {
     implementation(project(mapOf("path" to ":core")))
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-data-neo4j")

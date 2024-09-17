@@ -16,13 +16,12 @@ import terapps.factoryplanner.bootstrap.dto.generated.FGSchematic
 
 @Component
 class SatisfactoryStaticDataLoader {
-    @Value("classpath:data.json")
+    @Value("file:assets/data.json")
     private lateinit var resourceFile: Resource
 
     @Autowired
     @Qualifier("SatisfactoryDataMapper")
     private lateinit var objectMapper: ObjectMapper
-
 
     @Bean
     fun jsonData(): SatisfactoryStaticData {

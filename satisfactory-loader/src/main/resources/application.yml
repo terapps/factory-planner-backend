@@ -2,8 +2,6 @@ satisfactory:
   planner:
     reload-profile:
       wipe: true
-        # Ignored when wipe is true
-        #- RecipeTransformer
 spring:
   neo4j:
     driver: org.neo4j.ogm.drivers.embedded.driver.EmbeddedDriver

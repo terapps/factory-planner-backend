@@ -1,5 +1,6 @@
 package terapps.factoryplanner.bootstrap.transformers
 
+import org.slf4j.LoggerFactory
 import terapps.factoryplanner.bootstrap.dto.GameObjectCategory
 import terapps.factoryplanner.bootstrap.dto.SatisfactoryStaticData
 import terapps.factoryplanner.core.BeanOrchestrator
@@ -7,6 +8,8 @@ import kotlin.reflect.KClass
 
 abstract class TransformerOrchestrator<T: Transformer<Any, Any>>(clazz: KClass<*>): BeanOrchestrator<T>(clazz) {
     abstract var satisfactoryStaticData: SatisfactoryStaticData
+
+    protected val logger = LoggerFactory.getLogger(this::class.java)
 
     override fun resolveBean(clazz: KClass<*>): T? {
         val filtered = resolveBeans(clazz)
@@ -21,7 +24,15 @@ abstract class TransformerOrchestrator<T: Transformer<Any, Any>>(clazz: KClass<*
 
 
     protected fun supportedCategories(onload: (category: GameObjectCategory<*>, transformer: T) -> Unit): Map<GameObjectCategory<*>, Collection<T>> {
-        return satisfactoryStaticData.filter { it.classType.isSupportedCategory() }.associateWith {category ->
+        return satisfactoryStaticData.filter {
+            val isSupported = it.classType.isSupportedCategory()
+
+            if (!isSupported) {
+                // TODO debug
+                logger.info("Skipping ${it.classType.simpleName}")
+            }
+            isSupported
+        }.associateWith {category ->
             resolveBeans(category.classType).onEach { onload(category, it) }
         }
     }

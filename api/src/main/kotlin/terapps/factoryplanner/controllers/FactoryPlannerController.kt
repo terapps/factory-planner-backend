@@ -20,12 +20,6 @@ class FactoryPlannerController {
     fun factoryPlanning(
             @RequestBody factorySiteInput: FactorySiteInput,
             ): FactorySite {
-        // TODO select mode for recipe
-
-/*
-        val site = factoryPlannerService.planFactorySite(itemClass, amount)
-        return site
-*/
-        TODO()
+        return factoryPlannerService.planFactorySite(factorySiteInput)
     }
 }

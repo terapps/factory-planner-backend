@@ -1,5 +1,6 @@
 package terapps.factoryplanner.bootstrap.steps.components
 
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
@@ -20,13 +21,16 @@ class EntityCreationStep : RootStep, TransformerOrchestrator<EntityTransformer<A
     @Autowired
     private lateinit var reloadProfile: ReloadProfile
 
+    override val priority: Int
+        get() = 1
 
     override fun prepare() {
         if (!reloadProfile.wipe) {
+            logger.info("Skipping creation step: wipe disabled")
             return
         }
         val config = supportedCategories { category, transformer ->
-            println("[${this.javaClass.simpleName}] Loading mapping category ${category.classType.simpleName} -> ${transformer.javaClass.simpleName}")
+            logger.info("Loading mapping category ${category.classType.simpleName} -> ${transformer.javaClass.simpleName}")
         }
 
         run(config) { gameEntity, transformer ->

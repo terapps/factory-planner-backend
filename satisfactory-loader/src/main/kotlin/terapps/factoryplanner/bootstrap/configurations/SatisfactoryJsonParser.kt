@@ -18,7 +18,7 @@ class SatisfactoryJsonParser {
     fun objectMapper(): ObjectMapper = ObjectMapper().apply {
         val satiCategoryModule = SimpleModule().addDeserializer(GameObjectCategory::class.java, GameCategoryDeserializer(this))
 
-        registerModules(KotlinModule(), satiCategoryModule)
+        registerModules(KotlinModule.Builder().build(), satiCategoryModule)
 
         enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
         enable(JsonParser.Feature.INCLUDE_SOURCE_IN_LOCATION)

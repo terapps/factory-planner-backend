@@ -7,8 +7,14 @@ spring:
       password: 5sS&v%^x5hxeglnq
 logging:
   level:
+    web: TRACE
     org:
       springframework:
         data:
           neo4j:
             cypher: DEBUG
+springdoc:
+  api-docs:
+    path: /openapi/v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

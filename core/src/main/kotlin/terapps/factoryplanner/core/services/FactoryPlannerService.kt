@@ -16,15 +16,13 @@ class FactoryPlannerService {
         return makeFactorySite(factorySiteInput)
     }
 
-    private fun makeFactorySite(factorySiteInput: FactorySiteInput, rootSite: FactorySite? = null): FactorySite =  when (factorySiteInput.type) {
-        FactorySiteType.Extractor -> makeExtractingSite(factorySiteInput)
-        FactorySiteType.Recipe -> makeMachineSite(factorySiteInput, rootSite)
+    private fun makeFactorySite(factorySiteInput: FactorySiteInput, rootSite: FactorySite? = null): FactorySite =  when (factorySiteInput) {
+        is ExtractingSiteInput -> makeExtractingSite(factorySiteInput)
+        is CraftingMachineSiteInput -> makeMachineSite(factorySiteInput, rootSite)
+        else -> throw Error("Unknown site type")
     }
 
-    private fun makeExtractingSite(factorySiteInput: FactorySiteInput): FactorySite {
-        if (factorySiteInput.extractor == null) {
-            throw Error("No recipe given with site ${factorySiteInput.type}")
-        }
+    private fun makeExtractingSite(factorySiteInput: ExtractingSiteInput): FactorySite {
         return ExtractingSite(
                 factorySiteInput.item,
                 factorySiteInput.amountPerCycle,
@@ -32,10 +30,7 @@ class FactoryPlannerService {
         )
     }
 
-    private fun makeMachineSite(factorySiteInput: FactorySiteInput, rootSite: FactorySite? = null): CraftingMachineFactorySite {
-        if (factorySiteInput.recipe == null) {
-            throw Error("No recipe given with site ${factorySiteInput.type}")
-        }
+    private fun makeMachineSite(factorySiteInput: CraftingMachineSiteInput, rootSite: FactorySite? = null): CraftingMachineFactorySite {
         val recipeProducing = recipeService.findRecipeProducingByClassName(factorySiteInput.recipe.getClassName())
 
         return CraftingMachineFactorySite(factorySiteInput.item, factorySiteInput.amountPerCycle, recipeProducing).also {

@@ -8,9 +8,5 @@ import java.util.*
 
 @Repository
 interface ItemDescriptorRepository : Neo4jRepository<ItemDescriptor, UUID> {
-    fun findAllByCategory(category: ItemCategory): Collection<ItemDescriptor>
-
-    fun findAllByForm(form: String): Collection<ItemDescriptor>
-
-    fun findAllByFormInAndCategory(form: List<String>, category: ItemCategory): List<ItemDescriptor>
+    fun <T> findByClassName(className: String, clazz: Class<T>): T?
 }

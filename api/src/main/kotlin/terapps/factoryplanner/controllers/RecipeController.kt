@@ -11,7 +11,7 @@ import terapps.factoryplanner.core.services.RecipeService
 @RequestMapping("/recipes")
 class RecipeController {
     @Autowired
-    lateinit var recipeService: RecipeService
+    private lateinit var recipeService: RecipeService
 
     @GetMapping
     fun findAllByProducedItem(

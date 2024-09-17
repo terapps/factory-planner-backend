@@ -1,5 +1,6 @@
 package terapps.factoryplanner.bootstrap.steps.components
 
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import terapps.factoryplanner.bootstrap.configurations.ReloadProfile
@@ -26,9 +27,13 @@ class CleanDataStep : RootStep {
     @Autowired
     private lateinit var reloadProfile: ReloadProfile
 
+    private val logger = LoggerFactory.getLogger(this::class.java)
+    override val priority: Int
+        get() = 0
+
     override fun prepare() {
         if (reloadProfile.wipe) {
-            println("Cleaning old data...")
+            logger.info("Wiping data enabled")
             itemDescriptorRepository.deleteAll()
             craftingMachineRepository.deleteAll()
             extractorRepository.deleteAll()
