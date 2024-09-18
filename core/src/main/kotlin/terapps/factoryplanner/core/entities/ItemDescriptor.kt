@@ -24,6 +24,8 @@ data class ItemDescriptor(
         val description: String?,
         val category: ItemCategory?,
         val sinkablePoints: Int? = null,
+        val iconSmall: String? = null,
+        val iconPersistent: String? = null,
         val energyValue: Double? = null,
         val form: String? = null, // TODO enum
         val powershardType: String? = null,

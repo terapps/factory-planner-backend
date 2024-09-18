@@ -6,9 +6,10 @@ plugins {
 }
 
 dependencies {
+    developmentOnly("org.springframework.boot:spring-boot-starter-actuator")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+    developmentOnly("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
     implementation(project(mapOf("path" to ":core")))
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

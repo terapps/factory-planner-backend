@@ -8,7 +8,9 @@ interface ItemDescriptorSummary {
     fun getDisplayName(): String
     fun getForm(): String?
 
-    fun getSinkablePoints(): Int
+    fun getIconSmall(): String?
+
+    fun getSinkablePoints(): Int?
 
     fun getCategory(): ItemCategory
 

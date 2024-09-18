@@ -7,6 +7,7 @@ import terapps.factoryplanner.bootstrap.dto.generated.*
 import terapps.factoryplanner.bootstrap.transformers.GenericAbstractTransformer
 import terapps.factoryplanner.core.entities.*
 import terapps.factoryplanner.core.repositories.ItemDescriptorRepository
+import java.io.File
 import kotlin.reflect.KParameter
 
 @Component
@@ -34,7 +35,9 @@ class ItemDescriptorTransformer : GenericAbstractTransformer<Any, ItemDescriptor
     @Autowired
     private lateinit var itemDescriptorRepository: ItemDescriptorRepository
 
-    override fun save(output: ItemDescriptor): ItemDescriptor = itemDescriptorRepository.save(output)
+    override fun save(output: ItemDescriptor): ItemDescriptor {
+        return itemDescriptorRepository.save(output)
+    }
 
     override fun Map<*, *>.makeConstructorParams(orig: Any): Map<KParameter, Any?> = mapOf(
             Parameter<ItemDescriptor>("className") to this["ClassName"],
@@ -46,7 +49,9 @@ class ItemDescriptorTransformer : GenericAbstractTransformer<Any, ItemDescriptor
             Parameter<ItemDescriptor>("extraPotential") to this["mExtraPotential"],
             Parameter<ItemDescriptor>("extraProductionBoost") to this["mExtraProductionBoost"],
             Parameter<ItemDescriptor>("category") to getItemCategory(orig),
-    )
+            Parameter<ItemDescriptor>("iconSmall") to "${this["mSmallIcon"].toString().replace("Texture2D /Game/", "").split(".")[0]}.png",
+            Parameter<ItemDescriptor>("iconPersistent") to "${this["mPersistentBigIcon"].toString().replace("Texture2D /Game/", "").split(".")[0]}.png",
+            )
 
     private fun getItemCategory(input: Any): ItemCategory = when (input) {
         is FGItemDescriptorNuclearFuel, is FGItemDescriptor -> ItemCategory.Craftable

@@ -11,4 +11,5 @@ class ItemDescriptorService {
     private lateinit var itemDescriptorRepository: ItemDescriptorRepository
 
     fun findByClassName(className: String): ItemDescriptorSummary = itemDescriptorRepository.findByClassName(className, ItemDescriptorSummary::class.java)?: throw Error("Cannot find ItemDescriptor from classname: $className")
+    fun findByDisplayNameLike(displayName: String): Collection<ItemDescriptorSummary> = itemDescriptorRepository.findByDisplayNameLikeIgnoreCase(displayName, ItemDescriptorSummary::class.java)
 }
