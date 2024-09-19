@@ -1,14 +1,15 @@
 package terapps.factoryplanner.core.services.components
 
+import terapps.factoryplanner.core.dto.ItemDescriptorDto
 import terapps.factoryplanner.core.entities.Automaton
 import terapps.factoryplanner.core.projections.ItemDescriptorSummary
 data class FactorySiteIO(
-        val item: ItemDescriptorSummary,
+        val item: ItemDescriptorDto,
         val outputPerCycle: Double
 )
 
 abstract class FactorySite {
-    abstract val targetDescriptor: ItemDescriptorSummary
+    abstract val targetDescriptor: ItemDescriptorDto
     abstract var targetAmountPerCycle: Double
     abstract val produces: List<FactorySiteIO>
     abstract val requiredMachines: Double

@@ -1,7 +1,9 @@
 package terapps.factoryplanner.controllers
 
+import io.minio.MinioClient
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import terapps.factoryplanner.core.dto.ItemDescriptorDto
 import terapps.factoryplanner.core.projections.ItemDescriptorSummary
 import terapps.factoryplanner.core.services.ItemDescriptorService
 
@@ -15,14 +17,14 @@ class ItemDescriptorController {
     @GetMapping("/{itemClassName}")
     fun findByClassName(
             @PathVariable("itemClassName") itemClassName: String,
-    ): ItemDescriptorSummary {
+    ): ItemDescriptorDto {
         return itemDescriptorService.findByClassName(itemClassName)
     }
 
     @GetMapping
     fun searchByDisplayNameLike(
             @RequestParam("displayName") itemClass: String,
-    ): Collection<ItemDescriptorSummary> {
+    ): Collection<ItemDescriptorDto> {
         return itemDescriptorService.findByDisplayNameLike(itemClass)
     }
 

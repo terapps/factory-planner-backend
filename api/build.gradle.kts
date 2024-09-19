@@ -6,6 +6,7 @@ plugins {
 }
 
 dependencies {
+    implementation("io.minio:minio:8.5.12")
     developmentOnly("org.springframework.boot:spring-boot-starter-actuator")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     developmentOnly("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")

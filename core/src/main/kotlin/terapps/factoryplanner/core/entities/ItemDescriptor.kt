@@ -17,6 +17,7 @@ enum class ItemCategory {
     PowerShard
 }
 
+
 @Node
 data class ItemDescriptor(
         val className: String?,

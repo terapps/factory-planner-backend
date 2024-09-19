@@ -44,17 +44,17 @@ class FactoryPlannerService {
         val ingredients = factorySiteInput.ingredients
 
         if (ingredients.isEmpty()) {
-            throw Error("No ingredients for ${factorySite.targetRecipe.getClassName()}")
+            throw Error("No ingredients for ${factorySite.targetRecipe.className}")
         }
 
         ingredients.forEach { factorySiteInputIngredient ->
             val ingredientOutputPerCycle = factorySite.requiredMachines * factorySiteInputIngredient.amountPerCycle
-            val ingredientTargetAmountPerCycle = ingredientOutputPerCycle * (60f / factorySite.targetRecipe.getManufacturingDuration())
-            val existingSiteNode = findInTree(rootSite) { it.targetDescriptor.getClassName() == factorySiteInputIngredient.item.getClassName() }
+            val ingredientTargetAmountPerCycle = ingredientOutputPerCycle * (60f / factorySite.targetRecipe.manufacturingDuration)
+            val existingSiteNode = findInTree(rootSite) { it.targetDescriptor.className == factorySiteInputIngredient.item.className }
             val receiverNode = existingSiteNode
                     ?: makeFactorySite(factorySiteInputIngredient, rootSite)
 
-            receiverNode.destinations += Destination(factorySite.targetDescriptor.getClassName(), ingredientTargetAmountPerCycle)
+            receiverNode.destinations += Destination(factorySite.targetDescriptor.className, ingredientTargetAmountPerCycle)
 
             existingSiteNode?.let {
                 it.targetAmountPerCycle += ingredientTargetAmountPerCycle

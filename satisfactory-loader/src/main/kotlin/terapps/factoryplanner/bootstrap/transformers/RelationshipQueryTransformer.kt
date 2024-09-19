@@ -2,10 +2,9 @@ package terapps.factoryplanner.bootstrap.transformers
 
 import org.neo4j.driver.summary.ResultSummary
 import org.springframework.data.neo4j.core.Neo4jClient
+import terapps.factoryplanner.bootstrap.toMap
 import terapps.factoryplanner.bootstrap.transformers.relationships.Relationship
-import terapps.factoryplanner.bootstrap.transformers.relationships.RelationshipItemIO
 import kotlin.reflect.KClass
-import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
 
@@ -42,11 +41,6 @@ abstract class RelationshipQuery(
     private val bindRelationships
         get() = relationships.distinct().map {
         it.toMap()
-    }
-
-    private fun Relationship.toMap() = this::class.memberProperties.associate {
-        it as KProperty1<Relationship, Any?>
-        it.name to it.get(this)
     }
 
     private val parameter: String

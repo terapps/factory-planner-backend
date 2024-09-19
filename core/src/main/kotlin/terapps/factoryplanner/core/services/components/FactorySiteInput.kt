@@ -2,6 +2,7 @@ package terapps.factoryplanner.core.services.components
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import terapps.factoryplanner.core.dto.ItemDescriptorDto
 import terapps.factoryplanner.core.entities.Extractor
 import terapps.factoryplanner.core.projections.ItemDescriptorSummary
 import terapps.factoryplanner.core.projections.RecipeSummary
@@ -26,19 +27,19 @@ enum class FactorySiteType {
 )
 abstract class FactorySiteInput(
        open val type: FactorySiteType,
-       open val item: ItemDescriptorSummary,
+       open val item: ItemDescriptorDto,
        open val amountPerCycle: Double,
        open val ingredients: List<FactorySiteInput> = emptyList()
 )
 
 data class CraftingMachineSiteInput(
-        override val item: ItemDescriptorSummary,
+        override val item: ItemDescriptorDto,
         override val amountPerCycle: Double,
         val recipe: RecipeSummary,
 ): FactorySiteInput(FactorySiteType.RecipeSite, item, amountPerCycle)
 
 data class ExtractingSiteInput(
-        override val item: ItemDescriptorSummary,
+        override val item: ItemDescriptorDto,
         override val amountPerCycle: Double,
         val extractor: Extractor,
 ): FactorySiteInput(FactorySiteType.ExtractorSite, item, amountPerCycle) {

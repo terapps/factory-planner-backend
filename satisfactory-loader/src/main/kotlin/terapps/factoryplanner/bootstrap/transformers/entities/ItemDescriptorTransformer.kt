@@ -49,8 +49,8 @@ class ItemDescriptorTransformer : GenericAbstractTransformer<Any, ItemDescriptor
             Parameter<ItemDescriptor>("extraPotential") to this["mExtraPotential"],
             Parameter<ItemDescriptor>("extraProductionBoost") to this["mExtraProductionBoost"],
             Parameter<ItemDescriptor>("category") to getItemCategory(orig),
-            Parameter<ItemDescriptor>("iconSmall") to "${this["mSmallIcon"].toString().replace("Texture2D /Game/", "").split(".")[0]}.png",
-            Parameter<ItemDescriptor>("iconPersistent") to "${this["mPersistentBigIcon"].toString().replace("Texture2D /Game/", "").split(".")[0]}.png",
+            Parameter<ItemDescriptor>("iconSmall") to "FactoryGame/Content/${this["mSmallIcon"].toString().replace("Texture2D /Game/", "").split(".")[0]}.png",
+            Parameter<ItemDescriptor>("iconPersistent") to "FactoryGame/Content/${this["mPersistentBigIcon"].toString().replace("Texture2D /Game/", "").split(".")[0]}.png",
             )
 
     private fun getItemCategory(input: Any): ItemCategory = when (input) {

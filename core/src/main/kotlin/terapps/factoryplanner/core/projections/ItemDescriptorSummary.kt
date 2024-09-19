@@ -3,10 +3,12 @@ package terapps.factoryplanner.core.projections
 import terapps.factoryplanner.core.entities.Extractor
 import terapps.factoryplanner.core.entities.ItemCategory
 
+
 interface ItemDescriptorSummary {
     fun getClassName(): String
     fun getDisplayName(): String
-    fun getForm(): String?
+
+   fun getForm(): String?
 
     fun getIconSmall(): String?
 
