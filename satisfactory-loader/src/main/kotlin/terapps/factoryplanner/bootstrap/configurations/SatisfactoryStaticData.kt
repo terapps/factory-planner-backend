@@ -13,11 +13,14 @@ import terapps.factoryplanner.bootstrap.dto.SatisfactoryStaticData
 import terapps.factoryplanner.bootstrap.dto.fromCategory
 import terapps.factoryplanner.bootstrap.dto.generated.FGRecipe
 import terapps.factoryplanner.bootstrap.dto.generated.FGSchematic
+import terapps.factoryplanner.filestorage.dto.BucketEnum
+import terapps.factoryplanner.filestorage.services.FileStorageService
+import java.net.URL
 
 @Component
 class SatisfactoryStaticDataLoader {
-    @Value("file:assets/data.json")
-    private lateinit var resourceFile: Resource
+    @Autowired
+    private lateinit var fileStorageService: FileStorageService
 
     @Autowired
     @Qualifier("SatisfactoryDataMapper")
@@ -53,8 +56,10 @@ class SatisfactoryStaticDataLoader {
     }
 
     private fun parseSatisfactoryJson(): SatisfactoryStaticData {
+        val link = fileStorageService.getSignedUrl(BucketEnum.Resources, "data.json") // TODO config?
+
         return objectMapper.readValue(
-                resourceFile.file,
+                URL(link),
                 object : TypeReference<List<GameObjectCategory<Any>>>() {}
         )
     }

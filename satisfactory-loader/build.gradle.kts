@@ -7,6 +7,7 @@ plugins {
 
 dependencies {
     implementation(project(mapOf("path" to ":core")))
+    implementation(project(mapOf("path" to ":filestorage")))
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter")

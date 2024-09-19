@@ -17,7 +17,6 @@ class FileStorageModule(
         setSerializerModifier(object: BeanSerializerModifier() {
             override fun modifySerializer(
                     config: SerializationConfig?, beanDesc: BeanDescription, serializer: JsonSerializer<*>?): JsonSerializer<*>? {
-                println(beanDesc.beanClass)
                 return if (BucketEntry::class.java.isAssignableFrom(beanDesc.beanClass)) {
                     BucketEntrySerializer(fileStorageService, serializer as JsonSerializer<Any>?)
                 } else serializer

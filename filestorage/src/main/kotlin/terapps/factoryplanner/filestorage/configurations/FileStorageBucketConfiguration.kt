@@ -23,13 +23,13 @@ class FileStorageBucketConfiguration {
             fileStorageConfig.assets
     )
 
-/*    @Bean
+    @Bean
     @Qualifier("resources")
     fun minioClientResources(): MinioClient = makeMinioClient(
             fileStorageConfig.url,
-            BucketEnum.Assets.bucketName,
+            BucketEnum.Resources.bucketName,
             fileStorageConfig.resources
-    )*/
+    )
 
     private fun makeMinioClient(url: String, bucketName: String, bucketConfig: BucketConfig): MinioClient = MinioClient.builder()
             .endpoint(url)

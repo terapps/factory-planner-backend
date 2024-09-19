@@ -15,13 +15,13 @@ class FileStorageService {
     @Qualifier("assets")
     private lateinit var assetsClient: MinioClient
 
-/*    @Autowired
+    @Autowired
     @Qualifier("resources")
-    private lateinit var resourcesClient: MinioClient*/
+    private lateinit var resourcesClient: MinioClient
 
     private fun getClient(bucket: BucketEnum): MinioClient = when (bucket) {
         BucketEnum.Assets -> assetsClient
-        BucketEnum.Resources -> TODO("access appears to be broken, dont need for now")
+        BucketEnum.Resources -> resourcesClient
     }
 
     fun getSignedUrl(bucket: BucketEnum, bucketObject: String): String = getClient(bucket).getPresignedObjectUrl(

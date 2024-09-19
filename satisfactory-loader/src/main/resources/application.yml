@@ -16,3 +16,12 @@ logging:
         data:
           neo4j:
             cypher: DEBUG
+factoryplanner:
+  filestorage:
+    url: ${FILE_STORAGE_URL}
+    assets:
+      accessKey: ${FILESTORE_ASSETS_ACCESS_KEY}
+      secretKey: ${FILESTORE_ASSETS_SECRET_KEY}
+    resources:
+      accessKey: ${FILESTORE_RESOURCES_ACCESS_KEY}
+      secretKey: ${FILESTORE_RESOURCES_SECRET_KEY}
