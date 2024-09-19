@@ -1,7 +1,6 @@
 package terapps.factoryplanner.core.dto
 
 import terapps.factoryplanner.core.entities.CraftingMachine
-import terapps.factoryplanner.core.projections.RecipeIO
 import java.util.*
 
 data class RecipeRequiringDto(

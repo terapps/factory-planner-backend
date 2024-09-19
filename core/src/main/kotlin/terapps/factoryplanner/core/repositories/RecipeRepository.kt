@@ -5,7 +5,6 @@ import org.springframework.data.neo4j.repository.query.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import terapps.factoryplanner.core.entities.Recipe
-import terapps.factoryplanner.core.projections.RecipeProducingSummary
 import terapps.factoryplanner.core.projections.RecipeSummary
 import java.util.*
 

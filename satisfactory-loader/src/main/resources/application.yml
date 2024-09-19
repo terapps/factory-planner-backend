@@ -5,14 +5,14 @@ satisfactory:
 spring:
   neo4j:
     driver: org.neo4j.ogm.drivers.embedded.driver.EmbeddedDriver
-    uri: bolt://localhost:7687
+    uri: bolt://${NEO4J_HOST}:${NEO4J_PORT}
     authentication:
-      username: neo4j
-      password: 5sS&v%^x5hxeglnq
+      username: ${NEO4J_USERNAME}
+      password: ${NEO4J_PASSWORD}
 logging:
   level:
     org:
       springframework:
         data:
           neo4j:
-            cypher: ERROR
+            cypher: DEBUG

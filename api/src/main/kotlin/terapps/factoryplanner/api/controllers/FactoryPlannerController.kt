@@ -1,4 +1,4 @@
-package terapps.factoryplanner.controllers
+package terapps.factoryplanner.api.controllers
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping

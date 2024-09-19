@@ -1,4 +1,4 @@
-package terapps.factoryplanner.controllers
+package terapps.factoryplanner.api.controllers
 
 import io.minio.MinioClient
 import org.springframework.beans.factory.annotation.Autowired

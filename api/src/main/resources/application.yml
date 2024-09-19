@@ -1,20 +1,29 @@
 spring:
   neo4j:
     driver: org.neo4j.ogm.drivers.embedded.driver.EmbeddedDriver
-    uri: bolt://localhost:7687
+    uri: bolt://${NEO4J_HOST}:${NEO4J_PORT}
     authentication:
-      username: neo4j
-      password: 5sS&v%^x5hxeglnq
+      username: ${NEO4J_USERNAME}
+      password: ${NEO4J_PASSWORD}
 logging:
   level:
-    web: TRACE
+    web: INFO
     org:
       springframework:
         data:
           neo4j:
-            cypher: DEBUG
+            cypher: WARN
 springdoc:
   api-docs:
     path: /openapi/v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
+factoryplanner:
+  filestorage:
+    url: ${FILE_STORAGE_URL}
+    assets:
+      accessKey: ${FILESTORE_ASSETS_ACCESS_KEY}
+      secretKey: ${FILESTORE_ASSETS_SECRET_KEY}
+    resources:
+      accessKey: ${FILESTORE_RESOURCES_ACCESS_KEY}
+      secretKey: ${FILESTORE_RESOURCES_SECRET_KEY}

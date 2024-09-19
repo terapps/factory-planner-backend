@@ -2,7 +2,7 @@ package terapps.factoryplanner.core.services.components
 
 import terapps.factoryplanner.core.dto.ItemDescriptorDto
 import terapps.factoryplanner.core.entities.Automaton
-import terapps.factoryplanner.core.projections.ItemDescriptorSummary
+
 data class FactorySiteIO(
         val item: ItemDescriptorDto,
         val outputPerCycle: Double

@@ -1,4 +1,4 @@
-package terapps.factoryplanner
+package terapps.factoryplanner.bootstrap
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
@@ -8,9 +8,9 @@ import org.springframework.boot.runApplication
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories
 import terapps.factoryplanner.bootstrap.steps.StepManager
 
-@SpringBootApplication
-@ConfigurationPropertiesScan
-@EnableNeo4jRepositories(basePackages = ["terapps.factoryplanner.core"])
+@SpringBootApplication(scanBasePackages = ["terapps.factoryplanner.core", "terapps.factoryplanner.bootstrap"])
+@ConfigurationPropertiesScan(basePackages = ["terapps.factoryplanner.core", "terapps.factoryplanner.bootstrap"])
+@EnableNeo4jRepositories(basePackages = ["terapps.factoryplanner.core", "terapps.factoryplanner.bootstrap"])
 class FactoryLoaderApplication : CommandLineRunner {
     @Autowired
     private lateinit var stepManager: StepManager

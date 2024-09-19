@@ -2,7 +2,6 @@ package terapps.factoryplanner.core.services.components
 
 import terapps.factoryplanner.core.dto.ItemDescriptorDto
 import terapps.factoryplanner.core.entities.Extractor
-import terapps.factoryplanner.core.projections.ItemDescriptorSummary
 
 data class ExtractingSite(
         override val targetDescriptor: ItemDescriptorDto,

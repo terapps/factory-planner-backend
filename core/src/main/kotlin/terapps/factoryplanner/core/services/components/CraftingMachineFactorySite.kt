@@ -3,8 +3,6 @@ package terapps.factoryplanner.core.services.components
 import terapps.factoryplanner.core.dto.ItemDescriptorDto
 import terapps.factoryplanner.core.dto.RecipeProducingDto
 import terapps.factoryplanner.core.entities.CraftingMachine
-import terapps.factoryplanner.core.projections.ItemDescriptorSummary
-import terapps.factoryplanner.core.projections.getActualOutputPerCycle
 
 
 data class CraftingMachineFactorySite(
