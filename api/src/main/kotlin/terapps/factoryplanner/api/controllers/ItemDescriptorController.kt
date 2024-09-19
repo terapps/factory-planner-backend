@@ -1,10 +1,8 @@
 package terapps.factoryplanner.api.controllers
 
-import io.minio.MinioClient
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import terapps.factoryplanner.core.dto.ItemDescriptorDto
-import terapps.factoryplanner.core.projections.ItemDescriptorSummary
 import terapps.factoryplanner.core.services.ItemDescriptorService
 
 @RestController

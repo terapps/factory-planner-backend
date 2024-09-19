@@ -13,5 +13,6 @@ plugins {
 
 rootProject.name = "factory-planner"
 include("api")
+include("filestorage")
 include("core")
 include("satisfactory-loader")

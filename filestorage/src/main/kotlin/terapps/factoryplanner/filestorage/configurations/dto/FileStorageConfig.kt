@@ -1,11 +1,10 @@
-package terapps.factoryplanner.api.configurations.dto
+package terapps.factoryplanner.filestorage.configurations.dto
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 data class BucketConfig(
         val accessKey: String,
         val secretKey: String,
-        val bucket: String,
 )
 
 @ConfigurationProperties("factoryplanner.filestorage")
