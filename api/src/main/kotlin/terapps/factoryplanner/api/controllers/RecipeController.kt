@@ -2,13 +2,13 @@ package terapps.factoryplanner.api.controllers
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import terapps.factoryplanner.core.dto.RecipeDto
-import terapps.factoryplanner.core.dto.RecipeProducingDto
-import terapps.factoryplanner.core.dto.RecipeRequiringDto
+import terapps.factoryplanner.api.dto.RecipeDto
+import terapps.factoryplanner.api.dto.RecipeProducingDto
+import terapps.factoryplanner.api.dto.RecipeRequiringDto
 import terapps.factoryplanner.core.projections.RecipeProducingSummary
 import terapps.factoryplanner.core.projections.RecipeRequiringSummary
 import terapps.factoryplanner.core.projections.RecipeSummary
-import terapps.factoryplanner.core.services.RecipeService
+import terapps.factoryplanner.api.services.RecipeService
 
 @RestController
 @RequestMapping("/recipes")

@@ -1,8 +1,8 @@
-package terapps.factoryplanner.core.services.components
+package terapps.factoryplanner.api.services.components
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
-import terapps.factoryplanner.core.dto.ItemDescriptorDto
+import terapps.factoryplanner.api.dto.ItemDescriptorDto
 import terapps.factoryplanner.core.entities.Extractor
 import terapps.factoryplanner.core.projections.RecipeSummary
 

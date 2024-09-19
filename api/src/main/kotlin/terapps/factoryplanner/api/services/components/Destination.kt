@@ -1,4 +1,4 @@
-package terapps.factoryplanner.core.services.components
+package terapps.factoryplanner.api.services.components
 
 data class Destination(
         val factorySiteId: String,

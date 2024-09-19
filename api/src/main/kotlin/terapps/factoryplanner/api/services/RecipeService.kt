@@ -1,11 +1,11 @@
-package terapps.factoryplanner.core.services
+package terapps.factoryplanner.api.services
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import terapps.factoryplanner.core.dto.RecipeDto
-import terapps.factoryplanner.core.dto.RecipeIoDto
-import terapps.factoryplanner.core.dto.RecipeProducingDto
-import terapps.factoryplanner.core.dto.RecipeRequiringDto
+import terapps.factoryplanner.api.dto.RecipeDto
+import terapps.factoryplanner.api.dto.RecipeIoDto
+import terapps.factoryplanner.api.dto.RecipeProducingDto
+import terapps.factoryplanner.api.dto.RecipeRequiringDto
 import terapps.factoryplanner.core.projections.RecipeProducingSummary
 import terapps.factoryplanner.core.projections.RecipeRequiringSummary
 import terapps.factoryplanner.core.projections.RecipeSummary

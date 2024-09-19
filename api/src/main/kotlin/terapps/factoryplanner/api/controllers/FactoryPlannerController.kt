@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import terapps.factoryplanner.core.services.FactoryPlannerService
-import terapps.factoryplanner.core.services.components.FactorySite
-import terapps.factoryplanner.core.services.components.FactorySiteInput
+import terapps.factoryplanner.api.services.FactoryPlannerService
+import terapps.factoryplanner.api.services.components.FactorySite
+import terapps.factoryplanner.api.services.components.FactorySiteInput
 
 
 @RestController

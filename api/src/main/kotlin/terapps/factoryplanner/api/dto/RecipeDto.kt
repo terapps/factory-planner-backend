@@ -1,4 +1,4 @@
-package terapps.factoryplanner.core.dto
+package terapps.factoryplanner.api.dto
 
 import terapps.factoryplanner.core.entities.CraftingMachine
 import java.util.*

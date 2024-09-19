@@ -1,4 +1,4 @@
-package terapps.factoryplanner.core.dto
+package terapps.factoryplanner.api.dto
 
 data class RecipeIoDto(
         val item: ItemDescriptorDto,

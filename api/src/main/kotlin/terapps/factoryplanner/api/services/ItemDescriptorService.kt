@@ -1,8 +1,8 @@
-package terapps.factoryplanner.core.services
+package terapps.factoryplanner.api.services
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import terapps.factoryplanner.core.dto.ItemDescriptorDto
+import terapps.factoryplanner.api.dto.ItemDescriptorDto
 import terapps.factoryplanner.core.projections.ItemDescriptorSummary
 import terapps.factoryplanner.core.repositories.ItemDescriptorRepository
 

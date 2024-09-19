@@ -2,8 +2,8 @@ package terapps.factoryplanner.api.controllers
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import terapps.factoryplanner.core.dto.ItemDescriptorDto
-import terapps.factoryplanner.core.services.ItemDescriptorService
+import terapps.factoryplanner.api.dto.ItemDescriptorDto
+import terapps.factoryplanner.api.services.ItemDescriptorService
 
 @RestController
 @RequestMapping("/item-descriptors")
