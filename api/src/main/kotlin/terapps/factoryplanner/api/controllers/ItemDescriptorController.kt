@@ -1,6 +1,7 @@
 package terapps.factoryplanner.api.controllers
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import terapps.factoryplanner.api.dto.ItemDescriptorDto
 import terapps.factoryplanner.api.services.ItemDescriptorService
@@ -12,14 +13,14 @@ class ItemDescriptorController {
     private lateinit var itemDescriptorService: ItemDescriptorService
 
 
-    @GetMapping("/{itemClassName}")
+    @GetMapping("/{itemClassName}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun findByClassName(
             @PathVariable("itemClassName") itemClassName: String,
     ): ItemDescriptorDto {
         return itemDescriptorService.findByClassName(itemClassName)
     }
 
-    @GetMapping
+    @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     fun searchByDisplayNameLike(
             @RequestParam("displayName") itemClass: String,
     ): Collection<ItemDescriptorDto> {

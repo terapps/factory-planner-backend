@@ -11,7 +11,7 @@ data class Recipe(
         val className: String?,
         val displayName: String?,
         val manufacturingDuration: Double?,
-        @Relationship(type = "REQUIRED_IN", direction = Relationship.Direction.OUTGOING)
+        @Relationship(type = "REQUIRED_IN", direction = Relationship.Direction.INCOMING)
         var ingredients: Set<RecipeRequires> = emptySet(),
         @Relationship(type = "MANUFACTURED_IN", direction = Relationship.Direction.OUTGOING)
         val manufacturedIn: Set<CraftingMachine> = emptySet(),

@@ -12,7 +12,7 @@ logging:
       springframework:
         data:
           neo4j:
-            cypher: WARN
+            cypher: DEBUG
 springdoc:
   api-docs:
     path: /openapi/v3/api-docs

@@ -8,7 +8,7 @@ import java.util.UUID
 @Node
 data class CraftingMachine(
         override val className: String,
-        val displayName: String,
+        override val displayName: String,
         val description: String,
         val manufacturingSpeed: Double = 0.0,
         val powerConsumption: Double = 0.0,

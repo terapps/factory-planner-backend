@@ -8,7 +8,7 @@ import java.util.*
 @Node
 data class Extractor(
         override val className: String,
-        val displayName: String,
+        override val displayName: String,
         val description: String,
         val extractCycleTime: Double,
         val itemsPerCycle: Int,

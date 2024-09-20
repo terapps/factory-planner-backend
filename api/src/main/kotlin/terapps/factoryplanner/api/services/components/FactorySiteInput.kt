@@ -3,6 +3,7 @@ package terapps.factoryplanner.api.services.components
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import terapps.factoryplanner.api.dto.ItemDescriptorDto
+import terapps.factoryplanner.api.dto.RecipeDto
 import terapps.factoryplanner.core.entities.Extractor
 import terapps.factoryplanner.core.projections.RecipeSummary
 
@@ -34,7 +35,7 @@ abstract class FactorySiteInput(
 data class CraftingMachineSiteInput(
         override val item: ItemDescriptorDto,
         override val amountPerCycle: Double,
-        val recipe: RecipeSummary,
+        val recipe: RecipeDto,
 ): FactorySiteInput(FactorySiteType.RecipeSite, item, amountPerCycle)
 
 data class ExtractingSiteInput(

@@ -3,14 +3,13 @@ package terapps.factoryplanner.api.services.components
 import terapps.factoryplanner.api.dto.ItemDescriptorDto
 import terapps.factoryplanner.core.entities.Extractor
 
-data class ExtractingSite(
-        override val targetDescriptor: ItemDescriptorDto,
+data class ExtractingSiteNode(
+        override val factorySiteTarget: ItemDescriptorDto,
         override var targetAmountPerCycle: Double,
         override val automaton: Extractor
-) : FactorySite() {
+) : FactoryNode(FactorySiteType.RecipeSite) {
     private val maxPotential = automaton.maxPotential + (automaton.productionBoost * 3f)
-
-    val maximumExtractionRate: Double
+    private val maximumExtractionRate: Double
         get() {
 
             val cyclePerMinute = when (automaton.className) {
@@ -28,10 +27,8 @@ data class ExtractingSite(
             return 60f / cyclePerMinute
         }
 
-
-    override val produces: List<FactorySiteIO>
-        get() = listOf(FactorySiteIO(targetDescriptor, maximumExtractionRate))
-
     override val requiredMachines: Double
         get() = targetAmountPerCycle / maximumExtractionRate
+    override val produces: Collection<FactorySiteIO>
+        get() = listOf(FactorySiteIO(factorySiteTarget, targetAmountPerCycle))
 }

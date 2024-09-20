@@ -50,13 +50,15 @@ class RecipeService {
 
     fun findRecipeRequiringByClassName(className: String): RecipeRequiringDto {
         val recipeRequiring = recipeRepository.findByClassName(className, RecipeRequiringSummary::class.java)
+        println(recipeRequiring?.getIngredients())
 
         return recipeRequiring?.toDto() ?: throw Error("Cannot find RecipeRequiring from classname: $className")
     }
 
-    fun findAllRecipesByProducingItemClassName(itemClassName: String, gameTier: Int): List<RecipeDto> {
-        val recipes = recipeRepository.findByProducingItemClassName(itemClassName)
+    fun findAllRecipesByProducingItemClassName(itemClassName: String, gameTier: Int): List<RecipeRequiringDto> {
+        val recipes = recipeRepository.findByProducingItemClassName(itemClassName, RecipeRequiringSummary::class.java)
 
+        println(recipes)
         if (recipes.isEmpty()) {
             throw Error("No recipe found from item classname $itemClassName ")
         }

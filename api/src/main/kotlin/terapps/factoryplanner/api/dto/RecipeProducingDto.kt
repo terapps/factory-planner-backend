@@ -10,6 +10,9 @@ data class RecipeProducingDto(
         override val displayName: String,
         override val manufacturedIn: List<CraftingMachine>,
         val  producing: List<RecipeIoDto>
-): RecipeDto(id, className, manufacturingDuration, displayName, manufacturedIn)
+): RecipeDto(id, className, manufacturingDuration, displayName, manufacturedIn) {
+    val manufacturingDurationByMinute: Double
+        get() = 60.0 / manufacturingDuration
+}
 
 
