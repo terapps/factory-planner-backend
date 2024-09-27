@@ -1,5 +1,6 @@
 package terapps.factoryplanner.bootstrap.transformers
 
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import terapps.factoryplanner.bootstrap.dto.GameObjectCategory
 import terapps.factoryplanner.bootstrap.dto.SatisfactoryStaticData
@@ -9,13 +10,13 @@ import kotlin.reflect.KClass
 abstract class TransformerOrchestrator<T: Transformer<Any, Any>>(clazz: KClass<*>): BeanOrchestrator<T>(clazz) {
     abstract var satisfactoryStaticData: SatisfactoryStaticData
 
-    protected val logger = LoggerFactory.getLogger(this::class.java)
+    protected val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     override fun resolveBean(clazz: KClass<*>): T? {
         val filtered = resolveBeans(clazz)
 
         if (filtered.size > 1) {
-            throw Error("More than one bean supporting ${clazz}")
+            throw Error("More than one bean supporting $clazz")
         }
         return filtered.firstOrNull()
     }
@@ -29,7 +30,7 @@ abstract class TransformerOrchestrator<T: Transformer<Any, Any>>(clazz: KClass<*
 
             if (!isSupported) {
                 // TODO debug
-                logger.info("Skipping ${it.classType.simpleName}")
+                logger.debug("Skipping ${it.classType.simpleName}")
             }
             isSupported
         }.associateWith {category ->

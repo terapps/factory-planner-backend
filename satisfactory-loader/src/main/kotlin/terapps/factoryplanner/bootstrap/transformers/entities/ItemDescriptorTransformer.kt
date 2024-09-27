@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import terapps.factoryplanner.bootstrap.Parameter
 import terapps.factoryplanner.bootstrap.dto.generated.*
+import terapps.factoryplanner.bootstrap.transformers.BatchList
 import terapps.factoryplanner.bootstrap.transformers.GenericAbstractTransformer
 import terapps.factoryplanner.core.entities.*
 import terapps.factoryplanner.core.repositories.ItemDescriptorRepository
@@ -30,13 +31,11 @@ class ItemDescriptorTransformer : GenericAbstractTransformer<Any, ItemDescriptor
                 FGConsumableDescriptor::class
         )
 ) {
-
-
     @Autowired
     private lateinit var itemDescriptorRepository: ItemDescriptorRepository
 
-    override fun save(output: ItemDescriptor): ItemDescriptor {
-        return itemDescriptorRepository.save(output)
+    override val batch: BatchList<ItemDescriptor> = BatchList() {
+        itemDescriptorRepository.saveAll(it)
     }
 
     override fun Map<*, *>.makeConstructorParams(orig: Any): Map<KParameter, Any?> = mapOf(

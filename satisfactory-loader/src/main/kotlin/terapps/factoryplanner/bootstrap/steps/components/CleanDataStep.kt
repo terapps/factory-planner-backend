@@ -21,6 +21,7 @@ class CleanDataStep : RootStep {
 
     @Autowired
     private lateinit var recipeRepository: RecipeRepository
+
     @Autowired
     private lateinit var schematicRepository: SchematicRepository
 

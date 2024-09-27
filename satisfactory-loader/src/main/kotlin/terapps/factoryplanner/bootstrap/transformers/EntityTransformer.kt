@@ -1,6 +1,5 @@
 package terapps.factoryplanner.bootstrap.transformers
 
-import terapps.factoryplanner.core.entities.Extractor
 import kotlin.reflect.KClass
 import kotlin.reflect.KParameter
 import kotlin.reflect.full.isSubclassOf
@@ -8,8 +7,35 @@ import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
 
 
+class BatchList<T>(
+        private val bulkSize: Int = 300,
+        private val onLimit: (batch: MutableCollection<T>) -> Unit,
+) {
+    private val internal: MutableCollection<T> = mutableListOf()
+
+     fun add(element: T) {
+         val res = internal.add(element)
+         if (!res) {
+             throw Error("Error saving bulk")
+         }
+         if (internal.size > bulkSize) {
+             reset()
+         }
+     }
+
+    fun reset() {
+        onLimit(internal)
+        internal.clear()
+    }
+}
+
 interface EntityTransformer<Input : Any, Output : Any>: Transformer<Input, Output> {
-    fun save(output: Output): Output
+    val batch: BatchList<Output>
+
+    fun save(output: Output): Output = batch.let {
+        it.add(output)
+        output
+    }
 }
 
 abstract class AbstractTransformer<Input : Any, Output : Any>(

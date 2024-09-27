@@ -1,6 +1,6 @@
 package terapps.factoryplanner.api.services.components
 
-import terapps.factoryplanner.api.dto.ItemDescriptorDto
+import terapps.factoryplanner.core.dto.ItemDescriptorDto
 import terapps.factoryplanner.core.entities.Automaton
 
 data class FactorySiteIO(

@@ -22,8 +22,8 @@ factoryplanner:
   filestorage:
     url: ${FILE_STORAGE_URL}
     assets:
-      accessKey: ${FILESTORE_ASSETS_ACCESS_KEY}
-      secretKey: ${FILESTORE_ASSETS_SECRET_KEY}
+      accessKey: ${FILE_STORAGE_ASSETS_ACCESS_KEY}
+      secretKey: ${FILE_STORAGE_ASSETS_SECRET_KEY}
     resources:
-      accessKey: ${FILESTORE_RESOURCES_ACCESS_KEY}
-      secretKey: ${FILESTORE_RESOURCES_SECRET_KEY}
+      accessKey: ${FILE_STORAGE_RESOURCES_ACCESS_KEY}
+      secretKey: ${FILE_STORAGE_RESOURCES_SECRET_KEY}

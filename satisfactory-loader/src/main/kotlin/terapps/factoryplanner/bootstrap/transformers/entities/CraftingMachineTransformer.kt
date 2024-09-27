@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component
 import terapps.factoryplanner.bootstrap.Parameter
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableManufacturer
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableManufacturerVariablePower
+import terapps.factoryplanner.bootstrap.transformers.BatchList
 import terapps.factoryplanner.bootstrap.transformers.GenericAbstractTransformer
 import terapps.factoryplanner.core.entities.CraftingMachine
 import terapps.factoryplanner.core.repositories.CraftingMachineRepository
@@ -18,12 +19,12 @@ class CraftingMachineTransformer : GenericAbstractTransformer<Any, CraftingMachi
                 FGBuildableManufacturerVariablePower::class,
         )
 ) {
-
-
     @Autowired
     private lateinit var craftingMachineRepository: CraftingMachineRepository
 
-    override fun save(output: CraftingMachine): CraftingMachine = craftingMachineRepository.save(output)
+    override val batch: BatchList<CraftingMachine> = BatchList() {
+        craftingMachineRepository.saveAll(it)
+    }
 
     override fun Map<*, *>.makeConstructorParams(orig: Any): Map<KParameter, Any?> = mapOf(
             Parameter<CraftingMachine>("className") to this["ClassName"],

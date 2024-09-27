@@ -1,6 +1,6 @@
 package terapps.factoryplanner.api.services.components
 
-import terapps.factoryplanner.api.services.RecipeService
+import terapps.factoryplanner.core.services.RecipeService
 
 class FactoryGraphBuilder(
         private val factoryGraph: FactorySiteInput,

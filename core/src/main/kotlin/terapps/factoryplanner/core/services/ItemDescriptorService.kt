@@ -1,8 +1,9 @@
-package terapps.factoryplanner.api.services
+package terapps.factoryplanner.core.services
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import terapps.factoryplanner.api.dto.ItemDescriptorDto
+import terapps.factoryplanner.core.dto.ItemDescriptorDto
+import terapps.factoryplanner.core.entities.ItemCategory
 import terapps.factoryplanner.core.projections.ItemDescriptorSummary
 import terapps.factoryplanner.core.repositories.ItemDescriptorRepository
 
@@ -25,6 +26,12 @@ class ItemDescriptorService {
         val item = itemDescriptorRepository.findByClassName(className, ItemDescriptorSummary::class.java)
 
         return item?.toDto() ?: throw Error("Cannot find ItemDescriptor from classname: $className")
+    }
+
+    fun findByCategory(category: ItemCategory): ItemDescriptorDto {
+        val item = itemDescriptorRepository.findByCategory(category, ItemDescriptorSummary::class.java)
+
+        return item?.toDto() ?: throw Error("Cannot find ItemDescriptor from category: $category")
     }
 
     fun findByDisplayNameLike(displayName: String): Collection<ItemDescriptorDto> {

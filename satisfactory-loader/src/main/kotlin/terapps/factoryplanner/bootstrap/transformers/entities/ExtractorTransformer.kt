@@ -8,6 +8,7 @@ import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableResourceExtract
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableWaterPump
 import terapps.factoryplanner.bootstrap.extractListEntry
 import terapps.factoryplanner.bootstrap.toBoolean
+import terapps.factoryplanner.bootstrap.transformers.BatchList
 import terapps.factoryplanner.bootstrap.transformers.GenericAbstractTransformer
 import terapps.factoryplanner.core.entities.*
 import terapps.factoryplanner.core.repositories.ExtractorRepository
@@ -27,8 +28,8 @@ class ExtractorTransformer : GenericAbstractTransformer<Any, Extractor>(
     @Autowired
     private lateinit var extractorRepository: ExtractorRepository
 
-    override fun save(output: Extractor): Extractor {
-        return extractorRepository.save(output)
+    override val batch: BatchList<Extractor> = BatchList() {
+        extractorRepository.saveAll(it)
     }
 
     override fun Map<*, *>.makeConstructorParams(orig: Any): Map<KParameter, Any?> {

@@ -3,6 +3,7 @@ package terapps.factoryplanner.api.services
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import terapps.factoryplanner.api.services.components.*
+import terapps.factoryplanner.core.services.RecipeService
 
 
 @Service

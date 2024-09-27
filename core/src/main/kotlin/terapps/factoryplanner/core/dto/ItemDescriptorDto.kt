@@ -1,4 +1,4 @@
-package terapps.factoryplanner.api.dto
+package terapps.factoryplanner.core.dto
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import terapps.factoryplanner.core.entities.Extractor

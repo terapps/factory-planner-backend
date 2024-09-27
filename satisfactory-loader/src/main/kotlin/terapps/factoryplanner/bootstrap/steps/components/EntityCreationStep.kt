@@ -1,6 +1,5 @@
 package terapps.factoryplanner.bootstrap.steps.components
 
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
@@ -34,7 +33,14 @@ class EntityCreationStep : RootStep, TransformerOrchestrator<EntityTransformer<A
         }
 
         run(config) { gameEntity, transformer ->
-            transformer.save(transformer.transform(gameEntity))
+            val transformed = transformer.transform(gameEntity)
+
+            transformer.save(transformed)
+        }
+        val transformers = config.values.flatten().distinct()
+
+        transformers.forEach {
+            it.batch.reset()
         }
     }
 

@@ -6,6 +6,8 @@ import terapps.factoryplanner.bootstrap.dto.generated.FGSchematic
 import terapps.factoryplanner.bootstrap.extractListEntry
 import terapps.factoryplanner.bootstrap.toBoolean
 import terapps.factoryplanner.bootstrap.transformers.AbstractTransformer
+import terapps.factoryplanner.bootstrap.transformers.BatchList
+import terapps.factoryplanner.core.entities.Extractor
 import terapps.factoryplanner.core.entities.Schematic
 import terapps.factoryplanner.core.entities.SchematicDependency
 import terapps.factoryplanner.core.repositories.SchematicRepository
@@ -14,6 +16,10 @@ import terapps.factoryplanner.core.repositories.SchematicRepository
 class SchematicTransformer : AbstractTransformer<FGSchematic, Schematic>(FGSchematic::class) {
     @Autowired
     private lateinit var schematicRepository: SchematicRepository
+
+    override val batch: BatchList<Schematic> = BatchList() {
+        schematicRepository.saveAll(it)
+    }
 
     override fun transform(transformIn: FGSchematic): Schematic {
         val dependencies = transformIn.mSchematicDependencies.map {
@@ -40,6 +46,4 @@ class SchematicTransformer : AbstractTransformer<FGSchematic, Schematic>(FGSchem
                 depdendsOn = dependencies
         )
     }
-
-    override fun save(output: Schematic): Schematic = schematicRepository.save(output)
 }
