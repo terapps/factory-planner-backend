@@ -37,10 +37,9 @@ class EntityCreationStep : RootStep, TransformerOrchestrator<EntityTransformer<A
 
             transformer.save(transformed)
         }
-        val transformers = config.values.flatten().distinct()
 
-        transformers.forEach {
-            it.batch.reset()
+        registeredTransformers.forEach {
+            it.batch.onBatch()
         }
     }
 

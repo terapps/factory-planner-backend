@@ -10,6 +10,7 @@ import kotlin.reflect.KClass
 abstract class TransformerOrchestrator<T: Transformer<Any, Any>>(clazz: KClass<*>): BeanOrchestrator<T>(clazz) {
     abstract var satisfactoryStaticData: SatisfactoryStaticData
 
+    protected val registeredTransformers = HashSet<T>()
     protected val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     override fun resolveBean(clazz: KClass<*>): T? {
@@ -30,15 +31,19 @@ abstract class TransformerOrchestrator<T: Transformer<Any, Any>>(clazz: KClass<*
 
             if (!isSupported) {
                 // TODO debug
-                logger.debug("Skipping ${it.classType.simpleName}")
+                logger.warn("Skipping ${it.classType.simpleName}")
             }
             isSupported
         }.associateWith {category ->
-            resolveBeans(category.classType).onEach { onload(category, it) }
+            resolveBeans(category.classType).onEach {
+                registeredTransformers.add(it)
+                onload(category, it)
+            }
         }
     }
 
-    protected fun run(runConfig: Map<GameObjectCategory<*>, Collection<T>>, runner: (Any, T) -> Unit) =
+    protected fun run(runConfig: Map<GameObjectCategory<*>, Collection<T>>, runner: (Any, T) -> Unit) {
+
         runConfig.forEach { (category, transformers) ->
             category.Classes.forEach { gameEntity ->
                 transformers.forEach { transformer ->
@@ -46,6 +51,7 @@ abstract class TransformerOrchestrator<T: Transformer<Any, Any>>(clazz: KClass<*
                 }
             }
         }
+    }
 
     private fun KClass<*>.isSupportedCategory(): Boolean {
         return resolveBeans(this).isNotEmpty()

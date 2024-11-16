@@ -8,12 +8,11 @@ import terapps.factoryplanner.bootstrap.transformers.BatchList
 import terapps.factoryplanner.bootstrap.transformers.GenericAbstractTransformer
 import terapps.factoryplanner.core.entities.*
 import terapps.factoryplanner.core.repositories.ItemDescriptorRepository
-import java.io.File
 import kotlin.reflect.KParameter
 
 @Component
-class ItemDescriptorTransformer : GenericAbstractTransformer<Any, ItemDescriptor>(
-        ItemDescriptor::class,
+class ItemDescriptorTransformer : GenericAbstractTransformer<Any, ItemDescriptorEntity>(
+        ItemDescriptorEntity::class,
         arrayListOf(
                 FGItemDescriptor::class,
                 FGItemDescriptorPowerBoosterFuel::class,
@@ -34,23 +33,28 @@ class ItemDescriptorTransformer : GenericAbstractTransformer<Any, ItemDescriptor
     @Autowired
     private lateinit var itemDescriptorRepository: ItemDescriptorRepository
 
-    override val batch: BatchList<ItemDescriptor> = BatchList() {
+    override val batch: BatchList<ItemDescriptorEntity> = BatchList() {
         itemDescriptorRepository.saveAll(it)
     }
 
-    override fun Map<*, *>.makeConstructorParams(orig: Any): Map<KParameter, Any?> = mapOf(
-            Parameter<ItemDescriptor>("className") to this["ClassName"],
-            Parameter<ItemDescriptor>("displayName") to this["mDisplayName"],
-            Parameter<ItemDescriptor>("description") to this["mDescription"],
-            Parameter<ItemDescriptor>("energyValue") to this["mEnergyValue"],
-            Parameter<ItemDescriptor>("form") to this["mForm"],
-            Parameter<ItemDescriptor>("sinkablePoints") to this["mResourceSinkPoints"],
-            Parameter<ItemDescriptor>("extraPotential") to this["mExtraPotential"],
-            Parameter<ItemDescriptor>("extraProductionBoost") to this["mExtraProductionBoost"],
-            Parameter<ItemDescriptor>("category") to getItemCategory(orig),
-            Parameter<ItemDescriptor>("iconSmall") to "FactoryGame/Content/${this["mSmallIcon"].toString().replace("Texture2D /Game/", "").split(".")[0]}.png",
-            Parameter<ItemDescriptor>("iconPersistent") to "FactoryGame/Content/${this["mPersistentBigIcon"].toString().replace("Texture2D /Game/", "").split(".")[0]}.png",
-            )
+    override fun Map<*, *>.makeConstructorParams(orig: Any): Map<KParameter, Any?> {
+        val displayName = (this["mDisplayName"] as? String)?.takeIf { it.isNotEmpty() } ?: (this["ClassName"] as String).run {
+            this.split("_").get(1)
+        }
+        return mapOf(
+                Parameter<ItemDescriptorEntity>("className") to this["ClassName"],
+                Parameter<ItemDescriptorEntity>("displayName") to displayName,
+                Parameter<ItemDescriptorEntity>("description") to this["mDescription"],
+                Parameter<ItemDescriptorEntity>("energyValue") to this["mEnergyValue"],
+                Parameter<ItemDescriptorEntity>("form") to this["mForm"],
+                Parameter<ItemDescriptorEntity>("sinkablePoints") to this["mResourceSinkPoints"],
+                Parameter<ItemDescriptorEntity>("extraPotential") to this["mExtraPotential"],
+                Parameter<ItemDescriptorEntity>("extraProductionBoost") to this["mExtraProductionBoost"],
+                Parameter<ItemDescriptorEntity>("category") to getItemCategory(orig),
+                Parameter<ItemDescriptorEntity>("iconSmall") to "FactoryGame/Content/${this["mSmallIcon"].toString().replace("Texture2D /Game/", "").split(".")[0]}.png",
+                Parameter<ItemDescriptorEntity>("iconPersistent") to "FactoryGame/Content/${this["mPersistentBigIcon"].toString().replace("Texture2D /Game/", "").split(".")[0]}.png",
+        )
+    }
 
     private fun getItemCategory(input: Any): ItemCategory = when (input) {
         is FGItemDescriptorNuclearFuel, is FGItemDescriptor -> ItemCategory.Craftable

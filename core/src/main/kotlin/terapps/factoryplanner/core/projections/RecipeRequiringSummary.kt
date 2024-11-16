@@ -1,5 +1,5 @@
 package terapps.factoryplanner.core.projections
 
 interface RecipeRequiringSummary: RecipeSummary {
-    fun getIngredients(): List<RecipeIO>
+    fun getIngredients(): List<RecipeIoSummary>
 }

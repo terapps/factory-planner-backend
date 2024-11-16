@@ -1,9 +1,11 @@
 package terapps.factoryplanner.core.entities
 
 import org.springframework.data.neo4j.core.schema.Id
+import org.springframework.data.neo4j.core.schema.Node
 import org.springframework.data.neo4j.core.schema.Relationship
 
-data class Schematic(
+@Node("Schematic")
+data class SchematicEntity(
         // TODO is unlocked
         // MVP : consider is unlocked if tier <= game tier info (fetch http api)
         // Long term : parse save file and maintain an "unlocked status"
@@ -20,7 +22,7 @@ data class Schematic(
         @Relationship(type = "SCHEMATIC_UNLOCKS_RESOURCE", direction = Relationship.Direction.OUTGOING)
         var unlocksResources: Set<SchematicUnlocksResource> = emptySet(), // TODO should be inverse of schematic dependencies, do i need to map it here
         @Relationship(type = "SCHEMATIC_DEPENDENCY", direction = Relationship.Direction.OUTGOING)
-        var depdendsOn: Set<SchematicDependency> = emptySet(), // TODO should be inverse of schematic dependencies, do i need to map it here
+        var depdendsOn: Set<SchematicDependencyEntity> = emptySet(), // TODO should be inverse of schematic dependencies, do i need to map it here
 
 ) {
 }

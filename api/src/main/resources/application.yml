@@ -7,7 +7,7 @@ spring:
       password: ${NEO4J_PASSWORD}
 logging:
   level:
-    web: INFO
+    web: DEBUG
     org:
       springframework:
         data:

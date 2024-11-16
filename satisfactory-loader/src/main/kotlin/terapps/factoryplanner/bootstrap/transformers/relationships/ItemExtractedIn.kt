@@ -7,14 +7,14 @@ import terapps.factoryplanner.bootstrap.dto.generated.FGRecipe
 import terapps.factoryplanner.bootstrap.transformers.SatisfactoryRelationshipTransformer
 import terapps.factoryplanner.bootstrap.extractDictEntry
 import terapps.factoryplanner.bootstrap.toItemIO
-import terapps.factoryplanner.core.entities.Extractor
+import terapps.factoryplanner.core.entities.ExtractorEntity
 import terapps.factoryplanner.core.entities.ItemCategory
-import terapps.factoryplanner.core.entities.ItemDescriptor
+import terapps.factoryplanner.core.entities.ItemDescriptorEntity
 
 @Component
 class ItemExtractedIn : SatisfactoryRelationshipTransformer<FGRecipe, Collection<Relationship>>(
         FGRecipe::class,
-        ItemDescriptor::class to Extractor::class,
+        ItemDescriptorEntity::class to ExtractorEntity::class,
         "EXTRACTED_IN"
 ) {
     @Autowired
@@ -23,8 +23,8 @@ class ItemExtractedIn : SatisfactoryRelationshipTransformer<FGRecipe, Collection
     override var relationships: List<Relationship> = mutableListOf()
 
     // TODO could be better?
-    lateinit var items: Collection<ItemDescriptor>
-    lateinit var extractors: Collection<Extractor>
+    lateinit var items: Collection<ItemDescriptorEntity>
+    lateinit var extractors: Collection<ExtractorEntity>
 
     override fun transform(transformIn: FGRecipe): Collection<Relationship> {
         return transformIn.mProduct.extractDictEntry().mapNotNull {

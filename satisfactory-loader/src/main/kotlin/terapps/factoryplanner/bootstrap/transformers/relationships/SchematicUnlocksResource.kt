@@ -5,14 +5,13 @@ import org.springframework.data.neo4j.core.Neo4jClient
 import org.springframework.stereotype.Component
 import terapps.factoryplanner.bootstrap.dto.generated.FGSchematic
 import terapps.factoryplanner.bootstrap.extractDictEntry
-import terapps.factoryplanner.bootstrap.extractListEntry
 import terapps.factoryplanner.bootstrap.transformers.SatisfactoryRelationshipTransformer
 import terapps.factoryplanner.core.entities.*
 
 @Component
 class SchematicUnlocksResource : SatisfactoryRelationshipTransformer<FGSchematic, Collection<Relationship>>(
         FGSchematic::class,
-        Schematic::class to ItemDescriptor::class,
+        SchematicEntity::class to ItemDescriptorEntity::class,
         "SCHEMATIC_UNLOCKS_RESOURCE"
 ) {
     @Autowired

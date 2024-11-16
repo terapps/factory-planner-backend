@@ -2,6 +2,7 @@ satisfactory:
   planner:
     reload-profile:
       wipe: true
+      steps:
 spring:
   neo4j:
     driver: org.neo4j.ogm.drivers.embedded.driver.EmbeddedDriver

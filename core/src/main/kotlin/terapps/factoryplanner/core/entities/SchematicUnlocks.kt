@@ -9,7 +9,7 @@ import org.springframework.data.neo4j.core.schema.TargetNode
 class SchematicUnlocksRecipe(
         val className: String,
         @TargetNode
-        val recipe: Recipe,
+        val recipe: RecipeEntity,
 ) {
         @RelationshipId
         var id: Long? = null
@@ -19,7 +19,7 @@ class SchematicUnlocksRecipe(
 class SchematicUnlocksSchematic(
         val className: String,
         @TargetNode
-        val schematic: Schematic,
+        val schematic: SchematicEntity,
 ){
         @RelationshipId
         var id: Long? = null
@@ -29,7 +29,7 @@ class SchematicUnlocksSchematic(
 class SchematicUnlocksResource(
         val className: String,
         @TargetNode
-        val item: ItemDescriptor,
+        val item: ItemDescriptorEntity,
 ){
         @RelationshipId
         var id: Long? = null

@@ -53,6 +53,7 @@ class RelationshipStep : RootStep,  TransformerOrchestrator<SatisfactoryRelation
         val transformers = config.values.flatten().distinctBy { it.javaClass.name }
 
         transformers.forEach {
+            logger.info("Binding ${it.relationships.size} relationships for ${it.relationshipName}")
             it.runCypherQuery()
         }
     }

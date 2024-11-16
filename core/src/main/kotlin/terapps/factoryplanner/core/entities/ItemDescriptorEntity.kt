@@ -18,9 +18,10 @@ enum class ItemCategory {
 }
 
 
-@Node
-data class ItemDescriptor(
-        val className: String?,
+@Node("ItemDescriptor")
+class ItemDescriptorEntity(
+        @Id
+        val className: String,
         val displayName: String?,
         val description: String?,
         val category: ItemCategory?,
@@ -33,12 +34,7 @@ data class ItemDescriptor(
         val extraPotential: Double? =null,
         val extraProductionBoost: Double? =null,
         @Relationship(type = "EXTRACTED_IN", direction = Relationship.Direction.OUTGOING)
-        val extractedIn: Set<Extractor> = emptySet(),
-        @Relationship(type = "PRODUCED_BY", direction = Relationship.Direction.OUTGOING)
-        var producedBy: Set<ItemDescriptorProducedBy> = emptySet()
+        val extractedIn: Set<ExtractorEntity> = emptySet(),
 ) {
-    @Id
-    @GeneratedValue
-    lateinit var id: UUID
 }
 

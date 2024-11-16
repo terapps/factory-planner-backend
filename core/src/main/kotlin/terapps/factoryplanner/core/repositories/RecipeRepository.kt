@@ -5,12 +5,11 @@ import org.springframework.data.neo4j.repository.query.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import terapps.factoryplanner.core.entities.ItemCategory
-import terapps.factoryplanner.core.entities.Recipe
-import terapps.factoryplanner.core.projections.RecipeRequiringSummary
+import terapps.factoryplanner.core.entities.RecipeEntity
 import java.util.*
 
 @Repository
-interface RecipeRepository : Neo4jRepository<Recipe, UUID> {
+interface RecipeRepository : Neo4jRepository<RecipeEntity, String> {
     fun <T> findByClassName(className: String, clazz: Class<T>): T?
 
     //AndUnlockedByTierLessThanEqual
@@ -34,6 +33,6 @@ interface RecipeRepository : Neo4jRepository<Recipe, UUID> {
             @Param("weightedPoints") weightedPoints: Float,
             @Param("energyPoints") energyPoints: Float,
             @Param("buildingCountPoints") buildingCountPoints: Float,
-            @Param("sinkingPoints") sinkingPoints: Float): Recipe
+            @Param("sinkingPoints") sinkingPoints: Float): RecipeEntity
 
 }

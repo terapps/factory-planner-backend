@@ -1,6 +1,6 @@
 package terapps.factoryplanner.core.projections
 
-import terapps.factoryplanner.core.entities.Extractor
+import terapps.factoryplanner.core.entities.ExtractorEntity
 import terapps.factoryplanner.core.entities.ItemCategory
 
 
@@ -16,5 +16,5 @@ interface ItemDescriptorSummary {
 
     fun getCategory(): ItemCategory
 
-    fun getExtractedIn(): Set<Extractor>
+    fun getExtractedIn(): Set<ExtractorEntity>
 }

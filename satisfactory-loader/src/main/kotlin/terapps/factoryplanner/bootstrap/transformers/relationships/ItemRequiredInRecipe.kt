@@ -7,14 +7,14 @@ import terapps.factoryplanner.bootstrap.dto.generated.FGRecipe
 import terapps.factoryplanner.bootstrap.transformers.*
 import terapps.factoryplanner.bootstrap.extractDictEntry
 import terapps.factoryplanner.bootstrap.toItemIO
-import terapps.factoryplanner.core.entities.ItemDescriptor
-import terapps.factoryplanner.core.entities.Recipe
+import terapps.factoryplanner.core.entities.ItemDescriptorEntity
+import terapps.factoryplanner.core.entities.RecipeEntity
 
 @Component
 class ItemRequiredInRecipe:
         SatisfactoryRelationshipTransformer<FGRecipe, Collection<RelationshipItemIO>>(
                 FGRecipe::class,
-                ItemDescriptor::class to Recipe::class,
+                ItemDescriptorEntity::class to RecipeEntity::class,
                 "REQUIRED_IN"
         ) {
     @Autowired

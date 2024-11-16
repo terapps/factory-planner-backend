@@ -26,6 +26,9 @@ class CleanDataStep : RootStep {
     private lateinit var schematicRepository: SchematicRepository
 
     @Autowired
+    private lateinit var schematicDependencyRepository: SchematicDependencyRepository
+
+    @Autowired
     private lateinit var reloadProfile: ReloadProfile
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -40,6 +43,7 @@ class CleanDataStep : RootStep {
             extractorRepository.deleteAll()
             recipeRepository.deleteAll()
             schematicRepository.deleteAll()
+            schematicDependencyRepository.deleteAll()
         }
     }
 

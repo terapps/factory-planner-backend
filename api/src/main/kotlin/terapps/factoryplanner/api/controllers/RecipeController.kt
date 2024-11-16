@@ -16,22 +16,30 @@ class RecipeController {
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     fun findAllByProducedItem(
             @RequestParam("itemClass") itemClass: String,
-    ): List<RecipeRequiringDto> {
+    ): Collection<RecipeRequiringDto> {
         // TODO gametier
-        return recipeService.findAllRecipesByProducingItemClassName(itemClass, 9)
+        return recipeService.findByProducingItemClassNameIn<RecipeRequiringDto>(listOf(itemClass))
     }
+
+    @GetMapping("/{recipeClassName}",produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun findByClassName(
+            @PathVariable("recipeClassName") recipeClassName: String,
+    ): RecipeProducingDto {
+        return recipeService.findByClassName<RecipeProducingDto>(recipeClassName)
+    }
+
 
     @GetMapping("/{recipeClassName}/producing",produces = [MediaType.APPLICATION_JSON_VALUE])
     fun findByClassNameProducing(
             @PathVariable("recipeClassName") recipeClassName: String,
     ): RecipeProducingDto {
-        return recipeService.findRecipeProducingByClassName(recipeClassName)
+        return recipeService.findByClassName<RecipeProducingDto>(recipeClassName)
     }
 
     @GetMapping("/{recipeClassName}/requiring", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun findByClassNameRequiring(
             @PathVariable("recipeClassName") recipeClassName: String,
     ): RecipeRequiringDto {
-        return recipeService.findRecipeRequiringByClassName(recipeClassName)
+        return recipeService.findByClassName<RecipeRequiringDto>(recipeClassName)
     }
 }

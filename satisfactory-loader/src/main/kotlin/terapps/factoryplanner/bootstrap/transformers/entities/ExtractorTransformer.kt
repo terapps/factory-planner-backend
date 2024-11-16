@@ -15,8 +15,8 @@ import terapps.factoryplanner.core.repositories.ExtractorRepository
 import kotlin.reflect.KParameter
 
 @Component
-class ExtractorTransformer : GenericAbstractTransformer<Any, Extractor>(
-        Extractor::class,
+class ExtractorTransformer : GenericAbstractTransformer<Any, ExtractorEntity>(
+        ExtractorEntity::class,
         arrayListOf(
                 FGBuildableResourceExtractor::class,
                 FGBuildableWaterPump::class,
@@ -24,30 +24,29 @@ class ExtractorTransformer : GenericAbstractTransformer<Any, Extractor>(
         )
 ) {
 
-
     @Autowired
     private lateinit var extractorRepository: ExtractorRepository
 
-    override val batch: BatchList<Extractor> = BatchList() {
+    override val batch: BatchList<ExtractorEntity> = BatchList() {
         extractorRepository.saveAll(it)
     }
 
     override fun Map<*, *>.makeConstructorParams(orig: Any): Map<KParameter, Any?> {
         val truc = mapOf(
-                Parameter<Extractor>("className") to this["ClassName"],
-                Parameter<Extractor>("displayName") to this["mDisplayName"],
-                Parameter<Extractor>("description") to this["mDescription"],
-                Parameter<Extractor>("extractCycleTime") to this["mExtractCycleTime"],
-                Parameter<Extractor>("itemsPerCycle") to this["mItemsPerCycle"],
-                Parameter<Extractor>("powerConsumption") to this["mPowerConsumption"],
-                Parameter<Extractor>("powerConsumptionExponent") to this["mPowerConsumptionExponent"],
-                Parameter<Extractor>("minPotential") to this["mMinPotential"],
-                Parameter<Extractor>("maxPotential") to this["mMaxPotential"],
-                Parameter<Extractor>("productionBoost") to this["mBaseProductionBoost"],
-                Parameter<Extractor>("extractorType") to this["mExtractorTypeName"],
-                Parameter<Extractor>("matchByAllowedResources") to this["mOnlyAllowCertainResources"]?.toString()?.toBoolean(),
-                Parameter<Extractor>("allowedResourceForm") to (this["mAllowedResourceForms"] as String).extractListEntry().toSet(),
-                Parameter<Extractor>("allowedResources") to transformAllowedResources(
+                Parameter<ExtractorEntity>("className") to this["ClassName"],
+                Parameter<ExtractorEntity>("displayName") to this["mDisplayName"],
+                Parameter<ExtractorEntity>("description") to this["mDescription"],
+                Parameter<ExtractorEntity>("extractCycleTime") to this["mExtractCycleTime"],
+                Parameter<ExtractorEntity>("itemsPerCycle") to this["mItemsPerCycle"],
+                Parameter<ExtractorEntity>("powerConsumption") to this["mPowerConsumption"],
+                Parameter<ExtractorEntity>("powerConsumptionExponent") to this["mPowerConsumptionExponent"],
+                Parameter<ExtractorEntity>("minPotential") to this["mMinPotential"],
+                Parameter<ExtractorEntity>("maxPotential") to this["mMaxPotential"],
+                Parameter<ExtractorEntity>("productionBoost") to this["mBaseProductionBoost"],
+                Parameter<ExtractorEntity>("extractorType") to this["mExtractorTypeName"],
+                Parameter<ExtractorEntity>("matchByAllowedResources") to this["mOnlyAllowCertainResources"]?.toString()?.toBoolean(),
+                Parameter<ExtractorEntity>("allowedResourceForm") to (this["mAllowedResourceForms"] as String).extractListEntry().toSet(),
+                Parameter<ExtractorEntity>("allowedResources") to transformAllowedResources(
                         this["mAllowedResources"] as String,
                 ).toSet()
         )

@@ -1,11 +1,12 @@
 package terapps.factoryplanner.core.dto
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import terapps.factoryplanner.core.entities.Extractor
+import terapps.factoryplanner.core.entities.ExtractorEntity
 import terapps.factoryplanner.core.entities.ItemCategory
+import terapps.factoryplanner.core.projections.ItemDescriptorSummary
 import terapps.factoryplanner.filestorage.dto.AssetsBucketEntry
 
-data class ItemDescriptorDto(
+class ItemDescriptorDto(
         val className: String,
         val displayName: String,
         val form: String,
@@ -13,8 +14,18 @@ data class ItemDescriptorDto(
         val iconPath: String,
         val sinkablePoints: Int?,
         val category: ItemCategory,
-        val extractedIn: Set<Extractor>,
+        val extractedIn: Set<ExtractorDto>,
 ) {
     val icon: AssetsBucketEntry
         get() = AssetsBucketEntry(iconPath)
+
+    constructor(itemDescriptorSummary: ItemDescriptorSummary): this(
+            itemDescriptorSummary.getClassName(),
+            itemDescriptorSummary.getDisplayName(),
+            itemDescriptorSummary.getForm()!!,
+            itemDescriptorSummary.getIconSmall()!!,
+            itemDescriptorSummary.getSinkablePoints(),
+            itemDescriptorSummary.getCategory(),
+            itemDescriptorSummary.getExtractedIn().map { ExtractorDto(it) }.toSet()
+    )
 }

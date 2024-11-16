@@ -1,0 +1,8 @@
+spring:
+  neo4j:
+    driver: org.neo4j.ogm.drivers.embedded.driver.EmbeddedDriver
+    uri: bolt://51.178.82.124:7687
+    authentication:
+      # TODO test db
+      username: neo4j
+      password: Nt9qWieN{rA~M3#@BU

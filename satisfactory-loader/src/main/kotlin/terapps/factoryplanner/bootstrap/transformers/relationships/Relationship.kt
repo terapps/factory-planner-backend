@@ -23,3 +23,13 @@ class RelationshipItemIO(
         return super.hashCode() + outputPerCycle.hashCode()
     }
 }
+
+class RelationshipWeight(
+        sourceId: String,
+        destinationId: String,
+        val outputPerCycle: Float
+) : Relationship(sourceId, destinationId) {
+    override fun hashCode(): Int {
+        return super.hashCode() + outputPerCycle.hashCode()
+    }
+}

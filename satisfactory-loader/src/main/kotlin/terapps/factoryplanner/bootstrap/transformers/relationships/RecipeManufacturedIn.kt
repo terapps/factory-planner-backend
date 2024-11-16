@@ -14,7 +14,7 @@ import terapps.factoryplanner.core.entities.*
 class RecipeManufacturedIn :
         SatisfactoryRelationshipTransformer<FGRecipe, Collection<Relationship>>(
                 FGRecipe::class,
-                Recipe::class to CraftingMachine::class,
+                RecipeEntity::class to CraftingMachineEntity::class,
                 "MANUFACTURED_IN"
         ) {
     @Autowired
@@ -25,7 +25,7 @@ class RecipeManufacturedIn :
 
     override var relationships: List<Relationship> = mutableListOf()
 
-    lateinit var items: Collection<ItemDescriptor>
+    lateinit var items: Collection<ItemDescriptorEntity>
 
     override fun transform(transformIn: FGRecipe): Collection<Relationship> {
         return transformIn.mProduct.extractDictEntry().mapNotNull {

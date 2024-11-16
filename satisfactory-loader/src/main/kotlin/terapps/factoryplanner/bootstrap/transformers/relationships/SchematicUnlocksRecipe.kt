@@ -11,7 +11,7 @@ import terapps.factoryplanner.core.entities.*
 @Component
 class SchematicUnlocksRecipe : SatisfactoryRelationshipTransformer<FGSchematic, Collection<Relationship>>(
         FGSchematic::class,
-        Schematic::class to Recipe::class,
+        SchematicEntity::class to RecipeEntity::class,
         "SCHEMATIC_UNLOCKS_RECIPE"
 ) {
     @Autowired

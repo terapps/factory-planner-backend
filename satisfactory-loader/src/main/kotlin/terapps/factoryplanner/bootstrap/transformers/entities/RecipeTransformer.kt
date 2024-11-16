@@ -5,23 +5,22 @@ import org.springframework.stereotype.Component
 import terapps.factoryplanner.bootstrap.dto.generated.FGRecipe
 import terapps.factoryplanner.bootstrap.transformers.AbstractTransformer
 import terapps.factoryplanner.bootstrap.transformers.BatchList
-import terapps.factoryplanner.core.entities.Extractor
-import terapps.factoryplanner.core.entities.Recipe
+import terapps.factoryplanner.core.entities.RecipeEntity
 import terapps.factoryplanner.core.repositories.RecipeRepository
 
 @Component
-class RecipeTransformer : AbstractTransformer<FGRecipe, Recipe>(FGRecipe::class) {
+class RecipeTransformer : AbstractTransformer<FGRecipe, RecipeEntity>(FGRecipe::class) {
     @Autowired
     private lateinit var recipeRepository: RecipeRepository
 
-    override val batch: BatchList<Recipe> = BatchList() {
+    override val batch: BatchList<RecipeEntity> = BatchList() {
         recipeRepository.saveAll(it)
     }
 
-    override fun transform(transformIn: FGRecipe): Recipe {
+    override fun transform(transformIn: FGRecipe): RecipeEntity {
 
         return transformIn.run {
-            Recipe(
+            RecipeEntity(
                     className = ClassName,
                     displayName = mDisplayName,
                     manufacturingDuration = mManufactoringDuration,

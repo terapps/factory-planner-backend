@@ -19,11 +19,11 @@ class BatchList<T>(
              throw Error("Error saving bulk")
          }
          if (internal.size > bulkSize) {
-             reset()
+             onBatch()
          }
      }
 
-    fun reset() {
+    fun onBatch() {
         onLimit(internal)
         internal.clear()
     }

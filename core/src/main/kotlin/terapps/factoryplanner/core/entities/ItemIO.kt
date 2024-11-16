@@ -7,7 +7,7 @@ import org.springframework.data.neo4j.core.schema.TargetNode
 @RelationshipProperties
 class RecipeRequires(
         @TargetNode
-        val item: ItemDescriptor,
+        val item: ItemDescriptorEntity,
         val outputPerCycle: Double,
 ) {
     @RelationshipId
@@ -17,7 +17,7 @@ class RecipeRequires(
 @RelationshipProperties
 class ItemDescriptorProducedBy(
         @TargetNode
-        val recipe: Recipe,
+        val recipe: RecipeEntity,
         val outputPerCycle: Double,
 ) {
     @RelationshipId
@@ -26,7 +26,7 @@ class ItemDescriptorProducedBy(
 @RelationshipProperties
 class RecipeProducing(
         @TargetNode
-        val item: ItemDescriptor,
+        val item: ItemDescriptorEntity,
         val outputPerCycle: Double,
 ) {
     @RelationshipId

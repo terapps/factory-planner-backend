@@ -1,7 +1,7 @@
 package terapps.factoryplanner.core.projections
 
 interface RecipeProducingSummary: RecipeSummary {
-    fun getProducing(): List<RecipeIO>
+    fun getProducing(): List<RecipeIoSummary>
 }
 
 

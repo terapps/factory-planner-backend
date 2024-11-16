@@ -9,7 +9,7 @@ import kotlin.reflect.full.memberProperties
 
 
 abstract class RelationshipQuery(
-        val relationship: Pair<KClass<*>, KClass<*>>,
+        val relationship: Pair<String, String>,
         val relationshipName: String
 ) {
     protected abstract var neo4jClient: Neo4jClient
@@ -25,7 +25,7 @@ abstract class RelationshipQuery(
         get() {
             return """
         UNWIND $$parameter AS relationship
-            MATCH (p:${relationship.first.simpleName} {className: relationship.${sourceIdParam}}), (m:${relationship.second.simpleName} {className: relationship.${destinationIdParam}})
+            MATCH (p:${relationship.first} {className: relationship.${sourceIdParam}}), (m:${relationship.second} {className: relationship.${destinationIdParam}})
             CREATE (p)-[:${relationshipName} ${relationshipProperties}]->(m)
     """.trimIndent()
         }

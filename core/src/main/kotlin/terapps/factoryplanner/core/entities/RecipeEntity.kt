@@ -6,22 +6,20 @@ import org.springframework.data.neo4j.core.schema.Node
 import org.springframework.data.neo4j.core.schema.Relationship
 import java.util.*
 
-@Node
-data class Recipe(
-        val className: String?,
+@Node("Recipe")
+data class RecipeEntity(
+        @Id
+        val className: String,
         val displayName: String?,
         val manufacturingDuration: Double?,
         @Relationship(type = "REQUIRED_IN", direction = Relationship.Direction.INCOMING)
         var ingredients: Set<RecipeRequires> = emptySet(),
         @Relationship(type = "MANUFACTURED_IN", direction = Relationship.Direction.OUTGOING)
-        val manufacturedIn: Set<CraftingMachine> = emptySet(),
+        val manufacturedIn: Set<CraftingMachineEntity> = emptySet(),
         @Relationship(type = "PRODUCED_BY", direction = Relationship.Direction.INCOMING)
         var producing: Set<RecipeProducing> = emptySet(),
         @Relationship(type = "SCHEMATIC_UNLOCKS_RECIPE", direction = Relationship.Direction.INCOMING)
-        var unlockedBy: Set<Schematic> = emptySet(),
+        var unlockedBy: Set<SchematicEntity> = emptySet(),
         ) {
-    @Id
-    @GeneratedValue
-    lateinit var id: UUID
 }
 
