@@ -19,20 +19,18 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 )
 abstract class FactorySiteRequest(val type: FactorySiteType) {
     abstract val itemClass: String
-    abstract val targetAmountPerCycle: Double
 }
 
 data class ItemSiteRequest(
         override val itemClass: String,
-        override val targetAmountPerCycle: Double
-): FactorySiteRequest(FactorySiteType.ItemSite)
+) : FactorySiteRequest(FactorySiteType.ItemSite)
 
 data class CraftingSiteRequest(
         override val itemClass: String,
-        override val targetAmountPerCycle: Double,
-        val recipeClass: String) : FactorySiteRequest(FactorySiteType.CraftingSite)
+        val recipeClass: String
+) : FactorySiteRequest(FactorySiteType.CraftingSite)
 
 data class ExtractingSiteRequest(
         override val itemClass: String,
-        override val targetAmountPerCycle: Double,
-        val extractorClass: String) : FactorySiteRequest(FactorySiteType.ExtractorSite)
+        val extractorClass: String
+) : FactorySiteRequest(FactorySiteType.ExtractorSite)

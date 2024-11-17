@@ -14,6 +14,7 @@ class CraftingMachineDto(
         override val minPotential: Double,
         override val maxPotential: Double,
         override val productionBoost: Double,
+        val descriptor: ItemDescriptorDto
 ): Automaton {
     constructor(it: CraftingMachineEntity): this(
             it.className,
@@ -24,7 +25,8 @@ class CraftingMachineDto(
             it.powerConsumptionExponent,
             it.minPotential,
             it.maxPotential,
-            it.productionBoost
+            it.productionBoost,
+            ItemDescriptorDto(it.descriptor!!)
     )
 
 }

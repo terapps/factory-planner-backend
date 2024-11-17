@@ -3,6 +3,7 @@ package terapps.factoryplanner.core.dto
 import com.fasterxml.jackson.annotation.JsonIgnore
 import terapps.factoryplanner.core.entities.ExtractorEntity
 import terapps.factoryplanner.core.entities.ItemCategory
+import terapps.factoryplanner.core.entities.ItemDescriptorEntity
 import terapps.factoryplanner.core.projections.ItemDescriptorSummary
 import terapps.factoryplanner.filestorage.dto.AssetsBucketEntry
 
@@ -27,5 +28,15 @@ class ItemDescriptorDto(
             itemDescriptorSummary.getSinkablePoints(),
             itemDescriptorSummary.getCategory(),
             itemDescriptorSummary.getExtractedIn().map { ExtractorDto(it) }.toSet()
+    )
+
+    constructor(itemDescriptor: ItemDescriptorEntity): this(
+            itemDescriptor.className,
+            itemDescriptor.displayName!!,
+            itemDescriptor.form!!,
+            itemDescriptor.iconSmall!!,
+            itemDescriptor.sinkablePoints,
+            itemDescriptor.category!!,
+            itemDescriptor.extractedIn.map { ExtractorDto(it) }.toSet()
     )
 }

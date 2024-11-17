@@ -18,6 +18,7 @@ class ExtractorDto(
         override val maxPotential: Double,
         override val productionBoost: Double,
         val extractorType: String, // TODO types enum
+        val descriptor: ItemDescriptorDto
 ): Automaton {
     constructor(it: ExtractorEntity): this(
             it.className,
@@ -31,6 +32,7 @@ class ExtractorDto(
             it.maxPotential,
             it.productionBoost,
             it.extractorType,
+            ItemDescriptorDto(it.descriptor!!)
     )
 
 }

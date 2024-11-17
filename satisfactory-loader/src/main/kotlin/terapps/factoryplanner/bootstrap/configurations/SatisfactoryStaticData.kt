@@ -33,22 +33,6 @@ class SatisfactoryStaticDataLoader {
                 FGSchematic::class to Int.MAX_VALUE,
         )
         val gameCategories = parseSatisfactoryJson()
-        val recipeCategory = gameCategories.fromCategory(FGRecipe::class)
-
-        recipeCategory.Classes += FGRecipe(
-                "Recipe_Water_C",
-                "Water extraction recipe",
-                "Water extraction recipe",
-                "",
-                0.0,
-                0.0,
-                0.0,
-                "(SelfMade.Build_WaterPump_C)",
-                "((ItemClass=BlueprintGeneratedClass'/Game/FactoryGame/Resource/Raw.Desc_Water_C',Amount=1))",
-                "",
-                0.0,
-                0.0
-        )
 
         return gameCategories.sortedBy {
             categoryWeight[it.classType] ?: Int.MIN_VALUE

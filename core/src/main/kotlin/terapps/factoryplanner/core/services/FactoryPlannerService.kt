@@ -2,6 +2,7 @@ package terapps.factoryplanner.core.services
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import terapps.factoryplanner.core.dto.ExtractorDto
 import terapps.factoryplanner.core.dto.ItemDescriptorDto
 import terapps.factoryplanner.core.dto.RecipeProducingDto
 import terapps.factoryplanner.core.dto.RecipeRequiringDto
@@ -9,7 +10,10 @@ import terapps.factoryplanner.core.entities.ItemCategory
 import terapps.factoryplanner.core.graph.GraphBuilder
 import terapps.factoryplanner.core.repositories.ExtractorRepository
 import terapps.factoryplanner.core.services.components.factorygraph.*
-import terapps.factoryplanner.core.services.components.selector.*
+import terapps.factoryplanner.core.services.components.selector.COMPACTED_COAL
+import terapps.factoryplanner.core.services.components.selector.IRON_INGOT
+import terapps.factoryplanner.core.services.components.selector.ITEM_IS_GAS
+import terapps.factoryplanner.core.services.components.selector.ITEM_IS_LIQUID
 
 typealias FactoryGraph = GraphBuilder<FactoryNode, FactoryEdge>
 
@@ -27,9 +31,9 @@ class FactoryPlannerService {
 
     companion object {
 
-/**
- * Item to Recipe pattern exclusion
- */
+        /**
+         * Item to Recipe pattern exclusion
+         */
 
         val producerExclusion = mapOf(
                 IRON_INGOT to "Recipe_Alternate_IronIngot_Leached_C".toRegex(),
@@ -37,30 +41,31 @@ class FactoryPlannerService {
                 ITEM_IS_GAS to ".*package.*".toRegex(),
         )
 
-/**
- * Item to Recipe pattern inclusion
- */
+        /**
+         * Item to Recipe pattern inclusion
+         */
 
         val producerForcedRecipe = mapOf(
                 COMPACTED_COAL to "Recipe_Alternate_EnrichedCoal_C".toRegex(),
         )
     }
+
     fun planFactorySite(factorySiteRequest: FactorySiteRequest): FactoryGraph {
         val graph = FactoryGraph()
         val item = itemDescriptorService.findByClassName(factorySiteRequest.itemClass)
 
         when (factorySiteRequest) {
-            is ExtractingSiteRequest -> graph.makeExtractingSite(item, factorySiteRequest.targetAmountPerCycle, factorySiteRequest.extractorClass)
-            is CraftingSiteRequest -> graph.makeCraftingSite(item, factorySiteRequest.targetAmountPerCycle, factorySiteRequest.recipeClass)
-            is ItemSiteRequest -> graph.makeItemSite(item, factorySiteRequest.targetAmountPerCycle) // here, consider make crafting site node for each
+            is ExtractingSiteRequest -> graph.makeExtractingSite(item, factorySiteRequest.extractorClass)
+            is CraftingSiteRequest -> graph.makeCraftingSite(item, factorySiteRequest.recipeClass)
+            is ItemSiteRequest -> graph.makeItemSite(item)
             else -> throw Error("Unknown site type")
         }
 
         return graph
     }
 
-    fun FactoryGraph.makeItemSite(item: ItemDescriptorDto, amountPerCycle: Double, loadExtra: Boolean = true): FactoryNode {
-        val node = ItemSiteNode(item, amountPerCycle)
+    fun FactoryGraph.makeItemSite(item: ItemDescriptorDto, loadExtra: Boolean = true): FactoryNode {
+        val node = ItemSiteNode(item)
 
         addNode(node)
 
@@ -78,39 +83,38 @@ class FactoryPlannerService {
             }
 
             recipes.forEach { recipe ->
-                makeCraftingSite(item, amountPerCycle, recipe.className, false)
+                makeCraftingSite(item, recipe.className, recipe)
             }
         }
         if (loadExtra && item.category == ItemCategory.Raw) {
             val extractors = item.extractedIn
 
             extractors.forEach {
-                makeExtractingSite(item, amountPerCycle, it.className)
+                makeExtractingSite(item, it.className)
             }
         }
         return node
     }
 
-    fun FactoryGraph.makeExtractingSite(item: ItemDescriptorDto, amountPerCycle: Double, extractorClass: String): ExtractingSiteNode {
-        val extractor = extractorService.findByClassName(extractorClass) ?: throw Error("Cannot find extractor ${extractorClass}")
+    fun FactoryGraph.makeExtractingSite(item: ItemDescriptorDto, extractorClass: String): ExtractingSiteNode {
+        val extractor = extractorService.findByClassName(extractorClass)
+                ?: throw Error("Cannot find extractor ${extractorClass}")
 
         val node = ExtractingSiteNode(
                 item,
-                amountPerCycle,
-                extractor
+                ExtractorDto(extractor),
         )
         addNode(node)
-        addEdge(FactoryEdge(amountPerCycle, node.id, item.className))
+        addEdge(FactoryEdge(node.id, item.className))
 
         return node
     }
 
 
-    fun FactoryGraph.makeCraftingSite(item: ItemDescriptorDto, amountPerCycle: Double, recipeClass: String, loadIngredients: Boolean = true): CraftingSiteNode {
+    fun FactoryGraph.makeCraftingSite(item: ItemDescriptorDto, recipeClass: String, recipeRequiring: RecipeRequiringDto? = null): CraftingSiteNode {
         val recipeProducing = recipeService.findByClassName<RecipeProducingDto>(recipeClass)
         val node = CraftingSiteNode(
                 item,
-                amountPerCycle,
                 recipeProducing.manufacturedIn.firstOrNull()
                         ?: throw Error("No machine ${recipeClass}"),
                 recipeProducing
@@ -118,23 +122,17 @@ class FactoryPlannerService {
 
         addNode(node)
         recipeProducing.producing.forEach {
-            val outputPerCycle = node.requiredMachines * it.actualOutputPerCycle
-            val producedNode = makeItemSite(it.item, outputPerCycle, false)
+            val producedNode = makeItemSite(it.item, false)
 
             addNode(producedNode)
-            addEdge(FactoryEdge(outputPerCycle, node.id, producedNode.id,))
+            addEdge(FactoryEdge(node.id, producedNode.id, it.actualOutputPerCycle))
         }
 
-        if (loadIngredients) {
-            val recipeRequiring = recipeService.findByClassName<RecipeRequiringDto>(recipeClass)
+        recipeRequiring?.ingredients?.forEach {
+            val requiredNode = makeItemSite(it.item, false)
 
-            recipeRequiring.ingredients.forEach {
-                val outputPerCycle = node.requiredMachines * it.actualOutputPerCycle
-                val requiredNode = makeItemSite(it.item, outputPerCycle, false)
-
-                addNode(requiredNode)
-                addEdge(FactoryEdge(outputPerCycle,requiredNode.id, node.id, ))
-            }
+            addNode(requiredNode)
+            addEdge(FactoryEdge(requiredNode.id, node.id, it.actualOutputPerCycle))
         }
 
         return node
