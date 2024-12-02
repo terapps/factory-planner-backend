@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine as build-step
+FROM gradle:8-jdk17-alpine AS build-step
 
 RUN mkdir /app
 
@@ -6,24 +6,16 @@ WORKDIR /app
 
 COPY . /app
 
-RUN ./gradlew clean build
+RUN gradle clean build
 
-FROM openjdk:17-jdk-alpine as runtime-api
-
-RUN mkdir /app
-
-WORKDIR /app
-
-COPY . --from=/app/api/build/libs/api-*SNAPSHOT.jar
-
-CMD ["java", "-jar", "/app/api*.jar"]
-
-FROM openjdk:17-jdk-alpine as runtime-loader
+FROM openjdk:17-jdk-alpine AS runtime-api
 
 RUN mkdir /app
 
 WORKDIR /app
 
-COPY . --from=/app/satisfactory-loader/build/libs/satisfactory-loader-*SNAPSHOT.jar
 
-CMD ["java", "-jar", "/app/api*.jar"]
+COPY --from=build-step /app/api/build/libs/api*-SNAPSHOT.jar api.jar
+
+
+CMD ["java", "-jar", "api.jar"]

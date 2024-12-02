@@ -20,8 +20,16 @@ class FactoryPlannerController {
 
     @PostMapping("/plan", consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun planFactorySite(
-            @RequestBody factorySiteRequest: FactorySiteRequest,
+            @RequestBody factorySiteRequests: Collection<FactorySiteRequest>,
             ): FactoryGraph {
-        return factoryPlannerService.planFactorySite(factorySiteRequest)
+        val graph = FactoryGraph()
+
+        return factorySiteRequests.map {
+            factoryPlannerService.planFactorySite(it)
+        }.fold(graph) { acc, graphBuilder ->
+            acc.nodes += graphBuilder.nodes
+            acc.edges += graphBuilder.edges
+            acc
+        }
     }
 }

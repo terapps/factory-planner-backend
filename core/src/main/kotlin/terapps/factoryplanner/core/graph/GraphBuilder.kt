@@ -5,6 +5,12 @@ interface GraphEdge {
     val target: String
 }
 
+data class Graph<Node, Edge : GraphEdge>(
+        val nodes: MutableSet<Node> = mutableSetOf(),
+        val edges: MutableSet<Edge> = mutableSetOf()
+) {
+}
+
 
 class GraphBuilder<Node, Edge : GraphEdge>(
         val nodes: MutableSet<Node> = mutableSetOf(),
@@ -28,5 +34,9 @@ class GraphBuilder<Node, Edge : GraphEdge>(
         return edges.filter {
             it.target == node
         }
+    }
+
+    fun seal(): Graph<Node, Edge> {
+        return Graph(nodes, edges)
     }
 }

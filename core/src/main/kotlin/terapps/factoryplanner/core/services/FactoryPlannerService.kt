@@ -7,6 +7,7 @@ import terapps.factoryplanner.core.dto.ItemDescriptorDto
 import terapps.factoryplanner.core.dto.RecipeProducingDto
 import terapps.factoryplanner.core.dto.RecipeRequiringDto
 import terapps.factoryplanner.core.entities.ItemCategory
+import terapps.factoryplanner.core.graph.Graph
 import terapps.factoryplanner.core.graph.GraphBuilder
 import terapps.factoryplanner.core.repositories.ExtractorRepository
 import terapps.factoryplanner.core.services.components.factorygraph.*
@@ -15,8 +16,8 @@ import terapps.factoryplanner.core.services.components.selector.IRON_INGOT
 import terapps.factoryplanner.core.services.components.selector.ITEM_IS_GAS
 import terapps.factoryplanner.core.services.components.selector.ITEM_IS_LIQUID
 
-typealias FactoryGraph = GraphBuilder<FactoryNode, FactoryEdge>
-
+typealias FactoryGraphBuilder = GraphBuilder<FactoryNode, FactoryEdge>
+typealias FactoryGraph = Graph<FactoryNode, FactoryEdge>
 
 @Service
 class FactoryPlannerService {
@@ -51,7 +52,7 @@ class FactoryPlannerService {
     }
 
     fun planFactorySite(factorySiteRequest: FactorySiteRequest): FactoryGraph {
-        val graph = FactoryGraph()
+        val graph = FactoryGraphBuilder()
         val item = itemDescriptorService.findByClassName(factorySiteRequest.itemClass)
 
         when (factorySiteRequest) {
@@ -61,10 +62,10 @@ class FactoryPlannerService {
             else -> throw Error("Unknown site type")
         }
 
-        return graph
+        return graph.seal()
     }
 
-    fun FactoryGraph.makeItemSite(item: ItemDescriptorDto, loadExtra: Boolean = true): FactoryNode {
+    fun FactoryGraphBuilder.makeItemSite(item: ItemDescriptorDto, loadExtra: Boolean = true): FactoryNode {
         val node = ItemSiteNode(item)
 
         addNode(node)
@@ -76,6 +77,7 @@ class FactoryPlannerService {
             val inclusionMatchers = producerForcedRecipe.filter { (predicate, _) ->
                 predicate.compute(item)
             }.map { (_, regex) -> regex }
+
             val recipes = recipeService.findByProducingItemClassNameIn<RecipeRequiringDto>(listOf(item.className)).filterNot {
                 exclusionMatchers.any { matcher -> matcher.matches(it.className) }
             }.filter {
@@ -96,7 +98,7 @@ class FactoryPlannerService {
         return node
     }
 
-    fun FactoryGraph.makeExtractingSite(item: ItemDescriptorDto, extractorClass: String): ExtractingSiteNode {
+    fun FactoryGraphBuilder.makeExtractingSite(item: ItemDescriptorDto, extractorClass: String): ExtractingSiteNode {
         val extractor = extractorService.findByClassName(extractorClass)
                 ?: throw Error("Cannot find extractor ${extractorClass}")
 
@@ -111,8 +113,10 @@ class FactoryPlannerService {
     }
 
 
-    fun FactoryGraph.makeCraftingSite(item: ItemDescriptorDto, recipeClass: String, recipeRequiring: RecipeRequiringDto? = null): CraftingSiteNode {
+    fun FactoryGraphBuilder.makeCraftingSite(item: ItemDescriptorDto, recipeClass: String, recipeRequiring: RecipeRequiringDto? = null): CraftingSiteNode {
         val recipeProducing = recipeService.findByClassName<RecipeProducingDto>(recipeClass)
+        val ingredientsRecipe = recipeRequiring ?: recipeService.findByClassName<RecipeRequiringDto>(recipeClass)
+
         val node = CraftingSiteNode(
                 item,
                 recipeProducing.manufacturedIn.firstOrNull()
@@ -128,7 +132,7 @@ class FactoryPlannerService {
             addEdge(FactoryEdge(node.id, producedNode.id, it.actualOutputPerCycle))
         }
 
-        recipeRequiring?.ingredients?.forEach {
+        ingredientsRecipe.ingredients.forEach {
             val requiredNode = makeItemSite(it.item, false)
 
             addNode(requiredNode)

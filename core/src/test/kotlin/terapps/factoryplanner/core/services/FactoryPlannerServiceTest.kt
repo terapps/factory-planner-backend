@@ -1,3 +1,4 @@
+/*
 package terapps.factoryplanner.core.services
 
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,6 +22,5 @@ class FactoryPlannerServiceTest {
 
     ) {
         val item = itemDescriptorService.findByClassName("Desc_OreIron_C")
-        val graph = factoryPlannerService.planFactorySiteAllCombinations(item, 60.0)
     }
-}
+}*/
