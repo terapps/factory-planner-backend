@@ -2,10 +2,7 @@ package terapps.factoryplanner.core.services
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import terapps.factoryplanner.core.dto.ExtractorDto
-import terapps.factoryplanner.core.dto.ItemDescriptorDto
-import terapps.factoryplanner.core.dto.RecipeProducingDto
-import terapps.factoryplanner.core.dto.RecipeRequiringDto
+import terapps.factoryplanner.core.dto.*
 import terapps.factoryplanner.core.entities.ItemCategory
 import terapps.factoryplanner.core.graph.Graph
 import terapps.factoryplanner.core.graph.GraphBuilder
@@ -116,11 +113,16 @@ class FactoryPlannerService {
     fun FactoryGraphBuilder.makeCraftingSite(item: ItemDescriptorDto, recipeClass: String, recipeRequiring: RecipeRequiringDto? = null): CraftingSiteNode {
         val recipeProducing = recipeService.findByClassName<RecipeProducingDto>(recipeClass)
         val ingredientsRecipe = recipeRequiring ?: recipeService.findByClassName<RecipeRequiringDto>(recipeClass)
+        val craftingMachine = recipeProducing.manufacturedIn.firstOrNull() ?: let {
+            val workshopItem = itemDescriptorService.findByClassName("Desc_Workshop_C")
+
+            CraftingMachineDto("Desc_Workshop_C", "Manual crafting", "Non automated craft", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, workshopItem)
+        }
+
 
         val node = CraftingSiteNode(
                 item,
-                recipeProducing.manufacturedIn.firstOrNull()
-                        ?: throw Error("No machine ${recipeClass}"),
+                craftingMachine,
                 recipeProducing
         )
 
