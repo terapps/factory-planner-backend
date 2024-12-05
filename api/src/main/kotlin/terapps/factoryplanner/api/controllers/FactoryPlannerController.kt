@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import terapps.factoryplanner.core.services.FactoryGraph
 import terapps.factoryplanner.core.services.FactoryPlannerService
+import terapps.factoryplanner.core.services.SealedGraph
+import terapps.factoryplanner.core.services.components.factorygraph.FactoryEdge
+import terapps.factoryplanner.core.services.components.factorygraph.FactoryNode
 import terapps.factoryplanner.core.services.components.factorygraph.FactorySiteRequest
 
 
@@ -22,14 +25,14 @@ class FactoryPlannerController {
     fun planFactorySite(
             @RequestBody factorySiteRequests: Collection<FactorySiteRequest>,
             ): FactoryGraph {
-        val graph = FactoryGraph()
-
         return factorySiteRequests.map {
             factoryPlannerService.planFactorySite(it)
-        }.fold(graph) { acc, graphBuilder ->
+        }.fold(FactoryGraph()) { acc, graphBuilder ->
             acc.nodes += graphBuilder.nodes
             acc.edges += graphBuilder.edges
             acc
+        }.apply {
+            SealedGraph(nodes.distinctBy { it.id }, edges.distinctBy { it.source to it.target })
         }
     }
 }

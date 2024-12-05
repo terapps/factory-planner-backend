@@ -15,7 +15,10 @@ import terapps.factoryplanner.core.services.components.selector.ITEM_IS_LIQUID
 
 typealias FactoryGraphBuilder = GraphBuilder<FactoryNode, FactoryEdge>
 typealias FactoryGraph = Graph<FactoryNode, FactoryEdge>
-
+data class SealedGraph(
+        val nodes: Collection<FactoryNode>,
+        val edges: Collection<FactoryEdge>
+)
 @Service
 class FactoryPlannerService {
     @Autowired
@@ -123,7 +126,7 @@ class FactoryPlannerService {
         val node = CraftingSiteNode(
                 item,
                 craftingMachine,
-                recipeProducing
+                RecipeDto(recipeProducing.className, recipeProducing.manufacturingDuration, recipeProducing.displayName, recipeProducing.manufacturedIn)
         )
 
         addNode(node)
