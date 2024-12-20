@@ -50,7 +50,7 @@ abstract class RelationshipQuery(
 
     protected open val relationshipProperties: String
         get() {
-            val firstElem = bindRelationships.firstOrNull() ?: throw Error("No relationship ${this.javaClass.simpleName}")
+            val firstElem = bindRelationships.firstOrNull() ?: throw Error("No relationship ${this.javaClass.simpleName} - ${relationshipName}")
             val keys = firstElem.keys.filterNot { it in Relationship::class.memberProperties.map { it.name } }
 
             return if (keys.isEmpty()) "" else "{ ${keys.joinToString(", ") { "$it: relationship.$it" }} }"

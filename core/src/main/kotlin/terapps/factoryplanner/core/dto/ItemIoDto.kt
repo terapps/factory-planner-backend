@@ -2,7 +2,7 @@ package terapps.factoryplanner.core.dto
 
 import terapps.factoryplanner.core.projections.RecipeIoSummary
 
-data class RecipeIoDto(
+data class ItemIoDto(
         val item: ItemDescriptorDto,
         val outputPerCycle: Double,
 ) {

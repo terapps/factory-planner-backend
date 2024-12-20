@@ -25,12 +25,12 @@ fun String.extractDictEntry(): MutableList<ItemIO> {
 
     return result
 }
-fun <T> ItemIO.toItemIO(transform: (String, Float) -> T): T {
+fun <T> ItemIO.toItemIO(transform: (String, Double  ) -> T): T {
     val blueprintClassRegex = ".*BlueprintGeneratedClass'.*\\.(?<captured>.*)'".toRegex()
     val itemClass = this["ItemClass"] ?: throw Error("ItemIO: itemclass not found $this")
 
     val descriptor = blueprintClassRegex.find(itemClass)?.groups?.get("captured")?.value ?: throw Error("ItemIO: doesnt match regex $itemClass")
-    val out = this["Amount"]!!.toFloat()
+    val out = this["Amount"]!!.toDouble()
 
     return transform(descriptor, out)
 }

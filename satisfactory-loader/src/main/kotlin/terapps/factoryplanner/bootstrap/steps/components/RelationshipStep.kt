@@ -54,7 +54,9 @@ class RelationshipStep : RootStep,  TransformerOrchestrator<SatisfactoryRelation
 
         transformers.forEach {
             logger.info("Binding ${it.relationships.size} relationships for ${it.relationshipName}")
-            it.runCypherQuery()
+            if (it.relationships.isNotEmpty()) {
+                it.runCypherQuery()
+            }
         }
     }
 

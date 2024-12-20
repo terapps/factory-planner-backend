@@ -17,19 +17,16 @@ open class Relationship(val sourceId: String,
 class RelationshipItemIO(
         sourceId: String,
         destinationId: String,
-        val outputPerCycle: Float
+        val outputPerCycle: Double
 ) : Relationship(sourceId, destinationId) {
-    override fun hashCode(): Int {
-        return super.hashCode() + outputPerCycle.hashCode()
-    }
+
 }
 
-class RelationshipWeight(
+class RelationshipItemIOBurner(
         sourceId: String,
         destinationId: String,
-        val outputPerCycle: Float
+        val outputPerCycle: Double,
+        val burnRate: Double,
 ) : Relationship(sourceId, destinationId) {
-    override fun hashCode(): Int {
-        return super.hashCode() + outputPerCycle.hashCode()
-    }
+
 }

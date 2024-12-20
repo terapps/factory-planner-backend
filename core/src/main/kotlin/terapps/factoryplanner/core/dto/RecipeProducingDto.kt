@@ -1,14 +1,13 @@
 package terapps.factoryplanner.core.dto
 
 import terapps.factoryplanner.core.projections.RecipeProducingSummary
-import java.util.*
 
 data class RecipeProducingDto(
         override val className: String,
         override val manufacturingDuration: Double,
         override val displayName: String,
         override val manufacturedIn: List<CraftingMachineDto>,
-        val producing: List<RecipeIoDto>
+        val producing: List<ItemIoDto>
 ) : RecipeDto(className, manufacturingDuration, displayName, manufacturedIn) {
     val manufacturingDurationByMinute: Double
         get() = 60.0 / manufacturingDuration
@@ -20,7 +19,7 @@ data class RecipeProducingDto(
             recipeSummary.getManufacturedIn().map {
                 CraftingMachineDto(it)
             },
-            recipeSummary.getProducing().map { RecipeIoDto(it) }
+            recipeSummary.getProducing().map { ItemIoDto(it) }
     )
 }
 
