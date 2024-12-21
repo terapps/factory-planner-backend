@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
         include = JsonTypeInfo.As.EXISTING_PROPERTY,
         property = "type",
         defaultImpl = FactorySiteRequest::class,
-        visible = true
+        visible = false
 )
 @JsonSubTypes(
         value = [

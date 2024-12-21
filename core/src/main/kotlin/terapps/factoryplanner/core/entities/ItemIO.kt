@@ -3,6 +3,7 @@ package terapps.factoryplanner.core.entities
 import org.springframework.data.neo4j.core.schema.RelationshipId
 import org.springframework.data.neo4j.core.schema.RelationshipProperties
 import org.springframework.data.neo4j.core.schema.TargetNode
+import terapps.factoryplanner.core.projections.ItemDescriptorSummary
 
 @RelationshipProperties
 class RecipeRequires(
@@ -35,7 +36,7 @@ class RecipeProducing(
 @RelationshipProperties
 class PowerGeneratorRequires(
         @TargetNode
-        val item: ItemDescriptorEntity,
+        val item: ItemDescriptorSummary,
         val outputPerCycle: Double,
 ) {
     @RelationshipId
@@ -44,7 +45,7 @@ class PowerGeneratorRequires(
 @RelationshipProperties
 class PowerGeneratorProduces(
         @TargetNode
-        val item: ItemDescriptorEntity,
+        val item: ItemDescriptorSummary,
         val outputPerCycle: Double,
 ) {
     @RelationshipId
@@ -54,7 +55,7 @@ class PowerGeneratorProduces(
 @RelationshipProperties
 class PowerGeneratorFuelRequires(
         @TargetNode
-        val item: ItemDescriptorEntity,
+        val item: ItemDescriptorSummary,
         val burnTime: Double,
         val inputPerCycle: Double,
 ) {

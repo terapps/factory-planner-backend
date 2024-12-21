@@ -8,6 +8,7 @@ import org.modelmapper.convention.MatchingStrategies
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import terapps.factoryplanner.core.dto.*
+import terapps.factoryplanner.core.entities.*
 import terapps.factoryplanner.core.projections.*
 import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubtypeOf
@@ -21,8 +22,14 @@ class ModelMapperConfiguration {
         private val typemap = mapOf(
                 ItemDescriptorSummary::class to  ItemDescriptorDto::class,
                 RecipeSummary::class to RecipeDto::class,
+                PowerGeneratorEntity::class to PowerGeneratorDto::class,
                 RecipeRequiringSummary::class to  RecipeRequiringDto::class,
                 RecipeProducingSummary::class to  RecipeProducingDto::class,
+                TaskGroupEntity::class to TaskGroupDto::class,
+                CraftingSiteTaskEntity::class to CraftingSiteTaskDto::class,
+                ExtractingSiteTaskEntity::class to ExtractingSiteTaskDto::class,
+                PowerGeneratingTaskEntity::class to PowerGeneratingSiteTaskDto::class,
+
         )
 
         fun ModelMapper.createTypeMap(src: KClass<*>, dest: KClass<*>): TypeMap<out Any, out Any> = createTypeMap(

@@ -16,7 +16,7 @@ class PowerGeneratorEntity(
         val minPotential: Double,
         val maxPotential: Double,
         @Relationship(type = "CONSUMED_BY", direction = Relationship.Direction.INCOMING)
-        val fuel: PowerGeneratorFuelRequires? = null,
+        val fuel: Set<PowerGeneratorFuelRequires> = emptySet(), // TODO here we must correspond with byproducts & all
         @Relationship(type = "CONSUMED_BY", direction = Relationship.Direction.INCOMING)
         val supplementalResource: PowerGeneratorRequires? = null,
         @Relationship(type = "PRODUCED_BY", direction = Relationship.Direction.OUTGOING)

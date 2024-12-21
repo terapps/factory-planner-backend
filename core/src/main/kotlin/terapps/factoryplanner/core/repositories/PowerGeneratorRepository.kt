@@ -8,5 +8,6 @@ import java.util.*
 
 @Repository
 interface PowerGeneratorRepository : Neo4jRepository<PowerGeneratorEntity, String> {
-
+    fun findByClassName(className: String): PowerGeneratorEntity?
+    fun findByDisplayNameLikeIgnoreCase(displayName: String): Collection<PowerGeneratorEntity>
 }

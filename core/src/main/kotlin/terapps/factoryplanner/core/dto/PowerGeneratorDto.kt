@@ -1,17 +1,31 @@
 package terapps.factoryplanner.core.dto
 
-import org.springframework.data.neo4j.core.schema.Id
-import org.springframework.data.neo4j.core.schema.Relationship
-import terapps.factoryplanner.core.entities.PowerGeneratorProduces
-import terapps.factoryplanner.core.entities.PowerGeneratorRequires
+import terapps.factoryplanner.core.entities.PowerGeneratorEntity
+
+class PowerGeneratorFuelRequires(
+        val item: ItemDescriptorDto,
+        val burnTime: Double,
+        val inputPerCycle: Double,
+)
 
 class PowerGeneratorDto(
-        @Id
         val className: String,
         val currentPotential: Double,
         val fuelLoadAmount: Double,
         val powerProduction: Double,
-        val fuel: PowerGeneratorRequires,
+        val fuel: Set<PowerGeneratorFuelRequires>,
         val supplementalResource: ItemIoDto? = null,
         val byproducts: ItemIoDto? = null,
-)
+) {
+    constructor(entity: PowerGeneratorEntity) : this(entity.className, entity.currentPotential, entity.fuelLoadAmount, entity.powerProduction,
+            entity.fuel.map {
+                PowerGeneratorFuelRequires(ItemDescriptorDto(it.item), it.burnTime, it.inputPerCycle)
+            }.toSet(),
+            entity.supplementalResource?.let {
+                ItemIoDto(ItemDescriptorDto(it.item), it.outputPerCycle)
+            },
+            entity.byproducts?.let {
+                ItemIoDto(ItemDescriptorDto(it.item), it.outputPerCycle)
+            })
+}
+

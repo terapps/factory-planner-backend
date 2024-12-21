@@ -24,7 +24,7 @@ class ExtractorEntity(
         val allowedResourceForm: Set<String>,
         val allowedResources: Set<String>, // i dont want this since its going to end up a relationship
         @Relationship(type = "IS_REPRESENTED_BY", direction = Relationship.Direction.OUTGOING)
-        val descriptor: ItemDescriptorEntity? = null,
+        val descriptor: ItemDescriptorEntity? = null, // TODo summary type
 ): Automaton {
 }
 
