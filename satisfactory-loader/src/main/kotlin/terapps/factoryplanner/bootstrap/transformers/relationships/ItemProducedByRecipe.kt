@@ -16,7 +16,7 @@ import terapps.factoryplanner.core.services.components.RelationshipItemIO
 class ItemProducedByRecipe :
         SatisfactoryRelationshipTransformer<FGRecipe, Collection<RelationshipItemIO>>(
                 FGRecipe::class,
-                ItemDescriptorEntity::class to RecipeEntity::class,
+                RecipeEntity::class to ItemDescriptorEntity::class,
                 "PRODUCED_BY"
         ) {
     @Autowired
@@ -27,7 +27,7 @@ class ItemProducedByRecipe :
     override fun transform(transformIn: FGRecipe): Collection<RelationshipItemIO> {
         return transformIn.mProduct.extractDictEntry().map {
             it.toItemIO { itemClass, out ->
-                RelationshipItemIO(itemClass, transformIn.ClassName, out)
+                RelationshipItemIO(transformIn.ClassName, itemClass, out)
             }
         }
     }
