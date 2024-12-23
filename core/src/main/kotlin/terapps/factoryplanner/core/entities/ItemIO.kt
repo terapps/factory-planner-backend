@@ -16,15 +16,6 @@ class RecipeRequires(
 }
 
 @RelationshipProperties
-class ItemDescriptorProducedBy(
-        @TargetNode
-        val recipe: RecipeEntity,
-        val outputPerCycle: Double,
-) {
-    @RelationshipId
-    var id: Long? = null
-}
-@RelationshipProperties
 class RecipeProducing(
         @TargetNode
         val item: ItemDescriptorEntity,
@@ -36,7 +27,7 @@ class RecipeProducing(
 @RelationshipProperties
 class PowerGeneratorRequires(
         @TargetNode
-        val item: ItemDescriptorSummary,
+        val item: ItemDescriptorEntity,
         val outputPerCycle: Double,
 ) {
     @RelationshipId
@@ -45,7 +36,7 @@ class PowerGeneratorRequires(
 @RelationshipProperties
 class PowerGeneratorProduces(
         @TargetNode
-        val item: ItemDescriptorSummary,
+        val item: ItemDescriptorEntity,
         val outputPerCycle: Double,
 ) {
     @RelationshipId
@@ -55,7 +46,7 @@ class PowerGeneratorProduces(
 @RelationshipProperties
 class PowerGeneratorFuelRequires(
         @TargetNode
-        val item: ItemDescriptorSummary,
+        val item: ItemDescriptorEntity,
         val burnTime: Double,
         val inputPerCycle: Double,
 ) {

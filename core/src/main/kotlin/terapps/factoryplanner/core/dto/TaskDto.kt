@@ -3,34 +3,51 @@ package terapps.factoryplanner.core.dto
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import terapps.factoryplanner.core.entities.*
+import terapps.factoryplanner.core.projections.*
 import java.util.*
 
-enum class TaskEnum {
-    CraftingSite,
-    ExtractingSite,
-    PowerGeneratingSite
+class TaskLinkDto(
+        val id: String,
+        val status: TaskStatus,
+        val type: TaskEnum,
+) {
+    constructor(task: TaskMinimalSummary): this(
+            task.getId(),
+            task.getStatus(),
+            task.getType()
+    )
 }
 
-fun TaskEntity.toDto(): TaskDto {
-    return when (this) {
-        is CraftingSiteTaskEntity -> CraftingSiteTaskDto(this)
-        is ExtractingSiteTaskEntity -> ExtractingSiteTaskDto(this)
-        is PowerGeneratingTaskEntity -> PowerGeneratingSiteTaskDto(this)
-        else -> throw Error("Unknown task")
-    }
-}
 
 class TaskGroupDto(
         var name: String,
-        var tasks: Collection<TaskDto> = emptySet()
+        val tasks: Collection<TaskLinkDto>
 ) {
     lateinit var id: String
 
-    constructor(taskGroupEntity: TaskGroupEntity) : this(
-            taskGroupEntity.name,
-            taskGroupEntity.tasks.map { it.toDto() }) {
-        id = taskGroupEntity.id.toString()
+    constructor(taskGroupEntity: TaskGroupSummary) : this(
+            taskGroupEntity.getName(),
+            taskGroupEntity.getTasks().map { TaskLinkDto(it) }
+    ) {
+        id = taskGroupEntity.getId()
     }
+}
+
+class TaskIoDto(
+        val id: String,
+        val amountPerMinute: Double,
+        val item: ItemDescriptorMetadataDto,
+        val source: TaskLinkDto? = null,
+        val destination: TaskLinkDto? = null
+) {
+    constructor(taskIoSummary: TaskIoSummary): this(
+            taskIoSummary.getId(),
+            taskIoSummary.getAmountPerMinute(),
+            ItemDescriptorMetadataDto(taskIoSummary.getItem()),
+            taskIoSummary.getSource()?.let { TaskLinkDto(it) },
+            taskIoSummary.getDestination()?.let { TaskLinkDto(it) },
+    )
+
 }
 
 @JsonTypeInfo(
@@ -47,77 +64,66 @@ class TaskGroupDto(
             JsonSubTypes.Type(value = PowerGeneratingSiteTaskDto::class, name = "PowerGeneratingSite"),
         ],
 )
-abstract class TaskDto(
+open class TaskDto(
         val type: TaskEnum,
         val status: TaskStatus,
-        val ingoing: Collection<TaskDto>,
-        val outgoing: Collection<TaskDto>
+        val ingoing: Collection<TaskIoDto> = emptySet(),
+        val outgoing: Collection<TaskIoDto> = emptySet()
 ) {
-    abstract var id: String
+    lateinit var id: String
 }
 
 class CraftingSiteTaskDto(
         status: TaskStatus,
-        ingoing: Collection<TaskDto>,
-        outgoing: Collection<TaskDto>,
+        ingoing: Collection<TaskIoDto>,
+        outgoing: Collection<TaskIoDto>,
         val requiredCycles: Double,
-        val recipe: RecipeProducingDto,
+        val recipe: RecipeDto,
         val overclockingProfile: Double
 ) : TaskDto(TaskEnum.CraftingSite, status, ingoing, outgoing) {
-    override lateinit var id: String
-
-    constructor(taskEntity: CraftingSiteTaskEntity) : this(
-            taskEntity.status,
-            taskEntity.ingoing.map { it.toDto() },
-            taskEntity.outgoing.map { it.toDto() },
-            taskEntity.requiredCycles,
-            RecipeProducingDto(taskEntity.recipe),
-            taskEntity.overclockingProfile
+    constructor(taskEntity: CraftingSiteTaskSummary) : this(
+            taskEntity.getStatus(),
+            taskEntity.getIngoing().map { TaskIoDto(it) },
+            taskEntity.getOutgoing().map { TaskIoDto(it) },
+            taskEntity.getRequiredCycles(),
+            RecipeDto(taskEntity.getRecipe()),
+            taskEntity.getOverclockingProfile()
     ) {
-        id = taskEntity.id.toString()
+        id = taskEntity.getId()
     }
 }
 
 class ExtractingSiteTaskDto(
         status: TaskStatus,
-        ingoing: Collection<TaskDto>,
-        outgoing: Collection<TaskDto>,
-        val nodes: Collection<ExtractingNode>,
-        val item: ItemDescriptorDto,
+        ingoing: Collection<TaskIoDto>,
+        outgoing: Collection<TaskIoDto>,
         val extractor: ExtractorDto,
 ) : TaskDto(TaskEnum.ExtractingSite, status, ingoing, outgoing) {
-    override lateinit var id: String
 
-    constructor(taskEntity: ExtractingSiteTaskEntity) : this(
-            taskEntity.status,
-            taskEntity.ingoing.map { it.toDto() },
-            taskEntity.outgoing.map { it.toDto() },
-            taskEntity.nodes,
-            ItemDescriptorDto(taskEntity.item),
-            ExtractorDto(taskEntity.extractor),
+    constructor(taskEntity: ExtractingSiteTaskSummary) : this(
+            taskEntity.getStatus(),
+            taskEntity.getIngoing().map { TaskIoDto(it) },
+            taskEntity.getOutgoing().map { TaskIoDto(it) },
+            ExtractorDto(taskEntity.getExtractor()),
     ) {
-        id = taskEntity.id.toString()
+        id = taskEntity.getId()
     }
 }
 
 class PowerGeneratingSiteTaskDto(
         status: TaskStatus,
-        ingoing: Collection<TaskDto>,
-        outgoing: Collection<TaskDto>,
-        val selectedFuel: ItemDescriptorDto,
+        ingoing: Collection<TaskIoDto>,
+        outgoing: Collection<TaskIoDto>,
         val powerGeneratorDto: PowerGeneratorDto,
         val powerProducedInMegaWatt: Double
 ) : TaskDto(TaskEnum.PowerGeneratingSite, status, ingoing, outgoing) {
-    override lateinit var id: String
-
-    constructor(taskEntity: PowerGeneratingTaskEntity) : this(
-            taskEntity.status,
-            taskEntity.ingoing.map { it.toDto() },
-            taskEntity.outgoing.map { it.toDto() },
-            ItemDescriptorDto(taskEntity.selectedFuel),
-            PowerGeneratorDto(taskEntity.powerGenerator),
-            taskEntity.powerProducedInMegaWatt
+    constructor(taskEntity: PowerGeneratingSiteTaskSummary) : this(
+            taskEntity.getStatus(),
+            taskEntity.getIngoing().map { TaskIoDto(it) },
+            taskEntity.getOutgoing().map { TaskIoDto(it) },
+            PowerGeneratorDto(taskEntity.getPowerGenerator()),
+            taskEntity.getPowerProducedInMegaWatt()
     ) {
-        id = taskEntity.id.toString()
+        id = taskEntity.getId()
     }
 }

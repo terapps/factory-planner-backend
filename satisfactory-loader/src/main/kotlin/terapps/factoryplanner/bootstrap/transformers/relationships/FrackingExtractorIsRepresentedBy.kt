@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.neo4j.core.Neo4jClient
 import org.springframework.stereotype.Component
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableFrackingExtractor
+import terapps.factoryplanner.core.services.components.Relationship
 import terapps.factoryplanner.bootstrap.transformers.SatisfactoryRelationshipTransformer
 import terapps.factoryplanner.core.entities.ExtractorEntity
 import terapps.factoryplanner.core.entities.ItemDescriptorEntity

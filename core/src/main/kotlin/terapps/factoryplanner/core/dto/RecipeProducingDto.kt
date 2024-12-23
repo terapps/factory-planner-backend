@@ -1,5 +1,6 @@
 package terapps.factoryplanner.core.dto
 
+import terapps.factoryplanner.core.entities.RecipeEntity
 import terapps.factoryplanner.core.projections.RecipeProducingSummary
 
 data class RecipeProducingDto(
@@ -20,6 +21,16 @@ data class RecipeProducingDto(
                 CraftingMachineDto(it)
             },
             recipeSummary.getProducing().map { ItemIoDto(it) }
+    )
+
+    constructor(recipeEntity: RecipeEntity) : this(
+            recipeEntity.className,
+            recipeEntity.manufacturingDuration!!,
+            recipeEntity.displayName!!,
+            recipeEntity.manufacturedIn.map {
+                CraftingMachineDto(it)
+            },
+            recipeEntity.producing.map { ItemIoDto(ItemDescriptorDto(it.item), it.outputPerCycle) }
     )
 }
 

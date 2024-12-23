@@ -1,6 +1,5 @@
 package terapps.factoryplanner.bootstrap.steps.components
 
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
@@ -10,7 +9,7 @@ import terapps.factoryplanner.bootstrap.transformers.SatisfactoryRelationshipTra
 import terapps.factoryplanner.bootstrap.transformers.TransformerOrchestrator
 import terapps.factoryplanner.bootstrap.transformers.relationships.ItemExtractedIn
 import terapps.factoryplanner.bootstrap.transformers.relationships.RecipeManufacturedIn
-import terapps.factoryplanner.bootstrap.transformers.relationships.Relationship
+import terapps.factoryplanner.core.services.components.Relationship
 import terapps.factoryplanner.core.repositories.ExtractorRepository
 import terapps.factoryplanner.core.repositories.ItemDescriptorRepository
 

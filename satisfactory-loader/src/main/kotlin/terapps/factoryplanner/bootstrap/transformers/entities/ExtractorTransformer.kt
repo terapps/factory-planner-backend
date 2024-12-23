@@ -2,7 +2,7 @@ package terapps.factoryplanner.bootstrap.transformers.entities
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import terapps.factoryplanner.bootstrap.Parameter
+import terapps.factoryplanner.core.services.components.Parameter
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableFrackingExtractor
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableResourceExtractor
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableWaterPump

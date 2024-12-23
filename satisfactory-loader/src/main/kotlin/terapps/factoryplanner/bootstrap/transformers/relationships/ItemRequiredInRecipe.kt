@@ -9,6 +9,8 @@ import terapps.factoryplanner.bootstrap.extractDictEntry
 import terapps.factoryplanner.bootstrap.toItemIO
 import terapps.factoryplanner.core.entities.ItemDescriptorEntity
 import terapps.factoryplanner.core.entities.RecipeEntity
+import terapps.factoryplanner.core.services.components.Relationship
+import terapps.factoryplanner.core.services.components.RelationshipItemIO
 
 @Component
 class ItemRequiredInRecipe:

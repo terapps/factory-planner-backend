@@ -1,6 +1,5 @@
 package terapps.factoryplanner.core.configurations
 
-import org.modelmapper.Converter
 import org.modelmapper.ModelMapper
 import org.modelmapper.Provider
 import org.modelmapper.TypeMap
@@ -8,39 +7,42 @@ import org.modelmapper.convention.MatchingStrategies
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import terapps.factoryplanner.core.dto.*
-import terapps.factoryplanner.core.entities.*
+import terapps.factoryplanner.core.entities.PowerGeneratorEntity
+import terapps.factoryplanner.core.entities.TaskGroupEntity
 import terapps.factoryplanner.core.projections.*
 import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubtypeOf
-import kotlin.reflect.full.primaryConstructor
 import kotlin.reflect.full.starProjectedType
 
 
 @Configuration
 class ModelMapperConfiguration {
     companion object {
-        private val typemap = mapOf(
-                ItemDescriptorSummary::class to  ItemDescriptorDto::class,
+        private val typemap = listOf(
+                ItemDescriptorSummary::class to ItemDescriptorDto::class,
                 RecipeSummary::class to RecipeDto::class,
                 PowerGeneratorEntity::class to PowerGeneratorDto::class,
-                RecipeRequiringSummary::class to  RecipeRequiringDto::class,
-                RecipeProducingSummary::class to  RecipeProducingDto::class,
-                TaskGroupEntity::class to TaskGroupDto::class,
-                CraftingSiteTaskEntity::class to CraftingSiteTaskDto::class,
-                ExtractingSiteTaskEntity::class to ExtractingSiteTaskDto::class,
-                PowerGeneratingTaskEntity::class to PowerGeneratingSiteTaskDto::class,
+                RecipeRequiringSummary::class to RecipeRequiringDto::class,
+                RecipeProducingSummary::class to RecipeProducingDto::class,
+                TaskGroupSummary::class to TaskGroupDto::class,
+                CraftingSiteTaskSummary::class to CraftingSiteTaskDto::class,
+                ExtractingSiteTaskSummary::class to ExtractingSiteTaskDto::class,
+                PowerGeneratingSiteTaskSummary::class to PowerGeneratingSiteTaskDto::class,
 
-        )
+                )
 
         fun ModelMapper.createTypeMap(src: KClass<*>, dest: KClass<*>): TypeMap<out Any, out Any> = createTypeMap(
                 src.java,
                 dest.java
         ).apply {
-            val ctor = dest.constructors.firstOrNull { it.parameters.firstOrNull()?.type?.isSubtypeOf(src.starProjectedType) == true }
-                    ?: throw Error("Cannot find ctor with $src in $dest")
+            val ctor = dest.constructors.firstOrNull {
+                it.parameters.firstOrNull()?.type?.isSubtypeOf(src.starProjectedType) == true
+            } ?: throw Error("Cannot find ctor with $src in $dest")
 
             provider = Provider {
-                ctor.call(it.source)
+                val source = it.source
+
+                ctor.call(source)
             }
         }
 

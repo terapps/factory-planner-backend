@@ -5,8 +5,7 @@ import java.util.*
 
 interface RecipeSummary {
     fun getClassName(): String
-    fun getManufacturingDuration(): Double
     fun getDisplayName(): String
-
+    fun getManufacturingDuration(): Double
     fun getManufacturedIn(): List<CraftingMachineEntity>
 }

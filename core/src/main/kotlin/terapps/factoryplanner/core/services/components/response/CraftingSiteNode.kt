@@ -1,10 +1,8 @@
-package terapps.factoryplanner.core.services.components.factorygraph
+package terapps.factoryplanner.core.services.components.response
 
 import terapps.factoryplanner.core.dto.CraftingMachineDto
 import terapps.factoryplanner.core.dto.ItemDescriptorDto
 import terapps.factoryplanner.core.dto.RecipeDto
-import terapps.factoryplanner.core.dto.RecipeProducingDto
-import terapps.factoryplanner.core.entities.CraftingMachineEntity
 
 data class CraftingSiteNode(
         override val factorySiteTarget: ItemDescriptorDto,

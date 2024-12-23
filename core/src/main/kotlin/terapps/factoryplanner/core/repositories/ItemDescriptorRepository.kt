@@ -8,6 +8,7 @@ import java.util.*
 
 @Repository
 interface ItemDescriptorRepository : Neo4jRepository<ItemDescriptorEntity, String> {
+    fun existsByClassName(id: String): Boolean
     fun <T> findByCategory(category: ItemCategory, clazz: Class<T>): T?
     fun <T> findByClassName(className: String, clazz: Class<T>): T?
     fun <T> findByDisplayNameLikeIgnoreCase(displayName: String, clazz: Class<T>): Collection<T>

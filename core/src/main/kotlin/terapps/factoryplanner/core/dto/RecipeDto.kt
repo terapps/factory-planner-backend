@@ -1,6 +1,7 @@
 package terapps.factoryplanner.core.dto
 
 import terapps.factoryplanner.core.entities.CraftingMachineEntity
+import terapps.factoryplanner.core.entities.RecipeEntity
 import terapps.factoryplanner.core.projections.RecipeRequiringSummary
 import terapps.factoryplanner.core.projections.RecipeSummary
 import terapps.factoryplanner.core.services.toDto
@@ -19,5 +20,12 @@ open class RecipeDto(
             recipeSummary.getManufacturedIn().map {
                 CraftingMachineDto(it)
             },
+    )
+
+    constructor(recipeSummary: RecipeEntity): this(
+            recipeSummary.className,
+            recipeSummary.manufacturingDuration!!,
+            recipeSummary.displayName!!,
+            recipeSummary.manufacturedIn.map { CraftingMachineDto(it) }
     )
 }

@@ -1,6 +1,7 @@
 package terapps.factoryplanner.core.dto
 
 import terapps.factoryplanner.core.entities.PowerGeneratorEntity
+import terapps.factoryplanner.core.projections.PowerGeneratorSummary
 
 class PowerGeneratorFuelRequires(
         val item: ItemDescriptorDto,
@@ -27,5 +28,11 @@ class PowerGeneratorDto(
             entity.byproducts?.let {
                 ItemIoDto(ItemDescriptorDto(it.item), it.outputPerCycle)
             })
+
+    constructor(entity: PowerGeneratorSummary) : this(entity.getClassName(), entity.getCurrentPotential(), entity.getFuelLoadAmount(), entity.getPowerProduction(),
+            emptySet(),
+            null,
+            null
+    )
 }
 

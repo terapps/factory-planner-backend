@@ -1,4 +1,4 @@
-package terapps.factoryplanner.core.services.components.factorygraph
+package terapps.factoryplanner.core.services.components.response
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo

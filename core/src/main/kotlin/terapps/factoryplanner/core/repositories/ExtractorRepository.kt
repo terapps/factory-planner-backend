@@ -7,6 +7,7 @@ import java.util.*
 
 @Repository
 interface ExtractorRepository : Neo4jRepository<ExtractorEntity, String> {
+        fun existsByClassName(id: String): Boolean
         fun findByClassName(id: String): ExtractorEntity?
         fun findAllByClassNameIn(classNames: List<String>): Collection<ExtractorEntity>
 }

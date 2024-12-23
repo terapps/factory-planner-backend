@@ -2,18 +2,17 @@ package terapps.factoryplanner.core.services
 
 import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.neo4j.core.Neo4jClient
 import org.springframework.stereotype.Service
 import terapps.factoryplanner.core.dto.*
 import terapps.factoryplanner.core.entities.*
-import terapps.factoryplanner.core.projections.ItemDescriptorSummary
-import terapps.factoryplanner.core.projections.RecipeProducingSummary
+import terapps.factoryplanner.core.projections.*
 import terapps.factoryplanner.core.repositories.*
-import terapps.factoryplanner.core.services.components.CraftingSiteTaskCreationDto
-import terapps.factoryplanner.core.services.components.ExtractingSiteTaskCreationDto
-import terapps.factoryplanner.core.services.components.PowerGeneratingSiteTaskCreationDto
-import terapps.factoryplanner.core.services.components.TaskCreationDto
-import java.util.*
-import kotlin.jvm.optionals.getOrElse
+import terapps.factoryplanner.core.services.components.Relationship
+import terapps.factoryplanner.core.services.components.relation.*
+import terapps.factoryplanner.core.services.components.request.*
+import kotlin.jvm.optionals.getOrNull
+
 
 @Service
 class TaskService {
@@ -21,10 +20,16 @@ class TaskService {
     private lateinit var taskRepository: TaskRepository
 
     @Autowired
+    private lateinit var taskIORepository: TaskIORepository
+
+    @Autowired
     private lateinit var taskGroupRepository: TaskGroupRepository
 
     @Autowired
     private lateinit var recipeRepository: RecipeRepository
+
+    @Autowired
+    private lateinit var neo4jClient: Neo4jClient
 
     @Autowired
     private lateinit var extractorRepository: ExtractorRepository
@@ -47,88 +52,151 @@ class TaskService {
     }
 
     fun findGroupById(id: String): TaskGroupDto {
-        val entity = taskGroupRepository.findById(id).getOrElse { throw Error("Task group not exist") }
-
+        val entity = taskGroupRepository.findById(id, TaskGroupSummary::class.java) ?: throw Error("Task group not exist")
 
         return modelMapper.map(entity, TaskGroupDto::class.java)
     }
 
     fun findTaskById(id: String): TaskDto {
-        val entity = taskRepository.findById(id).getOrElse { throw Error("Task not exist") }
+        val taskEntity = taskRepository.findById(id, TaskMinimalSummary::class.java) ?: throw Error("Task not exist")
+        val projectionType = taskEntity.getType().getTaskToProjection()
+        val entity = taskRepository.findById(id, projectionType.java) ?: throw Error("Task not exist")
+        val taskClass = entity.getType().getTaskDtoClass()
 
-        return modelMapper.map(entity, TaskDto::class.java)
+        return modelMapper.map(entity, taskClass.java)
     }
-    fun bindTasks(
-            taskEdge: Pair<String, String>
+
+    fun createTaskIo(
+            vararg taskEdge: TaskIOCreationRequest
     ) {
-        val source = taskRepository.findById(taskEdge.first).getOrElse { throw Error("Source does not exist") }
-        val destination = taskRepository.findById(taskEdge.second).getOrElse { throw Error("Destination does not exist") }
+        val itemToTaskIo = ItemToTaskIo(neo4jClient)
+        val ioToTask = IoToTask(neo4jClient)
+        val taskToIo = TaskToIo(neo4jClient)
 
-        source.outgoing += destination
+        taskEdge.forEach {
+            if (!taskRepository.existsById(it.source)) {
+                throw Error("Source does not exist ${it.source}")
+            }
+            if (!taskRepository.existsById(it.destination)) {
+                throw Error("Destination does not exist ${it.source}")
+            }
+            if (!itemDescriptorRepository.existsByClassName(it.item)) {
+                throw Error("Item does not exist ${it.item}")
+            }
 
-        taskRepository.save(source)
+            val createdIo = taskIORepository.save(TaskIoEntity(it.amountPerMinute))
+
+            itemToTaskIo.relationships += Relationship(it.item, createdIo.id)
+            taskToIo.relationships += Relationship(it.source, createdIo.id)
+            ioToTask.relationships += Relationship(createdIo.id, it.destination)
+        }
+        itemToTaskIo.runCypherQuery()
+        taskToIo.runCypherQuery()
+        ioToTask.runCypherQuery()
     }
 
-    fun saveTask(groupId: String, taskDto: TaskCreationDto): TaskDto {
-        val taskGroup = taskGroupRepository.findById(groupId).getOrElse { throw Error("Unknown group") }
-        val task = saveTask(taskDto)
+    fun saveTask(taskGroupId: String, taskDto: TaskCreationDto): TaskDto {
+        val taskGroupExists = taskGroupRepository.existsById(taskGroupId)
 
-        taskGroupRepository.save(TaskGroupEntity(taskGroup.name).apply {
-            id = taskGroup.id
-            name = taskGroup.name
-            tasks = setOf(task).plus(taskGroup.tasks)
-        })
-        return modelMapper.map(task, TaskDto::class.java)
+        if (!taskGroupExists) throw Error("Group does not exist")
+
+        val task = saveTask(taskDto)
+        val taskClass = task.getType().getTaskDtoClass()
+        val groupRelation = TaskToGroup(neo4jClient, listOf(Relationship(task.getId(), taskGroupId)))
+
+        groupRelation.runCypherQuery()
+
+        return modelMapper.map(task, taskClass.java)
     }
 
     fun saveGroup(taskGroupDto: TaskGroupDto): TaskGroupDto {
         val entity = taskGroupRepository.save(
                 TaskGroupEntity(taskGroupDto.name)
         )
-        println(entity)
 
         return modelMapper.map(entity, TaskGroupDto::class.java)
     }
 
-    private fun saveTask(taskDto: TaskCreationDto): TaskEntity = when (taskDto) {
+    private fun saveTask(taskDto: TaskCreationDto): TaskSummary = when (taskDto) {
         is CraftingSiteTaskCreationDto -> saveCraftingSite(taskDto)
         is ExtractingSiteTaskCreationDto -> saveExtractingSite(taskDto)
         is PowerGeneratingSiteTaskCreationDto -> savePowerGeneratingSiteEntity(taskDto)
         else -> throw Error("Unknown task")
-    }.apply {
-        status = taskDto.status
     }
 
-    private fun saveCraftingSite(taskDto: CraftingSiteTaskCreationDto): CraftingSiteTaskEntity {
-        val recipe = recipeRepository.findByClassName(taskDto.recipe, RecipeProducingSummary::class.java) ?: throw Error("Unknown recipe")
+    private fun saveCraftingSite(taskDto: CraftingSiteTaskCreationDto): TaskSummary {
+        val recipeExisting = recipeRepository.existsByClassName(taskDto.recipe)
 
-        return taskRepository.save(CraftingSiteTaskEntity(
-                taskDto.requiredCycles,
-                recipe,
-                taskDto.overclockingProfile
-        ))
+        if (!recipeExisting) {
+            throw Error("Recipe ${taskDto.recipe} does not exits")
+        }
+
+        val createdTask = taskRepository.save(TaskEntity().apply {
+            status = taskDto.status
+            type = taskDto.type
+            requiredCycles = taskDto.requiredCycles
+            overclockingProfile = taskDto.overclockingProfile
+        })
+
+        val recipeRelation = RecipeToTask(neo4jClient, listOf(Relationship(taskDto.recipe, createdTask.id)))
+
+        recipeRelation.runCypherQuery()
+
+        val projectionType = taskDto.type.getTaskToProjection()
+
+        return taskRepository.findById(createdTask.id, projectionType.java) ?: throw Error("Task failed to be created")
     }
 
-    private fun saveExtractingSite(taskDto: ExtractingSiteTaskCreationDto): ExtractingSiteTaskEntity {
-        val extractor = extractorRepository.findByClassName(taskDto.extractor) ?: throw Error("Unknown extractor")
-        val item = itemDescriptorRepository.findByClassName(taskDto.item, ItemDescriptorSummary::class.java) ?: throw Error("Unkown item")
+    private fun saveExtractingSite(taskDto: ExtractingSiteTaskCreationDto): TaskSummary {
+        val existingExtractor = extractorRepository.existsByClassName(taskDto.extractor)
 
-        return taskRepository.save(ExtractingSiteTaskEntity(
-                taskDto.nodes,
-                item,
-                extractor
-        ))
+        if (!existingExtractor) {
+            throw Error("Extractor ${taskDto.extractor} does not exist")
+        }
+        val createdTask = taskRepository.save(TaskEntity().apply {
+            status = taskDto.status
+            type = taskDto.type
+        })
+        val extractorRelation = ExtractorToTask(neo4jClient, listOf(Relationship(taskDto.extractor, createdTask.id)))
+
+        extractorRelation.runCypherQuery()
+
+
+        val projectionType = taskDto.type.getTaskToProjection()
+
+        return taskRepository.findById(createdTask.id, projectionType.java) ?: throw Error("Task failed to be created")
     }
 
-    private fun savePowerGeneratingSiteEntity(taskDto: PowerGeneratingSiteTaskCreationDto): PowerGeneratingTaskEntity {
-        val powerGenerator = powerGeneratorRepository.findByClassName(taskDto.powerGeneratorDto) ?: throw Error("Unknown power generator")
-        val fuel = itemDescriptorRepository.findByClassName(taskDto.selectedFuel, ItemDescriptorSummary::class.java) ?: throw Error("Unkown item")
+    private fun savePowerGeneratingSiteEntity(taskDto: PowerGeneratingSiteTaskCreationDto): TaskSummary {
+        val powerGeneratorExists = powerGeneratorRepository.existsByClassName(taskDto.powerGenerator)
 
-        return taskRepository.save(PowerGeneratingTaskEntity(
-                fuel,
-                powerGenerator,
-                taskDto.powerProducedInMegaWatt
-        ))
+        if (!powerGeneratorExists) {
+            throw Error("Generator ${taskDto.powerGenerator} does not exist")
+        }
+        val createdTask = taskRepository.save(TaskEntity().apply {
+            powerProducedInMegaWatt = taskDto.powerProducedInMegaWatt
+            status = taskDto.status
+            type = taskDto.type
+        })
+
+        val powerRelation = PowerGeneratorToTask(neo4jClient, listOf(Relationship(taskDto.powerGenerator, createdTask.id)))
+
+        powerRelation.runCypherQuery()
+
+        val projectionType = taskDto.type.getTaskToProjection()
+
+        return taskRepository.findById(createdTask.id, projectionType.java) ?: throw Error("Task failed to be created")
     }
 
+    private fun TaskEnum.getTaskToProjection() = when (this) {
+        TaskEnum.CraftingSite -> CraftingSiteTaskSummary::class
+        TaskEnum.ExtractingSite -> ExtractingSiteTaskSummary::class
+        TaskEnum.PowerGeneratingSite -> PowerGeneratingSiteTaskSummary::class
+    }
+
+    private fun TaskEnum.getTaskDtoClass() = when (this) {
+        TaskEnum.CraftingSite -> CraftingSiteTaskDto::class
+        TaskEnum.ExtractingSite -> ExtractingSiteTaskDto::class
+        TaskEnum.PowerGeneratingSite -> PowerGeneratingSiteTaskDto::class
+    }
 }

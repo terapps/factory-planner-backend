@@ -1,13 +1,9 @@
 package terapps.factoryplanner.core.entities
 
-import org.springframework.data.neo4j.core.schema.GeneratedValue
-import org.springframework.data.neo4j.core.schema.Id
-import org.springframework.data.neo4j.core.schema.Node
-import org.springframework.data.neo4j.core.schema.Relationship
+import org.springframework.data.neo4j.core.schema.*
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator
-import terapps.factoryplanner.core.projections.ItemDescriptorSummary
-import terapps.factoryplanner.core.projections.RecipeProducingSummary
-import java.util.UUID
+import terapps.factoryplanner.core.projections.RecipeSummary
+import terapps.factoryplanner.core.projections.TaskIoSummary
 
 enum class TaskStatus {
     ToDo,
@@ -16,13 +12,20 @@ enum class TaskStatus {
     Done,
 }
 
+enum class TaskEnum {
+    CraftingSite,
+    ExtractingSite,
+    PowerGeneratingSite
+}
+
+
 data class ExtractingNode(
         val requiredCycles: Double,
         val purity: String, // TODO purity enum
         val overclockingProfile: Double
 )
 
-@Node("task_group")
+@Node("TaskGroup")
 class TaskGroupEntity(
         var name: String,
 
@@ -32,56 +35,60 @@ class TaskGroupEntity(
     @Id
     @GeneratedValue(generatorClass = UUIDStringGenerator::class)
     lateinit var id: String
-
 }
 
-abstract class TaskEntity(
+@Node("TaskIO")
+class TaskIoEntity(
+        val amountPerMinute: Double,
+        ) {
+    @Id
+    @GeneratedValue(generatorClass = UUIDStringGenerator::class)
+    lateinit var id: String
 
-) {
+    @Relationship(type = "TASKIO_ITEM", direction = Relationship.Direction.INCOMING)
+    var item: ItemDescriptorEntity? = null
+
+    @Relationship(type = "INCOMING_TASK", direction = Relationship.Direction.INCOMING)
+    var source: TaskEntity? = null
+
+    @Relationship(type = "OUTGOING_TASK", direction = Relationship.Direction.OUTGOING)
+    var destination: TaskEntity? = null
+}
+
+@Node("Task")
+class TaskEntity {
     @Id
     @GeneratedValue(generatorClass = UUIDStringGenerator::class)
     lateinit var id: String
 
     lateinit var status: TaskStatus
 
+    lateinit var type: TaskEnum
+
     @Relationship(type = "INCOMING_TASK", direction = Relationship.Direction.INCOMING)
-    var ingoing: Set<TaskEntity> = emptySet()
+    var ingoing: Set<TaskIoEntity> = emptySet()
 
     @Relationship(type = "OUTGOING_TASK", direction = Relationship.Direction.OUTGOING)
-    var outgoing: Set<TaskEntity> = emptySet()
+    var outgoing: Set<TaskIoEntity> = emptySet()
+
+    // CraftingSite
+    var requiredCycles: Double? = null
+
+    @Relationship(type = "TASK_MANUFACTURED_BY", direction = Relationship.Direction.INCOMING)
+    var recipe: RecipeEntity? = null
+
+    var overclockingProfile: Double? = null
+
+    // ExtractingSite
+    @Relationship(type = "TASK_MANUFACTURED_BY", direction = Relationship.Direction.INCOMING)
+    var extractor: ExtractorEntity? = null
+
+    // PowerGeneratingSite
+    @Relationship(type = "TASK_POWER_GENERATED_BY", direction = Relationship.Direction.INCOMING)
+    var powerGenerator: PowerGeneratorEntity? = null
+
+    var powerProducedInMegaWatt: Double? = null
 }
-
-@Node("CraftingSiteTask")
-class CraftingSiteTaskEntity(
-        val requiredCycles: Double,
-
-        @Relationship(type = "TASK_MANUFACTURED_BY", direction = Relationship.Direction.INCOMING)
-        val recipe: RecipeProducingSummary,
-
-        val overclockingProfile: Double
-) : TaskEntity() {
-}
-
-@Node("ExtractingSiteTask")
-class ExtractingSiteTaskEntity(
-        val nodes: Collection<ExtractingNode>,
-
-        @Relationship(type = "TASK_MANUFACTURING", direction = Relationship.Direction.OUTGOING)
-        val item: ItemDescriptorSummary,
-
-        @Relationship(type = "TASK_MANUFACTURED_BY", direction = Relationship.Direction.INCOMING)
-        val extractor: ExtractorEntity,
-) : TaskEntity()
-
-@Node("PowerGeneratingSiteTask")
-class PowerGeneratingTaskEntity(
-        val selectedFuel: ItemDescriptorSummary,
-
-        @Relationship(type = "TASK_POWER_GENERATED_BY", direction = Relationship.Direction.INCOMING)
-        val powerGenerator: PowerGeneratorEntity,
-
-        val powerProducedInMegaWatt: Double,
-) : TaskEntity()
 
 
 

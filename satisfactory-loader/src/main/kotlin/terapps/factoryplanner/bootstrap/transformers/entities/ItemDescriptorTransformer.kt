@@ -2,7 +2,7 @@ package terapps.factoryplanner.bootstrap.transformers.entities
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import terapps.factoryplanner.bootstrap.Parameter
+import terapps.factoryplanner.core.services.components.Parameter
 import terapps.factoryplanner.bootstrap.dto.generated.*
 import terapps.factoryplanner.bootstrap.transformers.BatchList
 import terapps.factoryplanner.bootstrap.transformers.GenericAbstractTransformer

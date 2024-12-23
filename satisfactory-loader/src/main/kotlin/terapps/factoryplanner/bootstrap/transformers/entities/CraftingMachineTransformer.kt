@@ -2,12 +2,9 @@ package terapps.factoryplanner.bootstrap.transformers.entities
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import terapps.factoryplanner.bootstrap.Parameter
-import terapps.factoryplanner.bootstrap.dto.SatisfactoryStaticData
-import terapps.factoryplanner.bootstrap.dto.fromCategory
+import terapps.factoryplanner.core.services.components.Parameter
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableManufacturer
 import terapps.factoryplanner.bootstrap.dto.generated.FGBuildableManufacturerVariablePower
-import terapps.factoryplanner.bootstrap.dto.generated.FGBuildingDescriptor
 import terapps.factoryplanner.bootstrap.transformers.BatchList
 import terapps.factoryplanner.bootstrap.transformers.GenericAbstractTransformer
 import terapps.factoryplanner.core.entities.CraftingMachineEntity

@@ -1,4 +1,8 @@
-package terapps.factoryplanner.bootstrap.transformers.relationships
+package terapps.factoryplanner.core.services.components
+
+import org.springframework.data.neo4j.core.schema.Node
+import kotlin.reflect.KClass
+import kotlin.reflect.full.findAnnotation
 
 open class Relationship(val sourceId: String,
                         val destinationId: String) {
@@ -29,4 +33,10 @@ class RelationshipItemIOBurner(
         val burnRate: Double,
 ) : Relationship(sourceId, destinationId) {
 
+}
+
+fun getEntityName(kClass: KClass<*>): String {
+    val annotation = kClass.findAnnotation<Node>() ?: throw Error("${kClass.simpleName} is not a Node")
+
+    return annotation.value.firstOrNull() ?:  kClass.simpleName!!
 }

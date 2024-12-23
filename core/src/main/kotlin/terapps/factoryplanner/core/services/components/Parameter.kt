@@ -1,4 +1,4 @@
-package terapps.factoryplanner.bootstrap
+package terapps.factoryplanner.core.services.components
 
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties

@@ -1,8 +1,7 @@
-package terapps.factoryplanner.core.services.components.factorygraph
+package terapps.factoryplanner.core.services.components.response
 
 import terapps.factoryplanner.core.dto.ExtractorDto
 import terapps.factoryplanner.core.dto.ItemDescriptorDto
-import terapps.factoryplanner.core.entities.ExtractorEntity
 
 data class ExtractingSiteNode(
         override val factorySiteTarget: ItemDescriptorDto,

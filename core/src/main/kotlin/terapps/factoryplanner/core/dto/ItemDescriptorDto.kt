@@ -4,8 +4,32 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import terapps.factoryplanner.core.entities.ExtractorEntity
 import terapps.factoryplanner.core.entities.ItemCategory
 import terapps.factoryplanner.core.entities.ItemDescriptorEntity
+import terapps.factoryplanner.core.projections.ItemDescriptorMetadata
 import terapps.factoryplanner.core.projections.ItemDescriptorSummary
 import terapps.factoryplanner.filestorage.dto.AssetsBucketEntry
+
+class ItemDescriptorMetadataDto(
+        val className: String,
+        val displayName: String,
+        val form: String,
+        @JsonIgnore
+        val iconPath: String,
+        val sinkablePoints: Int?,
+        val category: ItemCategory,
+        ) {
+    val icon: AssetsBucketEntry
+        get() = AssetsBucketEntry(iconPath)
+
+    constructor(itemDescriptorSummary: ItemDescriptorMetadata): this(
+            itemDescriptorSummary.getClassName(),
+            itemDescriptorSummary.getDisplayName(),
+            itemDescriptorSummary.getForm()!!,
+            itemDescriptorSummary.getIconSmall()!!,
+            itemDescriptorSummary.getSinkablePoints(),
+            itemDescriptorSummary.getCategory(),
+    )
+
+}
 
 class ItemDescriptorDto(
         val className: String,
@@ -40,3 +64,4 @@ class ItemDescriptorDto(
             itemDescriptor.extractedIn.map { ExtractorDto(it) }.toSet()
     )
 }
+

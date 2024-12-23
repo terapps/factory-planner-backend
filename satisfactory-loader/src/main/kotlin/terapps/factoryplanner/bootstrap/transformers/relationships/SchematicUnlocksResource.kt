@@ -5,6 +5,7 @@ import org.springframework.data.neo4j.core.Neo4jClient
 import org.springframework.stereotype.Component
 import terapps.factoryplanner.bootstrap.dto.generated.FGSchematic
 import terapps.factoryplanner.bootstrap.extractDictEntry
+import terapps.factoryplanner.core.services.components.Relationship
 import terapps.factoryplanner.bootstrap.transformers.SatisfactoryRelationshipTransformer
 import terapps.factoryplanner.core.entities.*
 

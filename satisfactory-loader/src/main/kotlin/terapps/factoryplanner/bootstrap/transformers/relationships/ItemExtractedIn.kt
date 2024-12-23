@@ -7,6 +7,7 @@ import terapps.factoryplanner.bootstrap.dto.generated.FGRecipe
 import terapps.factoryplanner.bootstrap.transformers.SatisfactoryRelationshipTransformer
 import terapps.factoryplanner.bootstrap.extractDictEntry
 import terapps.factoryplanner.bootstrap.toItemIO
+import terapps.factoryplanner.core.services.components.Relationship
 import terapps.factoryplanner.core.entities.ExtractorEntity
 import terapps.factoryplanner.core.entities.ItemCategory
 import terapps.factoryplanner.core.entities.ItemDescriptorEntity

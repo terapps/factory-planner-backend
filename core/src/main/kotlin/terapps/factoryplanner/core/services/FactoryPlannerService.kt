@@ -7,7 +7,7 @@ import terapps.factoryplanner.core.entities.ItemCategory
 import terapps.factoryplanner.core.graph.Graph
 import terapps.factoryplanner.core.graph.GraphBuilder
 import terapps.factoryplanner.core.repositories.ExtractorRepository
-import terapps.factoryplanner.core.services.components.factorygraph.*
+import terapps.factoryplanner.core.services.components.response.*
 import terapps.factoryplanner.core.services.components.selector.COMPACTED_COAL
 import terapps.factoryplanner.core.services.components.selector.IRON_INGOT
 import terapps.factoryplanner.core.services.components.selector.ITEM_IS_GAS

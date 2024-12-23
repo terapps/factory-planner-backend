@@ -8,6 +8,7 @@ import terapps.factoryplanner.bootstrap.transformers.SatisfactoryRelationshipTra
 import terapps.factoryplanner.bootstrap.transformers.entities.RecipeProducedInTransformer
 import terapps.factoryplanner.bootstrap.extractDictEntry
 import terapps.factoryplanner.bootstrap.toItemIO
+import terapps.factoryplanner.core.services.components.Relationship
 import terapps.factoryplanner.core.entities.*
 
 @Component

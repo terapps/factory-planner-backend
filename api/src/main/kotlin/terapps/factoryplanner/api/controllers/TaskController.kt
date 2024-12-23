@@ -1,21 +1,14 @@
 package terapps.factoryplanner.api.controllers
 
-import jakarta.websocket.server.PathParam
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
-import terapps.factoryplanner.core.dto.PowerGeneratorDto
+import org.springframework.web.bind.annotation.*
 import terapps.factoryplanner.core.dto.TaskDto
 import terapps.factoryplanner.core.dto.TaskGroupDto
 import terapps.factoryplanner.core.services.TaskService
-import terapps.factoryplanner.core.services.components.TaskCreationDto
-import java.util.UUID
+import terapps.factoryplanner.core.services.components.request.TaskCreationDto
+import terapps.factoryplanner.core.services.components.request.TaskIOCreationRequest
+
 
 @RestController
 @RequestMapping("/tasks")
@@ -30,32 +23,32 @@ class TaskController {
         return taskService.searchGroupByName(name)
     }
 
-    @GetMapping("/:id", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun searchByDisplayNameLike(
-            @PathParam("id") id: String,
+    @GetMapping("/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun getGroupById(
+            @PathVariable("id") id: String,
     ): TaskGroupDto {
         return taskService.findGroupById(id)
     }
 
-    @PutMapping("/:sourceId/bind/:destinationId", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun searchByDisplayNameLike(
-            @PathParam("sourceId") sourceId: String,
-            @PathParam("destinationId") destId: String,
+    @PutMapping("/{groupId}/bind", produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun bindTask(
+            @PathVariable("groupId") groupId: String,
+            @RequestBody edges: Collection<TaskIOCreationRequest>,
     ) {
-        return taskService.bindTasks(sourceId to destId)
+        return taskService.createTaskIo(*edges.toTypedArray())
     }
 
-    @GetMapping("/:groupId/task/:taskId", produces = [MediaType.APPLICATION_JSON_VALUE], consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping("/{groupId}/task/{taskId}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getTask(
-            @PathParam("groupId") groupId: String,
-            @PathParam("taskId") taskId: String,
+            @PathVariable("groupId") groupId: String,
+            @PathVariable("taskId") taskId: String,
     ): TaskDto {
         return taskService.findTaskById(taskId)
     }
 
-    @PostMapping("/:groupId/task", produces = [MediaType.APPLICATION_JSON_VALUE], consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping("/{groupId}/task", produces = [MediaType.APPLICATION_JSON_VALUE], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun saveTask(
-            @PathParam("groupId") id: String,
+            @PathVariable("groupId") id: String,
             @RequestBody taskDto: TaskCreationDto,
     ): TaskDto {
         return taskService.saveTask(id, taskDto)

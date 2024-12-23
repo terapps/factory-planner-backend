@@ -11,6 +11,7 @@ import java.util.*
 @Repository
 interface RecipeRepository : Neo4jRepository<RecipeEntity, String> {
     fun <T> findByClassName(className: String, clazz: Class<T>): T?
+    fun existsByClassName(className: String): Boolean
 
     //AndUnlockedByTierLessThanEqual
     //, unlockedbyTier: Int

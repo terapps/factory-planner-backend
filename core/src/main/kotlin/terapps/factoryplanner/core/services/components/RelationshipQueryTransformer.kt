@@ -1,10 +1,7 @@
-package terapps.factoryplanner.bootstrap.transformers
+package terapps.factoryplanner.core.services.components
 
 import org.neo4j.driver.summary.ResultSummary
 import org.springframework.data.neo4j.core.Neo4jClient
-import terapps.factoryplanner.bootstrap.toMap
-import terapps.factoryplanner.bootstrap.transformers.relationships.Relationship
-import kotlin.reflect.KClass
 import kotlin.reflect.full.memberProperties
 
 
@@ -15,7 +12,6 @@ abstract class RelationshipQuery(
     protected abstract var neo4jClient: Neo4jClient
 
     fun runCypherQuery(): ResultSummary {
-
         return neo4jClient.query(cypherQuery)
                 .bind(bindRelationships).to(parameter)
                 .run()
@@ -25,12 +21,15 @@ abstract class RelationshipQuery(
         get() {
             return """
         UNWIND $$parameter AS relationship
-            MATCH (p:${relationship.first} {className: relationship.${sourceIdParam}}), (m:${relationship.second} {className: relationship.${destinationIdParam}})
+            MATCH (p:${relationship.first} {$sourceIdProp: relationship.${sourceIdParam}}), (m:${relationship.second} {$destIdProp: relationship.${destinationIdParam}})
             CREATE (p)-[:${relationshipName} ${relationshipProperties}]->(m)
     """.trimIndent()
         }
 
     abstract var relationships: List<Relationship>
+
+    protected open val sourceIdProp: String = "className"
+    protected open val destIdProp: String = "className"
 
     private val sourceIdParam: String
         get() = Relationship::sourceId.name

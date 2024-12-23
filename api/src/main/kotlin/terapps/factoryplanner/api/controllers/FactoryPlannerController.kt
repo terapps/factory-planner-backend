@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 import terapps.factoryplanner.core.services.FactoryGraph
 import terapps.factoryplanner.core.services.FactoryPlannerService
 import terapps.factoryplanner.core.services.SealedGraph
-import terapps.factoryplanner.core.services.components.factorygraph.FactoryEdge
-import terapps.factoryplanner.core.services.components.factorygraph.FactoryNode
-import terapps.factoryplanner.core.services.components.factorygraph.FactorySiteRequest
+import terapps.factoryplanner.core.services.components.response.FactorySiteRequest
 
 
 @RestController
